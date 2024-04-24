@@ -11,17 +11,6 @@
       rel="stylesheet"
     />
   </head>
-
-  <style>
-    @layer utilities {
-      input[type="number"]::-webkit-inner-spin-button,
-      input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-    }
-  </style>
-
   <body>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div
@@ -185,7 +174,8 @@
       </div>
     </nav>
 
-    <div>
+    <!-- main -->
+    <main class="pb-8">
       <div
         id="sticky-banner"
         tabindex="-1"
@@ -246,156 +236,322 @@
           </button>
         </div>
       </div>
-      <div class="bg-gray-100 pt-10 border-2 rounded max-w max-h-5xl pl-8 pr-8">
-        <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
-        <div
-          class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0"
-        >
-          <div class="rounded-lg md:w-2/3">
+      <div
+        class="relative flex min-h-screen justify-center overflow-hidden bg-gray-100 gap-4 py-4"
+      >
+        <div id="gallery" class="relative max-w-5xl" data-carousel="slide">
+          <!-- Carousel wrapper -->
+          <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+            <!-- Item 1 -->
             <div
-              class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
+              class="hidden duration-700 ease-in-out rounded-lg"
+              data-carousel-item
             >
               <img
-                src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                alt="product-image"
-                class="w-full rounded-lg sm:w-40"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+                class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-lg"
+                alt=""
               />
-              <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                <div class="mt-5 sm:mt-0">
-                  <h2 class="text-lg font-bold text-gray-900">
-                    Nike Air Max 2019
-                  </h2>
-                  <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
-                </div>
-                <div
-                  class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
-                >
-                  <div class="flex items-center border-gray-100">
-                    <span
-                      class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      -
-                    </span>
-                    <input
-                      class="h-8 w-8 border bg-white text-center text-xs outline-none"
-                      type="number"
-                      value="2"
-                      min="1"
-                    />
-                    <span
-                      class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div class="flex items-center space-x-4">
-                    <p class="text-sm">259.000 ₭</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
             </div>
+            <!-- Item 2 -->
             <div
-              class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
+              class="hidden duration-700 ease-in-out rounded-lg"
+              data-carousel-item="active"
             >
               <img
-                src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1131&q=80"
-                alt="product-image"
-                class="w-full rounded-lg sm:w-40"
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+                class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-lg"
+                alt=""
               />
-              <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                <div class="mt-5 sm:mt-0">
-                  <h2 class="text-lg font-bold text-gray-900">
-                    Nike Air Max 2019
-                  </h2>
-                  <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
-                </div>
-                <div
-                  class="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
-                >
-                  <div class="flex items-center border-gray-100">
-                    <span
-                      class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      -
-                    </span>
-                    <input
-                      class="h-8 w-8 border bg-white text-center text-xs outline-none"
-                      type="number"
-                      value="2"
-                      min="1"
-                    />
-                    <span
-                      class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div class="flex items-center space-x-4">
-                    <p class="text-sm">259.000 ₭</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          <!-- Sub total -->
-          <div
-            class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3"
-          >
-            <div class="mb-2 flex justify-between">
-              <p class="text-gray-700">Subtotal</p>
-              <p class="text-gray-700">$129.99</p>
+            <!-- Item 3 -->
+            <div
+              class="hidden duration-700 ease-in-out rounded-lg"
+              data-carousel-item
+            >
+              <img
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+                class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-lg"
+                alt=""
+              />
             </div>
-            <div class="flex justify-between">
-              <p class="text-gray-700">Shipping</p>
-              <p class="text-gray-700">$4.99</p>
+            <!-- Item 4 -->
+            <div
+              class="hidden duration-700 ease-in-out rounded-lg"
+              data-carousel-item
+            >
+              <img
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+                class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-lg"
+                alt=""
+              />
             </div>
-            <hr class="my-4" />
-            <div class="flex justify-between">
-              <p class="text-lg font-bold">Total</p>
-              <div class="">
-                <p class="mb-1 text-lg font-bold">$134.98 USD</p>
-                <p class="text-sm text-gray-700">including VAT</p>
-              </div>
+            <!-- Item 5 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+              <img
+                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
+                class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-lg"
+                alt=""
+              />
             </div>
             <button
-              class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+              type="button"
+              class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+              data-carousel-prev
             >
-              Check out
+              <span
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+              >
+                <svg
+                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 1 1 5l4 4"
+                  />
+                </svg>
+                <span class="sr-only">Previous</span>
+              </span>
+            </button>
+            <button
+              type="button"
+              class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+              data-carousel-next
+            >
+              <span
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+              >
+                <svg
+                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <span class="sr-only">Next</span>
+              </span>
             </button>
           </div>
+          <div class="grid gap-4 pt-6">
+            <div class="grid grid-cols-5 gap-4">
+              <div>
+                <img
+                  class="h-auto max-w-full rounded-lg"
+                  src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <img
+                  class="h-auto max-w-full rounded-lg"
+                  src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <img
+                  class="h-auto max-w-full rounded-lg"
+                  src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <img
+                  class="h-auto max-w-full rounded-lg"
+                  src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <img
+                  class="h-auto max-w-full rounded-lg"
+                  src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-2 rounded-mdf max-w-5xl p-4 h-auto flex">
+          <form>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <label
+                  for="first_name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >First name</label
+                >
+                <input
+                  type="text"
+                  id="first_name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="John"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="last_name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Last name</label
+                >
+                <input
+                  type="text"
+                  id="last_name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Doe"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="company"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Company</label
+                >
+                <input
+                  type="text"
+                  id="company"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Flowbite"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="phone"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Phone number</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="123-45-678"
+                  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="website"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Website URL</label
+                >
+                <input
+                  type="url"
+                  id="website"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="flowbite.com"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="visitors"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Unique visitors (per month)</label
+                >
+                <input
+                  type="number"
+                  id="visitors"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder=""
+                  required
+                />
+              </div>
+            </div>
+            <div class="mb-6">
+              <label
+                for="email"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Email address</label
+              >
+              <input
+                type="email"
+                id="email"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="john.doe@company.com"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="password"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="•••••••••"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="confirm_password"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Confirm password</label
+              >
+              <input
+                type="password"
+                id="confirm_password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="•••••••••"
+                required
+              />
+            </div>
+            <div class="flex items-start mb-6">
+              <div class="flex items-center h-5">
+                <input
+                  id="remember"
+                  type="checkbox"
+                  value=""
+                  class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                  required
+                />
+              </div>
+              <label
+                for="remember"
+                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >I agree with the
+                <a
+                  href="#"
+                  class="text-blue-600 hover:underline dark:text-blue-500"
+                  >terms and conditions</a
+                >.</label
+              >
+            </div>
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </form>
         </div>
       </div>
-    </div>
+    </main>
 
-    <footer class="bg-white dark:bg-gray-900">
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-900 border-2 border-gray-300">
       <div class="mx-auto w-full max-w-screen-xl">
         <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
           <div>
