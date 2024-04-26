@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Giỏ hàng</title>
+    <title>Chi tiết sản phẩm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
     <link
@@ -11,23 +11,15 @@
       rel="stylesheet"
     />
   </head>
-
-  <style>
-    @layer utilities {
-      input[type="number"]::-webkit-inner-spin-button,
-      input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-    }
-  </style>
-
   <body>
     <nav class="bg-white border-gray-200">
       <div
         class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4"
       >
-        <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             class="h-8"
@@ -43,7 +35,7 @@
           >
             <button
               type="button"
-              class="flex text-sm bg-white rounded-full md:me-0 focus:ring-4 focus:ring-gray-300"
+              class="flex text-sm bg-white rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 border-2 border-blue-500"
               id="user-menu-button"
               aria-expanded="false"
               data-dropdown-toggle="user-dropdown"
@@ -51,7 +43,7 @@
             >
               <span class="sr-only">Open user menu</span>
               <img
-                class="w-8 h-8 rounded-full border-blue-500 border-2"
+                class="w-8 h-8 rounded-full"
                 src="http://www.w3.org/2000/svg"
                 alt="user photo"
               />
@@ -164,11 +156,12 @@
       </div>
     </nav>
 
-    <main>
+    <!-- main -->
+    <main class="pb-8">
       <div
         id="sticky-banner"
         tabindex="-1"
-        class="sticky top-0 start-0 z-30 flex justify-between w-full p-4 border-b border-gray-200 bg-blue-900"
+        class="sticky top-0 start-0 z-40 flex justify-between w-full p-4 border-b border-gray-200 bg-blue-900"
       >
         <div class="flex items-center mx-auto">
           <p class="flex items-center text-sm font-normal text-gray-500">
@@ -223,176 +216,73 @@
           </button>
         </div>
       </div>
-      <div class="bg-gray-100 pt-10 border-2 rounded max-w max-h-5xl pl-8 pr-8">
-        <h1 class="mb-10 text-center text-2xl font-bold">Giỏ hàng</h1>
+
+      <div
+        class="relative flex min-h-max justify-center overflow-hidden bg-gray-100 gap-4 py-4 max-lg:flex-col rounded-lg"
+      >
         <div
-          class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0"
+          class="border-4 rounded-lg max-w-8xl p-4 flex inline-flex h-fit border-cyan-800"
         >
-          <div class="rounded-lg md:w-2/3">
-            <div
-              class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                alt="product-image"
-                class="w-full rounded-lg sm:w-40"
-              />
-              <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                <div class="mt-5 sm:mt-0">
-                  <h2 class="text-lg font-bold text-gray-900">
-                    Nike Air Max 2019
-                  </h2>
-                  <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
-                </div>
-                <div
-                  class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
+          <div class="flex flex-col">
+            <h2 class="text-4xl font-extrabold text-center">Đăng nhập</h2>
+            <form class="min-w-96 mx-auto pt-10">
+              <div class="mb-5">
+                <label
+                  for="email"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Tài khoản</label
                 >
-                  <div class="flex items-center border-gray-100">
-                    <span
-                      class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      -
-                    </span>
-                    <input
-                      class="h-8 w-8 border bg-white text-center text-xs outline-none"
-                      type="number"
-                      value="2"
-                      min="1"
-                    />
-                    <span
-                      class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div class="flex items-center space-x-4">
-                    <p class="text-sm">259.000 ₭</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </div>
-                </div>
+                <input
+                  type="email"
+                  id="email"
+                  class="bg-gray-50 border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="name@gmail.com"
+                  required
+                />
               </div>
-            </div>
-            <div
-              class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1131&q=80"
-                alt="product-image"
-                class="w-full rounded-lg sm:w-40"
-              />
-              <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                <div class="mt-5 sm:mt-0">
-                  <h2 class="text-lg font-bold text-gray-900">
-                    Nike Air Max 2019
-                  </h2>
-                  <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
-                </div>
-                <div
-                  class="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
+              <div class="mb-5">
+                <label
+                  for="password"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Mật khẩu</label
                 >
-                  <div class="flex items-center border-gray-100">
-                    <span
-                      class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      -
-                    </span>
-                    <input
-                      class="h-8 w-8 border bg-white text-center text-xs outline-none"
-                      type="number"
-                      value="2"
-                      min="1"
-                    />
-                    <span
-                      class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div class="flex items-center space-x-4">
-                    <p class="text-sm">259.000 ₭</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </div>
+                <input
+                  type="password"
+                  id="password"
+                  class="bg-gray-50 border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+                />
+              </div>
+              <div class="flex items-start mb-5">
+                <div class="flex items-center h-5">
+                  <input
+                    id="remember"
+                    type="checkbox"
+                    value=""
+                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
+                    required
+                  />
                 </div>
+                <label
+                  for="remember"
+                  class="ms-2 text-sm font-medium text-gray-900"
+                  >Ghi nhớ tôi</label
+                >
               </div>
-            </div>
-          </div>
-          <!-- Sub total -->
-          <div
-            class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3"
-          >
-            <div class="mb-2 flex justify-between">
-              <p class="text-gray-700">Tiền sản phẩm</p>
-              <p class="text-gray-700">$129.99</p>
-            </div>
-            <div class="flex justify-between">
-              <p class="text-gray-700">Tiền phí ship</p>
-              <p class="text-gray-700">$4.99</p>
-            </div>
-            <hr class="my-4" />
-            <div class="flex justify-between">
-              <p class="text-lg font-bold">Total</p>
-              <div class="">
-                <p class="mb-1 text-lg font-bold">$134.98 USD</p>
-                <p class="text-sm text-gray-700">Đã bao gồm VAT</p>
-              </div>
-            </div>
-            <label
-              for="discount"
-              class="mb-2 text-sm font-medium text-gray-900 sr-only"
-              >Mã giảm giá</label
-            >
-            <div class="relative pt-4">
-              <input
-                type="input"
-                id="discount"
-                class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Mã giảm giá"
-                required
-              />
               <button
                 type="submit"
-                class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
               >
-                Áp dụng
+                Đăng nhập
               </button>
-            </div>
-            <button
-              class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
-            >
-              Thanh toán
-            </button>
+            </form>
           </div>
         </div>
       </div>
     </main>
 
-    <footer class="bg-white">
+    <!-- Footer -->
+    <footer class="bg-white border-2 border-gray-300">
       <div class="mx-auto w-full max-w-screen-xl">
         <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
           <div>
