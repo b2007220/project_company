@@ -27,7 +27,10 @@
       <div
         class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4"
       >
-        <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             class="h-8"
@@ -74,7 +77,9 @@
                   >
                 </li>
                 <li>
-                  <a href="order.html" class="block px-4 py-2 text-sm text-gray-700"
+                  <a
+                    href="order.html"
+                    class="block px-4 py-2 text-sm text-gray-700"
                     >Lịch sử đơn hàng</a
                   >
                 </li>
@@ -163,18 +168,19 @@
     </nav>
 
     <main>
+      <
       <div
         id="sticky-banner"
         tabindex="-1"
-        class="fixed top-0 start-0 z-30 flex justify-between w-full p-4 border-b border-gray-200 bg-gray-50 relative"
+        class="sticky top-0 start-0 z-30 flex justify-between w-full p-4 border-b border-gray-200 bg-blue-900"
       >
         <div class="flex items-center mx-auto">
           <p class="flex items-center text-sm font-normal text-gray-500">
             <span
-              class="inline-flex p-1 me-3 bg-gray-200 rounded-full w-6 h-6 items-center justify-center flex-shrink-0"
+              class="inline-flex p-1 me-3 bg-white rounded-full w-6 h-6 items-center justify-center flex-shrink-0"
             >
               <svg
-                class="w-3 h-3 text-gray-500"
+                class="w-3 h-3 text-black"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -186,11 +192,11 @@
               </svg>
               <span class="sr-only">Light bulb</span>
             </span>
-            <span
+            <span class="text-white font-medium text-sm"
               >Giới thiệu sản phẩm
               <a
-                href=""
-                class="inline font-medium text-blue-600 underline underline-offset-2 decoration-600 decoration-solid hover:no-underline"
+                href="product.html"
+                class="inline font-medium text-white underline underline-offset-2 decoration-600 decoration-solid hover:no-underline pl-4 no-de"
                 >Xem thêm</a
               ></span
             >
@@ -198,9 +204,9 @@
         </div>
         <div class="flex items-center">
           <button
-            data-dismiss-target="sticky-banner"
+            data-dismiss-target="#sticky-banner"
             type="button"
-            class="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5"
+            class="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-white hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5"
           >
             <svg
               class="w-3 h-3"
@@ -257,14 +263,14 @@
                       <td class="px-6 py-4">Đang giao</td>
                       <td class="px-6 py-4">$2999</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -278,14 +284,14 @@
                       <td class="px-6 py-4">Chờ lấy hàng</td>
                       <td class="px-6 py-4">$1999</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -299,14 +305,14 @@
                       <td class="px-6 py-4">Đã giao</td>
                       <td class="px-6 py-4">$99</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -320,14 +326,14 @@
                       <td class="px-6 py-4">Hủy đơn</td>
                       <td class="px-6 py-4">$199</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -341,14 +347,14 @@
                       <td class="px-6 py-4">Đã giao</td>
                       <td class="px-6 py-4">$2999</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -362,14 +368,14 @@
                       <td class="px-6 py-4">Đang giao</td>
                       <td class="px-6 py-4">$399</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -383,14 +389,14 @@
                       <td class="px-6 py-4">Hủy đơn</td>
                       <td class="px-6 py-4">$699</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -404,14 +410,14 @@
                       <td class="px-6 py-4">Từ chối</td>
                       <td class="px-6 py-4">$99</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -425,14 +431,15 @@
                       <td class="px-6 py-4">Đã giao</td>
                       <td class="px-6 py-4">$79</td>
                       <td class="px-6 py-4">
-                        <a
-                          href=""
+                        <button
+                          href="#"
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -447,19 +454,21 @@
                       <td class="px-6 py-4">$29</td>
                       <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <a
-                          href=""
+                        <button
+                          href="#"
                           type="button"
                           data-modal-target="editUserModal"
                           data-modal-show="editUserModal"
                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >Xem</a
                         >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+
               <div class="">
                 <nav
                   class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
@@ -740,7 +749,7 @@
                 class="mx-auto max-w-7xl justify-center px-6 md:flex md:space-x-6 xl:px-0"
               >
                 <div
-                  class="relative overflow-x-auto shadow-md sm:rounded-lg w-full"
+                  class="relative overflow-x-auto shadow-md sm:rounded-lg w-full mb-10"
                 >
                   <table
                     class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -853,7 +862,7 @@
                   </div>
                   <hr class="my-4" />
                   <div class="flex justify-between">
-                    <p class="text-lg font-bold">Total: </p>
+                    <p class="text-lg font-bold">Total:</p>
                     <div class="">
                       <p class="mb-1 text-lg font-bold">$134.98 USD</p>
                       <p class="text-sm text-gray-700">Đã bao gồm VAT</p>
