@@ -44,6 +44,10 @@
 .text-gray-500 {
   color: #6b7280;
 }
+.max-w-50 {
+  max-width: 50%;
+}
+
 .ps-10 {
   padding-inline-start: 2.5rem !important;
 }
@@ -107,8 +111,8 @@
 .border-gray-300 {
   border-color: #d1d5db;
 }
-.bg-gray-100 {
-  background-color: #f3f4f6;
+.max-w-6xl {
+  max-width: 48rem;
 }
 .ms-2 {
   margin-inline-start: 0.5rem;
@@ -210,6 +214,13 @@ ul {
 .h-10 {
   height: 2.5rem;
 }
+.h-11 {
+  height: 2.75rem;
+}
+.py-25 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
 .mt-4 {
   margin-top: 1rem;
 }
@@ -274,9 +285,39 @@ ul {
 .me-2 {
   margin-inline-end: 0.5rem;
 }
+.carousel-indicators {
+  list-style: none;
+  bottom: -2.4375rem;
+  position: unset !important;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.carousel-indicators li,
+.carousel-indicators li.active {
+  width: 140px;
+  height: 120px;
+  background-color: #fff;
+  position: relative;
+  margin: 10px;
+}
+.carousel-indicators img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+.max-w-xl {
+  max-width: 36rem;
+}
 @media (min-width: 768px) {
   .order-md-2 {
     order: 2;
+  }
+  .h-md-96 {
+    height: 24rem;
   }
   .space-x-0 > * {
     margin-left: 0;
@@ -302,5 +343,18 @@ ul {
 
   .border-gray-500 {
     border-color: rgb(107 114 128);
+  }
+  .text-md-2xl {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 992px) {
+  .text-lg-3xl {
+    font-size: 1.875rem;
+  }
+}
+@media (max-width: 991px) {
+  .text-lg-sm {
+    font-size: 0.875rem;
   }
 }
