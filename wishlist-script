@@ -1,0 +1,57 @@
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+// <meta charset="UTF-8">
+// <meta name="viewport" content="width=device-width, initial-scale=1.0">
+// <title>Wish List</title>
+// </head>
+// <body>
+
+// <h1>My Wish List</h1>
+
+// <div id="wishlist"></div>
+
+// <script>
+// // Thêm sản phẩm vào wish list
+// function addToWishList(product) {
+//     var wishList = JSON.parse(getCookie("wishList") || "[]");
+//     wishList.push(product);
+//     document.cookie = "wishList=" + JSON.stringify(wishList) + "; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/";
+//     showWishList();
+// }
+
+// // Lấy giá trị của cookie
+// function getCookie(name) {
+//     var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+//     if (match) return match[2];
+// }
+
+// // Hiển thị wish list
+// function showWishList() {
+//     var wishList = JSON.parse(getCookie("wishList") || "[]");
+//     var wishlistDiv = document.getElementById("wishlist");
+//     wishlistDiv.innerHTML = "<h2>Wish List</h2>";
+//     if (wishList.length === 0) {
+//         wishlistDiv.innerHTML += "<p>Your wish list is empty.</p>";
+//     } else {
+//         var list = "<ul>";
+//         wishList.forEach(function(product) {
+//             list += "<li>" + product.name + " - $" + product.price + "</li>";
+//         });
+//         list += "</ul>";
+//         wishlistDiv.innerHTML += list;
+//     }
+// }
+
+// // Khi trang được tải, hiển thị wish list
+// window.onload = function() {
+//     showWishList();
+// };
+// </script>
+
+// <!-- Button để thêm sản phẩm vào wish list -->
+// <button onclick="addToWishList({name: 'Product 1', price: 10})">Add Product 1 to Wish List</button>
+// <button onclick="addToWishList({name: 'Product 2', price: 20})">Add Product 2 to Wish List</button>
+
+// </body>
+// </html>
