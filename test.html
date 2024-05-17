@@ -20,7 +20,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/bootstrap/style.css" />
   </head>
   <body>
     <nav class="container-fluid bg-white border-black border-opacity-25">
@@ -186,12 +186,18 @@
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div
+          class="modal-dialog modal-dialog-centered modal-dialog-scrollabll"
+          style="max-width: 860px"
+        >
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Modal title
-              </h1>
+              <h3
+                id="exampleModalLabel"
+                class="modal-title fs-5 text-xl fw-bolder text-gray-900"
+              >
+                Chi tiết đơn hàng
+              </h3>
               <button
                 type="button"
                 class="btn-close"
@@ -199,23 +205,139 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">...</div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
+            <div class="modal-body">
+              <div
+                class="bg-gray-100 pt-10 border-2 rounded max-w-5xl max-h-5xl pl-8 pr-8"
               >
-                Close
-              </button>
+                <h1 class="mb-10 text-center text-2xl font-bold">Giỏ hàng</h1>
+                <div
+                  class="mx-auto justify-content-center px-6 flex-md xl:px-0"
+                >
+                  <div
+                    class="relative overflow-x-auto shadow-md sm:rounded-lg w-100 mb-10 space-x-6-md"
+                  >
+                    <table
+                      class="w-100 text-sm text-left rtl:text-right text-gray-500"
+                    >
+                      <thead
+                        class="text-xs text-gray-700 uppercase bg-gray-50 "
+                      >
+                        <tr>
+                          <th scope="col" class="px-6 py-3">
+                            <span class="sr-only">Hình ảnh</span>
+                          </th>
+                          <th scope="col" class="px-6 py-3">Tên sản phẩm</th>
+                          <th scope="col" class="px-6 py-3">Số lượng</th>
+                          <th scope="col" class="px-6 py-3">Giá tiền</th>
+                          <th scope="col" class="px-6 py-3">
+                            Chi tiết sản phẩm
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          class="bg-white border-b  hover:bg-gray-50 "
+                        >
+                          <td class="p-4">
+                            <img
+                              src="https://flowbite.com/docs/images/products/apple-watch.png"
+                              class="w-16 md:w-32 max-w-100 max-h-full"
+                              alt="Apple Watch"
+                            />
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            Apple Watch
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">5</td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            $599
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            <a href="#" class="">Chi tiết</a>
+                          </td>
+                        </tr>
+                        <tr
+                          class="bg-white border-b  hover:bg-gray-50 "
+                        >
+                          <td class="p-4">
+                            <img
+                              src="https://flowbite.com/docs/images/products/imac.png"
+                              class="w-16 md:w-32 max-w-100 max-h-full"
+                              alt="Apple iMac"
+                            />
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            iMac 27"
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">5</td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            $2499
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            <a href="#" class="">Chi tiết</a>
+                          </td>
+                        </tr>
+
+                        <tr
+                          class="bg-white border-b  hover:bg-gray-50 "
+                        >
+                          <td class="p-4">
+                            <img
+                              src="https://flowbite.com/docs/images/products/iphone-12.png"
+                              class="w-16 md:w-32 max-w-100 max-h-full"
+                              alt="iPhone 12"
+                            />
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            IPhone 12
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">5</td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            $999
+                          </td>
+                          <td class="px-6 py-4 fw-bolder text-gray-900">
+                            <a href="#" class="">Chi tiết</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Sub total -->
+                  <div
+                    class="h-100 rounded border bg-white p-6 shadow md:mt-0 w-13-md space-x-6-md"
+                  >
+                    <div class="mb-2 d-flex justify-content-between">
+                      <p class="text-gray-700">Tiền sản phẩm</p>
+                      <p class="text-gray-700">$129.99</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="text-gray-700">Tiền phí ship</p>
+                      <p class="text-gray-700">$4.99</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="text-gray-700">Áp dụng phiếu giảm giá</p>
+                      <p class="text-gray-700">0 đồng</p>
+                    </div>
+                    <hr class="my-4" />
+                    <div class="d-flex justify-content-between">
+                      <p class="text-lg fw-bold">Tổng tiền</p>
+                      <div class="">
+                        <p class="mb-1 text-lg fw-bold">$134.98 USD</p>
+                        <p class="text-sm text-gray-700">Đã bao gồm VAT</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
               <button type="button" class="btn btn-primary">
-                Save changes
+                Đặt lại đơn hàng
               </button>
             </div>
           </div>
         </div>
       </div>
-      
     </main>
     <footer class="bg-white">
       <div class="mx-auto w-100 container">

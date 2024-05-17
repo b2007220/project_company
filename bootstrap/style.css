@@ -8,6 +8,7 @@
 body {
   width: 100%;
 }
+
 .gap-6 {
   gap: 1.5rem;
 }
@@ -73,6 +74,24 @@ body {
 }
 .bg-blue-700 {
   background-color: #2563eb;
+}
+.bg-blue-300 {
+  background-color: rgb(34 211 238);
+}
+.bg-orange-300 {
+  background-color: rgb(253 186 116);
+}
+.bg-green-300 {
+  background-color: rgb(132 204 22);
+}
+.bg-yellow-200 {
+  background-color: rgb(254 240 138);
+}
+.bg-red-400 {
+  background-color: rgb(248 113 113);
+}
+.bg-violet-600 {
+  background-color: rgb(124 58 237);
 }
 .max-w-5xl {
   max-width: 64rem;
@@ -290,6 +309,9 @@ ul {
 }
 .max-h-xl {
   max-height: 36rem;
+}
+.max-h-92 {
+  max-height: 23rem;
 }
 .px-8 {
   padding-left: 2rem;
@@ -509,7 +531,6 @@ ul {
   .text-lg-sm {
     font-size: 0.875rem;
   }
-
 }
 @media (min-width: 1280px) {
   .px-xl-0 {
