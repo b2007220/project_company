@@ -50,9 +50,6 @@ body {
 .text-gray-500 {
   color: #6b7280;
 }
-.max-w-50 {
-  max-width: 50%;
-}
 
 .ps-10 {
   padding-inline-start: 2.5rem !important;
@@ -63,8 +60,21 @@ body {
 .-bottom-6 {
   bottom: -1.5rem;
 }
+.bg-blue-950 {
+  background-color: rgb(23 37 84);
+}
 .border-gray-300 {
   border-color: #e2e8f0;
+}
+.border-blue-700 {
+  border-color: #2563eb !important;
+}
+.w-80 {
+  width: 80%;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
 }
 .bg-gray-50 {
   background-color: #f9fafb;
@@ -73,7 +83,7 @@ body {
   inset-inline-end: 0.625rem;
 }
 .bg-blue-700 {
-  background-color: #2563eb;
+  background-color: #2563eb !important;
 }
 .bg-blue-300 {
   background-color: rgb(34 211 238);
@@ -204,6 +214,10 @@ body {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -233,6 +247,12 @@ body {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+.w-30 {
+  width: 30%;
+}
+.w-40 {
+  width: 40%;
 }
 .truncate {
   white-space: nowrap;
@@ -300,6 +320,17 @@ ul {
 }
 .pt-10 {
   padding-top: 2.5rem;
+}
+.bg-gray-200 {
+  background-color: rgb(229 231 235);
+}
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+.-mx-6 {
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
 }
 .max-h-5xl {
   max-height: 64rem;
@@ -424,11 +455,17 @@ ul {
 .max-w-xs {
   max-width: 20rem;
 }
-.w-40 {
+.w-40-rem {
   width: 10rem;
+}
+.min-w-100 {
+  min-width: 100%;
 }
 .max-w-72 {
   max-width: 18rem;
+}
+.max-w-50 {
+  max-width: 50%;
 }
 .text-xs {
   font-size: 0.75rem;
@@ -474,6 +511,29 @@ ul {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+.bg-indigo-600 {
+  background-color: rgb(79 70 229);
+}
+.mx-5 {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.text-gray-700 {
+  color: rgb(55 65 81);
+}
+.bg-orange-600 {
+  background-color: rgb(234 88 12);
+}
+.bg-pink-600 {
+  background-color: rgb(219 39 119);
+}
+.min-w-112 {
+  min-width: 28rem;
 }
 @media (min-width: 768px) {
   .order-md-2 {
@@ -537,6 +597,9 @@ ul {
     padding-left: 0;
     padding-right: 0;
   }
+  .w-13-xl {
+    width: 33.333333% !important;
+  }
 }
 @media (min-width: 640px) {
   .justify-start-sm {
@@ -574,5 +637,8 @@ ul {
   }
   .justify-content-sm-start {
     justify-content: flex-start !important;
+  }
+  .w-12-sm {
+    width: 50% !important;
   }
 }
