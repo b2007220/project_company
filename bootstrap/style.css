@@ -581,6 +581,9 @@ ul {
 .hover-bg-blue-800:hover {
   background-color: rgb(30 64 175);
 }
+.max-w-screen-lg {
+  max-width: 1024px !important;
+}
 @media (min-width: 768px) {
   .order-md-2 {
     order: 2 !important;
@@ -638,6 +641,14 @@ ul {
   .text-lg-sm {
     font-size: 0.875rem;
   }
+  .flex-column-max-lg {
+    display: flex;
+    flex-direction: column;
+  }
+  .d-none-lg {
+    display: none !important;
+  }
+
 }
 @media (min-width: 1280px) {
   .px-xl-0 {
@@ -648,12 +659,7 @@ ul {
     width: 33.333333% !important;
   }
 }
-@media (max-width: 992px) {
-  .flex-column-max-lg {
-    display: flex;
-    flex-direction: column;
-  }
-}
+
 @media (min-width: 640px) {
   .justify-start-sm {
     justify-content: flex-start !important;
