@@ -569,7 +569,18 @@ ul {
 .min-w-112 {
   min-width: 28rem;
 }
-
+.border-cyan-800 {
+  border-color: rgb(22 78 99) !important;
+}
+.min-w-96 {
+  min-width: 24rem;
+}
+.p-25 {
+  padding: 0.625rem;
+}
+.hover-bg-blue-800:hover {
+  background-color: rgb(30 64 175);
+}
 @media (min-width: 768px) {
   .order-md-2 {
     order: 2 !important;
@@ -580,6 +591,7 @@ ul {
   .space-x-0 > * {
     margin-left: 0 !important;
   }
+
   .flex-md {
     display: flex !important;
   }
@@ -634,6 +646,12 @@ ul {
   }
   .w-13-xl {
     width: 33.333333% !important;
+  }
+}
+@media (max-width: 992px) {
+  .flex-column-max-lg {
+    display: flex;
+    flex-direction: column;
   }
 }
 @media (min-width: 640px) {
