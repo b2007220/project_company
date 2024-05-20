@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang chủ</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-blue-500">
+          <div
+            class="d-flex flex-column align-items-center align-items-sm-start px-3 text-white min-vh-100 pt-10"
+          >
+            <a
+              href="/"
+              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+            >
+              <a
+                href="#"
+                class="d-flex align-items-center text-decoration-none"
+              >
+                <img src="../fast-delivery.png" class="h-10 w-10" alt="Logo" />
+                <span
+                  class="align-self-center fs-4 fw-bold text-nowrap text-white space-x-3"
+                  >Cửa hàng Online</span
+                >
+              </a>
+            </a>
+            <ul
+              class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+              id="menu"
+            >
+              <li class="nav-item">
+                <a
+                  href="index.html"
+                  class="nav-link align-items-middle px-0 text-white"
+                >
+                  <svg
+                    class="w-6 h-6 text-gray-800 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"
+                    />
+                  </svg>
+
+                  <span class="ms-1 d-none d-sm-inline text-uppercase"
+                    >Trang chủ</span
+                  >
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="#submenu1"
+                  data-bs-toggle="collapse"
+                  class="nav-link px-0 align-items-middle text-white"
+                >
+                  <i class="fs-4 bi-speedometer2"></i>
+                  <span
+                    class="ms-1 d-none d-sm-inline text-white text-uppercase"
+                    >Quản lý Sản phẩm</span
+                  >
+                </a>
+                <ul
+                  class="collapse show nav flex-column ms-1"
+                  id="submenu1"
+                  data-bs-parent="#menu"
+                >
+                  <li class="w-100">
+                    <a href="product.html" class="nav-link px-0 text-white">
+                      <svg
+                        class="w-6 h-6 text-gray-800 text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 12c.263 0 .524-.06.767-.175a2 2 0 0 0 .65-.491c.186-.21.333-.46.433-.734.1-.274.15-.568.15-.864a2.4 2.4 0 0 0 .586 1.591c.375.422.884.659 1.414.659.53 0 1.04-.237 1.414-.659A2.4 2.4 0 0 0 12 9.736a2.4 2.4 0 0 0 .586 1.591c.375.422.884.659 1.414.659.53 0 1.04-.237 1.414-.659A2.4 2.4 0 0 0 16 9.736c0 .295.052.588.152.861s.248.521.434.73a2 2 0 0 0 .649.488 1.809 1.809 0 0 0 1.53 0 2.03 2.03 0 0 0 .65-.488c.185-.209.332-.457.433-.73.1-.273.152-.566.152-.861 0-.974-1.108-3.85-1.618-5.121A.983.983 0 0 0 17.466 4H6.456a.986.986 0 0 0-.93.645C5.045 5.962 4 8.905 4 9.736c.023.59.241 1.148.611 1.567.37.418.865.667 1.389.697Zm0 0c.328 0 .651-.091.94-.266A2.1 2.1 0 0 0 7.66 11h.681a2.1 2.1 0 0 0 .718.734c.29.175.613.266.942.266.328 0 .651-.091.94-.266.29-.174.537-.427.719-.734h.681a2.1 2.1 0 0 0 .719.734c.289.175.612.266.94.266.329 0 .652-.091.942-.266.29-.174.536-.427.718-.734h.681c.183.307.43.56.719.734.29.174.613.266.941.266a1.819 1.819 0 0 0 1.06-.351M6 12a1.766 1.766 0 0 1-1.163-.476M5 12v7a1 1 0 0 0 1 1h2v-5h3v5h7a1 1 0 0 0 1-1v-7m-5 3v2h2v-2h-2Z"
+                        />
+                      </svg>
+
+                      <span class="d-none d-sm-inline text-uppercase"
+                        >Sản phẩm</span
+                      >
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="nav-link px-0 text-white">
+                      <svg
+                        class="w-6 h-6 text-gray-800 text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15.583 8.445h.01M10.86 19.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 12.31 4l5.734.007A1.968 1.968 0 0 1 20 5.983v5.5a.992.992 0 0 1-.316.727l-7.44 7.5a.974.974 0 0 1-1.384.001Z"
+                        />
+                      </svg>
+
+                      <span class="d-none d-sm-inline text-uppercase"
+                        >Loại sản phẩm</span
+                      >
+                    </a>
+                  </li>
+                  <li>
+                    <a href="discount.html" class="nav-link px-0 text-white">
+                      <svg
+                        class="w-6 h-6 text-gray-800 text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8.891 15.107 15.11 8.89m-5.183-.52h.01m3.089 7.254h.01M14.08 3.902a2.849 2.849 0 0 0 2.176.902 2.845 2.845 0 0 1 2.94 2.94 2.849 2.849 0 0 0 .901 2.176 2.847 2.847 0 0 1 0 4.16 2.848 2.848 0 0 0-.901 2.175 2.843 2.843 0 0 1-2.94 2.94 2.848 2.848 0 0 0-2.176.902 2.847 2.847 0 0 1-4.16 0 2.85 2.85 0 0 0-2.176-.902 2.845 2.845 0 0 1-2.94-2.94 2.848 2.848 0 0 0-.901-2.176 2.848 2.848 0 0 1 0-4.16 2.849 2.849 0 0 0 .901-2.176 2.845 2.845 0 0 1 2.941-2.94 2.849 2.849 0 0 0 2.176-.901 2.847 2.847 0 0 1 4.159 0Z"
+                        />
+                      </svg>
+
+                      <span class="d-none d-sm-inline text-uppercase"
+                        >Loại giảm giá</span
+                      >
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a
+                  href="account.html"
+                  class="nav-link px-0 align-items-middle text-white"
+                >
+                  <svg
+                    class="w-6 h-6 text-gray-800 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="square"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
+                    />
+                  </svg>
+
+                  <span class="ms-1 d-none d-sm-inline text-uppercase"
+                    >Quản lý tài khoản</span
+                  ></a
+                >
+              </li>
+              <li>
+                <a
+                  href="../index.html"
+                  class="nav-link px-0 align-items-middle text-white"
+                >
+                  <svg
+                    class="w-6 h-6 text-gray-800 text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
+                    />
+                  </svg>
+
+                  <span class="ms-1 d-none d-sm-inline text-uppercase"
+                    >Rời trang Admin</span
+                  ></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col bg-gray-200">
+          <div class="d-flex flex-column mt-8">
+            <div
+              class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+            >
+              <div
+                class="d-inline-block min-w-100 overflow-hidden align-items-middle border border-gray-200 shadow rounded bg-white border rounded"
+              >
+                <div class="d-flex justify-content-between align-items-center">
+                  <h4 class="p-3">Quản lý loại sản phẩm</h4>
+                  <button
+                    class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addCategoryModal"
+                  >
+                    Thêm mới
+                    <svg
+                      class="w-6 h-6 text-gray-800 text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <table class="min-w-100">
+                  <thead>
+                    <tr>
+                      <th
+                        class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50"
+                      >
+                        ID
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50"
+                      >
+                        Tên loại sản phẩm
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50"
+                      >
+                        Mô tả
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50"
+                      >
+                        Thao tác
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="bg-white">
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          0000524
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm"
+                      >
+                        <div
+                          class="ml-4 text-sm leading-5 text-gray-900 font-medium"
+                        >
+                          Áo thun
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500"
+                      >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Totam, odio quis neque quidem nihil in possimus
+                        odit, quo aliquam dolor, dolore laborum! Fuga neque
+                        eveniet, sunt recusandae suscipit amet repellendus.
+                      </td>
+
+                      <td
+                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-start align-items-center gap-2"
+                      >
+                        <button
+                          class="p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        >
+                          Xóa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCategoryModal"
+                        >
+                          Chỉnh sửa
+                          <svg
+                            class="w-6 h-6 text-gray-800 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  aria-label="Page navigation"
+                  class="d-flex justify-content-end p-2"
+                >
+                  <ul
+                    class="d-flex align-items-center -space-x-px h-10 fw-normal"
+                  >
+                    <li>
+                      <a
+                        href="#"
+                        class="d-flex align-items-center justify-content-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-start hover:bg-gray-100 hover:text-gray-700"
+                      >
+                        <svg
+                          class="w-3 h-3"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 6 10"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 1 1 5l4 4"
+                          />
+                        </svg>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none"
+                        >1</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none"
+                        >2</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        aria-current="page"
+                        class="z-10 d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 text-decoration-none"
+                        >3</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none"
+                        >4</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none"
+                        >5</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-end hover:bg-gray-100 hover:text-gray-700"
+                      >
+                        <svg
+                          class="w-3 h-3"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 6 10"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m1 9 4-4-4-4"
+                          />
+                        </svg>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="addCategoryModal"
+      tabindex="-1"
+      aria-labelledby="addCategoryModal"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollabll"
+        style="max-width: 512px"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3
+              id="addCategoryModal"
+              class="modal-title fs-5 text-xl fw-bolder text-gray-900"
+            >
+              Thêm mới loại sản phẩm
+            </h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form class="mb-3">
+              <label for="categoryName" class="form-label"
+                >Tên loại sản phẩm</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="categoryName"
+                placeholder="Nhập tên loại sản phẩm"
+              />
+              <label for="categoryDescribe" class="form-label">Mô tả</label>
+              <textarea
+                class="form-control"
+                id="categoryDescribe"
+                rows="3"
+                placeholder="Nhập mô tả"
+              ></textarea>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
