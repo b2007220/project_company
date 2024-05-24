@@ -49,6 +49,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('add', [ProductController::class, 'store'])->name('add');
             Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
             Route::delete('delete/{product}', [ProductController::class, 'destroy'])->name('delete');
+            Route::post('add-discount/{id}', [ProductController::class, 'activateDiscount'])->name('discount');
         });
 
         Route::prefix('account')->name('account.')->group(function () {

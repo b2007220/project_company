@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Discount;
+use App\Models\DiscountDetail;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,7 +14,9 @@ class ProductController extends Controller
     {
         $products = Product::with('categories')->get();
         $categories = Category::all();
-        return view('admin.layout.product', ['products' => $products, 'categories' => $categories]);
+        $discounts = Discount::all();
+        $productsWithDiscounts = Product::with('categories', 'discounts')->get();
+        return view('admin.layout.product', ['products' => $products, 'categories' => $categories, 'discounts' => $discounts, 'productsWithDiscounts' => $productsWithDiscounts]);
     }
 
     public function store(Request $request)
@@ -89,5 +93,17 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    }
+    public function activateDiscount(Request $request)
+    {
+        $validatedData = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'discount_id' => 'required|exists:discounts,id',
+        ]);
+
+        $discountDetail = DiscountDetail::create([
+            'product_id' => $validatedData['product_id'],
+            'discount_id' => $validatedData['discount_id'],
+        ]);
     }
 }

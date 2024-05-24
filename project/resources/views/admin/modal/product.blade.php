@@ -8,33 +8,33 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="productForm" method="POST" class="mb-3">
+                <form class="mb-3" id="productForm" method="POST">
                     @csrf
-                    <input type="hidden" id="productId" name="id">
-                    <label for="productName" class="form-label">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="productName" name="name" required
-                        placeholder="Nhập tên sản phẩm" />
-                    <label for="productDescribe" class="form-label">Mô tả</label>
-                    <textarea class="form-control" id="productDescribe" name="description" rows="3" placeholder="Nhập mô tả" required></textarea>
-                    <label for="categories" class="form-label">Loại</label>
+
+                    <input type="hidden" id="productId" name="id" value="" />
+                    <label for="productName" class="form-label">Tên loại sản phẩm</label>
+                    <input type="text" class="form-control" id="productName" name="name"
+                        placeholder="Nhập tên loại sản phẩm" required />
+                    <label for="productDescription" class="form-label">Mô tả</label>
+                    <textarea class="form-control" id="productDescription" name="description" placeholder="Nhập mô tả" required></textarea>
                     <select name="categories[]" id="categories" multiple class="form-select max-w-100 overflow-auto">
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
-                    <label for="productPrice" class="form-label">Giá tiền</label>
-                    <input type="number" class="form-control" id="productPrice" name="price" required
-                        placeholder="Nhập giá tiền sản phẩm" min="0" />
-                    <label for="productAmount" class="form-label">Số lượng</label>
-                    <input type="number" class="form-control" id="productAmount" name="amount" required
-                        placeholder="Nhập số lượng sản phẩm" min="0" />
+                    <label for="productPrice" class="form-label">Giá</label>
+                    <input type="number" class="form-control" id="productPrice" name="price" placeholder="Nhập giá"
+                        required />
+                    <label for="productQuantity" class="form-label">Số lượng</label>
+                    <input type="number" class="form-control" id="productQuantity" name="amount"
+                        placeholder="Nhập số lượng" required />
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="submit" form="productForm"
                     class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1">
-                    Lưu
-                    <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    Thêm mới
+                    <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 5v9m-5 0H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2M8 9l4-5 4 5m1 8h.01" />
@@ -55,37 +55,28 @@
             const productForm = document.getElementById("productForm");
             const productId = document.getElementById("productId");
             const productName = document.getElementById("productName");
-            const productAmount = document.getElementById("productAmount");
+            const productDescription = document.getElementById("productDescription");
             const productPrice = document.getElementById("productPrice");
-            const productDescribe = document.getElementById("productDescribe");
-            const categories = document.getElementById("categories");
+            const productQuantity = document.getElementById("productQuantity");
 
-            Array.from(categories.options).forEach(option => option.selected = false);
+            productForm.reset();
             if (mode === "edit") {
                 const product = JSON.parse(button.getAttribute("data-product"));
-                modalTitle.textContent = "Chỉnh sửa sản phẩm";
+                modalTitle.textContent = "Chỉnh sửa loại sản phẩm";
                 productForm.action = `product/update/${product.id}`;
                 productId.value = product.id;
                 productName.value = product.name;
+                productDescription.value = product.description;
                 productPrice.value = product.price;
-                productAmount.value = product.amount;
-                productDescribe.value = product.description;
-
-                product.categories.forEach(category => {
-                    const option = Array.from(categories.options).find(option => option.value ==
-                        category.id);
-                    if (option) {
-                        option.selected = true;
-                    }
-                });
+                productQuantity.value = product.amount;
             } else {
-                modalTitle.textContent = "Thêm mới sản phẩm";
+                modalTitle.textContent = "Thêm mới loại sản phẩm";
                 productForm.action = `product/add`;
                 productId.value = "";
                 productName.value = "";
+                productDescription.value = "";
                 productPrice.value = "";
-                productAmount.value = "";
-                productDescribe.value = "";
+                productQuantity.value = "";
             }
         });
     });

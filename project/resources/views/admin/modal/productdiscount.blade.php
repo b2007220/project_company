@@ -1,5 +1,5 @@
-<div class="modal fade" id="addProductDiscountModal" tabindex="-1" aria-labelledby="addProductDiscountModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabll" style="max-width: 512px">
+<div class="modal fade" id="addProductDiscountModal" tabindex="-1" aria-labelledby="addProductDiscountModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 512px">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle" class="modal-title fs-5 text-xl fw-bolder text-gray-900">
@@ -8,25 +8,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="mb-3" id="productForm" method="POST">
+                <form class="mb-3" id="productDiscountForm" method="POST" action="">
                     @csrf
-                    <input type="hidden" id="productId" name="id" value="" />
-                    <label for="productName" class="form-label">Tên loại giảm giá</label>
-                    <input type="text" class="form-control" id="productName" name="name"
-                        placeholder="Nhập tên loại giảm giá" />
-
-                    <label for="productProduct" class="form-label">Phần trăm giảm giá</label>
-                    <input type="number" class="form-control" id="productProduct" name="product"
-                        placeholder="Nhập phần trăm giảm giá" min="0" max="100" />
-                    <label for="productAmount" class="form-label">Số lượng áp dụng</label>
-                    <input type="number" class="form-control" id="productAmount" name="amount"
-                        placeholder="Nhập số lượng" min="1" />
-                    <label for="productExpired" class="form-label">Thời gian hết hạn</label>
-                    <input type="date" class="form-control" id="productExpired" name="expire" />
+                    <input type="hidden" name="productId" id="productId">
+                    <select name="discounts[]" id="discount" multiple class="form-select max-w-100 overflow-auto">
+                        @foreach ($discounts as $discount)
+                            <option value="{{ $discount->id }}">{{ $discount->name }}</option>
+                        @endforeach
+                    </select>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" form="productForm"
+                <button type="submit" form="productDiscountForm"
                     class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1">
                     Thêm mới
                     <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -40,3 +33,13 @@
     </div>
 </div>
 
+<script>
+    $('#addProductDiscountModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var productId = button.data('product-id');
+        $('#productId').val(productId);
+        var formAction = "{{ route('admin.product.discount', ':id') }}";
+        formAction = formAction.replace(':id', productId);
+        $('#productDiscountForm').attr('action', formAction);
+    });
+</script>
