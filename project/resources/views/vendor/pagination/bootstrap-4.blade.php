@@ -1,7 +1,6 @@
 @if ($paginator->hasPages())
     <div aria-label="Page navigation" class="d-flex justify-content-end p-2">
-
-        <ul class="class="d-flex align-items-center -space-x-px h-10 fw-normal"">
+        <ul class="d-flex align-items-center -space-x-px h-10 fw-normal">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
@@ -22,7 +21,7 @@
                             class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 9 4-4-4-4" />
+                                d="M5 1 1 5l4 4" />
                         </svg></a>
                 </li>
             @endif
@@ -67,5 +66,4 @@
                 </li>
             @endif
         </ul>
-
-@endif
+        <div @endif

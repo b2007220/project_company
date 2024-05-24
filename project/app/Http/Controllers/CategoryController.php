@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::paginate(5);
 
         return view("admin.layout.category", ["categories" => $categories]);
     }
@@ -26,15 +26,14 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index');
     }
 
-    public function edit(Category $category)
-    {
-        return view('admin.modal.category', ['category' => $category]);
-    }
-    public function update(Request $request, Category $category)
+
+
+    public function update(Request $request, $id)
     {
         $data = $request->validate([
             'name' => 'required|string',
         ]);
+        $category = Category::find($id);
         $category->update($data);
         toastr()->timeOut(5000)->closeButton()->success('Category updated successfully');
         return redirect()->route('admin.category.index');

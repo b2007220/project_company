@@ -30,12 +30,17 @@
                                 khẩu</a>
                         </li>
                         <li class="d-block py-2 px-3 text-dark rounded p-md-0">
-                            <a class="dropdown-item d-block px-3 py-2 small text-dark" href="#">Đăng xuất</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <button type="submit" class="dropdown-item d-block px-3 py-2 small text-dark">Đăng
+                                    xuất</button>
+                            </form>
                         </li>
                     </ul>
                 </div>
                 <div class="border-bottom px-4 py-3">
-                    <a href="./admin/"
+                    <a href="{{ route('admin.home') }}"
                         class="d-block small text-body-secondary text-truncate text-decoration-none fs-6">Admin</a>
                 </div>
             </div>

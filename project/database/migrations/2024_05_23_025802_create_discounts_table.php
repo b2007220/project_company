@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->longText('description')->nullable();
             $table->float('discount')->default(0);
             $table->integer('amount')->default(0);
             $table->timestamp('expired_at')->default(now()->addMonth());
+            $table->boolean('is_active')->default(true);
+            $table->string('code')->unique();
         });
     }
 

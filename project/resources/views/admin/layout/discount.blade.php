@@ -9,10 +9,10 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
             @include('admin.components.sidebar')
-            @include('admin.content.category')
+            @include('admin.content.discount')
         </div>
     </div>
-    @include('admin.modal.category')
+    @include('admin.modal.discount')
 </body>
 
 </html>

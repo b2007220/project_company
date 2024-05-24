@@ -10,7 +10,7 @@
         </a>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
-                <a href="#" class="nav-link align-items-middle px-0 text-white">
+                <a href="{{ route('admin.home') }}" class="nav-link align-items-middle px-0 text-white">
                     <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,7 +27,7 @@
                 </a>
                 <ul class="collapse show nav flex-column " id="submenu1" data-bs-parent="#menu">
                     <li class="w-100">
-                        <a href="product.html" class="nav-link px-0 text-white">
+                        <a href=" {{ route('admin.product.index') }}" class="nav-link px-0 text-white">
                             <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="category.html" class="nav-link px-0 text-white">
+                        <a href=" {{ route('admin.category.index') }}" class="nav-link px-0 text-white">
                             <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="discount.html" class="nav-link px-0 text-white">
+                        <a href=" {{ route('admin.discount.index') }}" class="nav-link px-0 text-white">
                             <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -68,7 +68,7 @@
                 </ul>
             </li>
             <li>
-                <a href="account.html" class="nav-link px-0 align-items-middle text-white">
+                <a href=" {{ route('admin.account.index') }}" class="nav-link px-0 align-items-middle text-white">
                     <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="2"
@@ -78,7 +78,7 @@
                     <span class=" d-none d-sm-inline text-uppercase">Quản lý tài khoản</span></a>
             </li>
             <li>
-                <a href="../index.html" class="nav-link px-0 align-items-middle text-white">
+                <a href=" {{ route('home') }}" class="nav-link px-0 align-items-middle text-white">
                     <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

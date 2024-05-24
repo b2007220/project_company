@@ -25,7 +25,12 @@ body {
     top: 0px;
     bottom: 0px;
 }
-
+.datepicker td,
+th {
+    text-align: center !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+}
 .ps-3 {
     padding-inline-start: 0.75rem;
 }

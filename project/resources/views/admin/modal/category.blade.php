@@ -47,7 +47,7 @@
             if (mode === "edit") {
                 const category = JSON.parse(button.getAttribute("data-category"));
                 modalTitle.textContent = "Chỉnh sửa loại sản phẩm";
-                categoryForm.action = `category/update/${category}`;
+                categoryForm.action = `category/update/${category.id}`;
                 categoryId.value = category.id;
                 categoryName.value = category.name;
             } else {

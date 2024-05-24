@@ -16,7 +16,6 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('discount_id')->constrained('discounts')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->enum('payment_type', ['CASH', 'TRANSFER'])->default('CASH');
             $table->enum('status', ['PENDING', 'DELIVERING', 'DELIVERED', 'CANCEL'])->default('PENDING');
             $table->string('address');
@@ -32,4 +31,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('orders');
     }
+
+    
 };

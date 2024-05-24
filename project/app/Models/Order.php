@@ -16,15 +16,20 @@ class Order extends Model
         'address',
         'delivery_date',
         'total_price',
-        'discount_id',
+
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function orders()
+    public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'discount_details', 'order_id', 'discount_id');
     }
 }

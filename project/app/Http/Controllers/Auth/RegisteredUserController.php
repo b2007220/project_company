@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
-            'gender' => ['required', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
+            'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
             'avatar' => ['nullable', 'image'],
         ]);
 

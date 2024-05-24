@@ -12,10 +12,18 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'product_detail', 'product_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'product_details', 'product_id', 'category_id');
     }
     public function pictures()
     {
         return $this->hasMany(ProductPicture::class);
+    }
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'discount_details', 'product_id', 'discount_id');
     }
 }

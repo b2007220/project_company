@@ -8,7 +8,7 @@
 <body>
     <main class="container-fluid">
         <div class="row flex-nowrap">
-            @include('admin.components.slider')
+            @include('admin.components.sidebar')
             <div class="col bg-gray-200">
                 @include('admin.content.summary')
                 @include('admin.content.summarychart')

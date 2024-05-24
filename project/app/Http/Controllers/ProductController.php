@@ -10,31 +10,55 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-    }
-    public function create()
-    {
+        $products = Product::with('categories')->get();
         $categories = Category::all();
+        return view('admin.layout.product', ['products' => $products, 'categories' => $categories]);
     }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
+            'amount' => 'required|numeric',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
         ]);
-
         $product = Product::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
             'price' => $validated['price'],
+            'amount' => $validated['amount'],
         ]);
 
         $product->categories()->sync($validated['categories']);
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        toastr()->timeOut(5000)->closeButton()->success('Product added successfully');
+        return redirect()->route('admin.product.index');
+    }
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'categories' => 'required|array',
+            'price' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        $product->name = $validatedData['name'];
+        $product->description = $validatedData['description'];
+        $product->price = $validatedData['price'];
+        $product->amount = $validatedData['amount'];
+
+        $product->save();
+
+        $product->categories()->sync($validatedData['categories']);
+
+        return redirect()->back()->with('success', 'Product updated successfully.');
     }
 
     public function search(Request $request)
@@ -59,5 +83,11 @@ class ProductController extends Controller
     {
         $categories = $product->categories;
         return view('products.categories', ['categories' => $categories]);
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }
