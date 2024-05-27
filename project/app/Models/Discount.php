@@ -16,19 +16,33 @@ class Discount extends Model
         'is_predefined',
         'is_active',
         'code',
+        'type',
     ];
 
-    public function discountDetails()
-    {
-        return $this->hasMany(DiscountDetail::class);
-    }
-    public function getAppliedToProductsAttribute()
-    {
-        return $this->discountDetails()->whereNotNull('product_id')->get();
-    }
 
-    public function getAppliedToOrdersAttribute()
+    public function products()
     {
-        return $this->discountDetails()->whereNotNull('order_id')->get();
+        return $this->belongsToMany(Product::class, 'product_discounts', 'discount_id', 'product_id');
     }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'user_select_discount', 'discount_id', 'order_id');
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_select_discounts', 'discount_id', 'user_id');
+    }
+    // public function discountDetails()
+    // {
+    //     return $this->hasMany(DiscountDetail::class);
+    // }
+    // public function getAppliedToProductsAttribute()
+    // {
+    //     return $this->discountDetails()->whereNotNull('product_id')->get();
+    // }
+
+    // public function getAppliedToOrdersAttribute()
+    // {
+    //     return $this->discountDetails()->whereNotNull('order_id')->get();
+    // }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('expired_at')->default(now()->addMonth());
             $table->boolean('is_active')->default(true);
             $table->string('code')->unique();
+            $table->enum('type', ['ORDER', 'PRODUCT'])->default('ORDER');
         });
     }
 

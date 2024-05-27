@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         $products = Product::with('categories')->get();
         $categories = Category::all();
-        $discounts = Discount::all();
+        $discounts = Discount::where('type', 'PRODUCT')->get();
         $productsWithDiscounts = Product::with('categories', 'discounts')->get();
         return view('admin.layout.product', ['products' => $products, 'categories' => $categories, 'discounts' => $discounts, 'productsWithDiscounts' => $productsWithDiscounts]);
     }

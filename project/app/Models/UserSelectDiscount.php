@@ -5,25 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DiscountDetail extends Model
+class UserSelectDiscount extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'discount_id',
-        'product_id',
+        'user_id',
         'order_id',
-        'is_predefined'
     ];
-
 
     public function discount()
     {
         return $this->belongsTo(Discount::class);
     }
-    public function product()
+    public function user()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(User::class);
     }
     public function order()
     {
