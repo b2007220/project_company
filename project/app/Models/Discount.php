@@ -27,7 +27,7 @@ class Discount extends Model
     }
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'user_select_discount', 'discount_id', 'order_id');
+        return $this->belongsToMany(Order::class, 'user_select_discounts', 'discount_id', 'order_id');
     }
     public function users()
     {

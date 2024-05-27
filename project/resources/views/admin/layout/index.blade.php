@@ -16,6 +16,7 @@
             </div>
         </div>
     </main>
+    @include('admin.modal.order')
 </body>
 
 

@@ -54,19 +54,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::delete('remove-discount/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'removeDiscount'])->name('discount-remove');
             Route::put('update-predefine/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'updateIsPredefined'])->name('update-predefine');
         });
+        Route::prefix('order')->name('order.')->group(function () {
+            Route::get('', [OrderController::class, 'index'])->name('index');
+            Route::post('add', [OrderController::class, 'store'])->name('add');
+            Route::post('update', [OrderController::class, 'update'])->name('update');
+            Route::post('update-type', [OrderController::class, 'updateType'])->name('update-type');
+            Route::delete('delete/{order}', [OrderController::class, 'destroy'])->name('delete');
+        });
 
         Route::prefix('account')->name('account.')->group(function () {
             Route::get('', [ProfileController::class, 'index'])->name('index');
             Route::post('add', [ProfileController::class, 'store'])->name('add');
             Route::post('update/{id}', [ProfileController::class, 'update'])->name('update');
             Route::delete('delete/{user}', [ProfileController::class, 'destroy'])->name('delete');
-        });
-
-        Route::prefix('order')->name('order.')->group(function () {
-            Route::get('', [OrderController::class, 'index'])->name('index');
-            Route::post('add', [OrderController::class, 'store'])->name('add');
-            Route::post('update/{id}', [OrderController::class, 'update'])->name('update');
-            Route::delete('delete/{order}', [OrderController::class, 'destroy'])->name('delete');
         });
     });
 });
