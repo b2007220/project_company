@@ -256,7 +256,7 @@
                                                             @if ($discount->pivot->is_predefined)
                                                                 <span class="text-success">Áp dụng trực tiếp</span>
                                                             @else
-                                                                <span class="text-danger">Tùy chọn khách hàng</span>
+                                                                <span class="text-danger">Chưa áp dụng</span>
                                                             @endif
                                                         </div>
 

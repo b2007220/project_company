@@ -4,7 +4,7 @@
             <h4 class="p-3">Bảng thống kê doanh thu</h4>
         </div>
     </div>
-    <div class="d-flex justify-content-center pb-4 gap-2">
+    <div class="d-flex justify-content-center pb-4 gap-2 flex-column-max-lg">
         <div class="w-30 border rounded-top border-bottomlue-700 p-3 border-2 bg-white">
             <span>
                 <h5 class="text-uppercase font-medium p-2">
