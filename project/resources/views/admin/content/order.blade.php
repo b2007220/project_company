@@ -8,10 +8,6 @@
                     <tr>
                         <th
                             class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                            ID khách hàng
-                        </th>
-                        <th
-                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                             Tên khách hàng
                         </th>
                         <th
@@ -30,360 +26,169 @@
                             class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                             Phương thức thanh toán
                         </th>
+                        <th
+                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                            Thao tác
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody class="bg-white">
-                    <tr data-bs-toggle="collapse" data-bs-target=".details1">
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium">
-                                0000524
-                            </div>
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium">
-                                Nguyễn Văn A
-                            </div>
-                        </td>
+                    @foreach ($orders as $order)
+                        <tr data-bs-toggle="collapse" data-bs-target=".detail-{{ $order->id }}">
 
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Totam, odio quis neque quidem nihil in possimus
-                            odit, quo aliquam dolor, dolore laborum! Fuga neque
-                            eveniet, sunt recusandae suscipit amet repellendus.
-                        </td>
+                            <td
+                                class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                                <div
+                                    class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                    {{ $order->user->name }}
+                                </div>
+                            </td>
 
-                        <td
-                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                            <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang
-                                giao</span>
-                        </td>
+                            <td
+                                class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                                <div
+                                    class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                    {{ $order->address }}
+                                </div>
+                            </td>
+                            @switch($order->status)
+                                @case('DELIVERING')
+                                    <td
+                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                                        <div
+                                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                                            <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang giao</span>
+                                        </div>
+                                    </td>
+                                @break
 
-                        <td
-                            class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
-                            240.000đ
-                        </td>
-                        <td
-                            class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
-                            Ngân hàng
-                        </td>
-                    </tr>
-                    <tr class="details1 collapse">
-                        <td colspan="7">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            ID sản phẩm
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            sản phẩm
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            Số lượng
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            giá tiền
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            145
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            Áo A
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            10
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            120.000đ
-                                        </td>
-                                    </tr>
+                                @case('DELIVERED')
+                                    <td
+                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                                        <div
+                                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                                            <span class="bg-blue-300 text-white p-2 fw-bolder border rounded">Đã giao</span>
+                                        </div>
+                                    </td>
+                                @break
 
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            145
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            Áo B
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            10
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            120.000đ
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                                @case('CANCLE')
+                                    <td
+                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                                        <div
+                                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                                            <span class="bg-red-400 text-white p-2 fw-bolder border rounded">Hủy đơn</span>
+                                        </div>
+                                    </td>
+                                @break
 
-                    <tr data-bs-toggle="collapse" data-bs-target=".details2">
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium">
-                                0000524
-                            </div>
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium">
-                                Nguyễn Văn A
-                            </div>
-                        </td>
+                                @default
+                                    <td
+                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                                        <div
+                                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                                            <span class="bg-violet-600 text-white p-2 fw-bolder border rounded">Đã giao</span>
+                                        </div>
+                                    </td>
+                            @endswitch
+                            <td
+                                class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                                {{ number_format($order->total, 0, ',', '.') }} đ
+                            </td>
+                            <td
+                                class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                                @if ($order->payment_type === 'CASH')
+                                    Tiền mặt
+                                @else
+                                    Chuyển khoản
+                                @endif
+                            </td>
+                        </tr>
+                        <tr class="detail-{{ $order->id }} collapse">
+                            <td colspan="7">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                                                ID sản phẩm
+                                            </th>
+                                            <th
+                                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                                                sản phẩm
+                                            </th>
+                                            <th
+                                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                                                Số lượng
+                                            </th>
+                                            <th
+                                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                                                giá tiền
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($order->products as $product)
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                                    {{ $product->name }}
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
 
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Totam, odio quis neque quidem nihil in possimus
-                            odit, quo aliquam dolor, dolore laborum! Fuga neque
-                            eveniet, sunt recusandae suscipit amet repellendus.
-                        </td>
+                                                    <div
+                                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                                        {{ $product->description }}
+                                                    </div>
+                                                </td>
 
-                        <td
-                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                            <span class="bg-red-400 text-white p-2 fw-bolder border rounded">Hủy
-                                đơn</span>
-                        </td>
+                                                <td
+                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                                    <div
+                                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
+                                                        {{ number_format($product->pivot->quantity, 0, ',', '.') }}
+                                                    </div>
 
-                        <td
-                            class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
-                            240.000đ
-                        </td>
-                        <td
-                            class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
-                            Ngân hàng
-                        </td>
-                    </tr>
-                    <tr class="details2 collapse">
-                        <td colspan="7">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            ID sản phẩm
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            sản phẩm
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            Số lượng
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            giá tiền
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            145
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            Áo A
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            10
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            120.000đ
-                                        </td>
-                                    </tr>
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                                                    <div
+                                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                                        {{ number_format($product->pivot->price, 0, ',', '.') }} đ
+                                                    </div>
 
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            145
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            Áo B
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            10
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            120.000đ
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr data-bs-toggle="collapse" data-bs-target=".details3">
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium">
-                                0000524
-                            </div>
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium">
-                                Nguyễn Văn A
-                            </div>
-                        </td>
+                                                </td>
+                                            </tr>
 
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Totam, odio quis neque quidem nihil in possimus
-                            odit, quo aliquam dolor, dolore laborum! Fuga neque
-                            eveniet, sunt recusandae suscipit amet repellendus.
-                        </td>
-
-                        <td
-                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                            <span class="bg-blue-300 text-white p-2 fw-bolder border rounded">Đã
-                                giao</span>
-                        </td>
-
-                        <td
-                            class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
-                            240.000đ
-                        </td>
-                        <td
-                            class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
-                            Ngân hàng
-                        </td>
-                    </tr>
-                    <tr class="details3 collapse">
-                        <td colspan="7">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            ID sản phẩm
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            sản phẩm
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            Số lượng
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                            giá tiền
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            145
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            Áo A
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            10
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            120.000đ
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            145
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            Áo B
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            10
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                            120.000đ
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                                    145
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                                    Áo B
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                                    10
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                                    120.000đ
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
-            <div aria-label="Page navigation" class="d-flex justify-content-end p-2">
-                <ul class="d-flex align-items-center -space-x-px h-10 fw-normal">
-                    <li>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-start hover:bg-gray-100 hover:text-gray-700">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M5 1 1 5l4 4" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none">1</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none">2</a>
-                    </li>
-                    <li>
-                        <a href="#" aria-current="page"
-                            class="z-10 d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 text-decoration-none">3</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none">4</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none">5</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-end hover:bg-gray-100 hover:text-gray-700">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            {{ $orders->links() }}
         </div>
     </div>
 </div>

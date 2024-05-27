@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
-        return view('orders.index', ['orders' => $orders]);
+        $orders = Order::with(['discounts', 'users'])->orderBy('created_at', 'DESC')->paginate(5);
+        return view('admin.layout.index', ['orders' => $orders]);
     }
-    public function create()
-    {
-        $products = Product::all();
-    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

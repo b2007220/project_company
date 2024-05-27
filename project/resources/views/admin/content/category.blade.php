@@ -45,19 +45,20 @@
                                 </td>
                                 <td
                                     class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
-                                    <form action="{{ route('admin.category.delete', $category) }}" method="POST">
+                                    <form action="{{ route('admin.category.delete', $category) }}" method="POST"
+                                        onsubmit="return confirmation(event, this)">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="text-decoration-none p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
-                                            Xóa
-                                            <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
+                                        class="text-decoration-none p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                                        Xóa
+                                        <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
                                         </button>
                                     </form>
                                     <button type="button"
@@ -88,3 +89,23 @@
     </div>
 </div>
 </div>
+<script>
+    function confirmation(event, form) {
+        event.preventDefault();
+        const url = form.action;
+        swal({
+            title: "Bạn có chắc chắn muốn xóa?",
+            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>

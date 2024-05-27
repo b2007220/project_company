@@ -37,9 +37,14 @@
                                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                                 Số lượng còn lại
                             </th>
+
                             <th
                                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                                 Thời gian hết hạng
+                            </th>
+                            <th
+                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                                Loại giảm giá
                             </th>
                             <th
                                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
@@ -91,8 +96,20 @@
 
                                 </td>
                                 <td
+                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                                    <div
+                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                        @if ($discount->type === 'PRODUCT')
+                                            Sản phẩm
+                                        @else
+                                            Đơn hàng
+                                        @endif
+                                    </div>
+                                </td>
+                                <td
                                     class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
-                                    <form action="{{ route('admin.discount.delete', $discount) }}" method="POST">
+                                    <form action="{{ route('admin.discount.delete', $discount) }}" method="POST"
+                                        onsubmit="return confirmation(event, this)">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -132,3 +149,23 @@
         </div>
     </div>
 </div>
+<script>
+    function confirmation(event, form) {
+        event.preventDefault();
+        const url = form.action;
+        swal({
+            title: "Bạn có chắc chắn muốn xóa?",
+            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>

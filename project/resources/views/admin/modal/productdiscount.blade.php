@@ -2,16 +2,17 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 512px">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle" class="modal-title fs-5 text-xl fw-bolder text-gray-900">
+                <h3 id="modalTitle2" class="modal-title fs-5 text-xl fw-bolder text-gray-900">
                     Thêm mới loại giảm giá mới
                 </h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="mb-3" id="productDiscountForm" method="POST" action="">
+                <form class="mb-3" id="productDiscountForm" method="POST"
+                    action="{{ route('admin.product.discount-add') }}">
                     @csrf
                     <input type="hidden" name="productId" id="productId">
-                    <select name="discounts[]" id="discount" multiple class="form-select max-w-100 overflow-auto">
+                    <select name="discount_ids[]" id="discount" multiple class="form-select max-w-100 overflow-auto">
                         @foreach ($discounts as $discount)
                             <option value="{{ $discount->id }}">{{ $discount->name }}</option>
                         @endforeach
@@ -37,9 +38,7 @@
     $('#addProductDiscountModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var productId = button.data('product-id');
-        $('#productId').val(productId);
-        var formAction = "{{ route('admin.product.discount', ':id') }}";
-        formAction = formAction.replace(':id', productId);
-        $('#productDiscountForm').attr('action', formAction);
+        var modal = $(this);
+        modal.find('#productId').val(productId);
     });
 </script>

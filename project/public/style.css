@@ -594,6 +594,13 @@ ul {
     background-color: rgb(34 211 238) !important;
     color: white !important;
 }
+.flex-1 {
+    flex: 1 1 0%;
+}
+.-mx-3 {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
 @media (min-width: 768px) {
     .order-md-2 {
         order: 2 !important;

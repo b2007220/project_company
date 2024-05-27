@@ -12,11 +12,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('categories')->get();
+        $products = Product::with(['categories', 'discounts'])->get();
         $categories = Category::all();
         $discounts = Discount::where('type', 'PRODUCT')->get();
-        $productsWithDiscounts = Product::with('categories', 'discounts')->get();
-        return view('admin.layout.product', ['products' => $products, 'categories' => $categories, 'discounts' => $discounts, 'productsWithDiscounts' => $productsWithDiscounts]);
+        return view('admin.layout.product', ['products' => $products, 'categories' => $categories, 'discounts' => $discounts,]);
     }
 
     public function store(Request $request)
@@ -46,7 +45,6 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'categories' => 'required|array',
             'price' => 'required|numeric|min:0',
             'amount' => 'required|numeric|min:0',
         ]);
@@ -59,10 +57,11 @@ class ProductController extends Controller
         $product->amount = $validatedData['amount'];
 
         $product->save();
-
-        $product->categories()->sync($validatedData['categories']);
-
-        return redirect()->back()->with('success', 'Product updated successfully.');
+        if ($request->categories) {
+            $product->categories()->sync($request->categories);
+        }
+        toastr()->timeOut(5000)->closeButton()->success('Product updated successfully');
+        return redirect()->back();
     }
 
     public function search(Request $request)
@@ -83,27 +82,16 @@ class ProductController extends Controller
         $products = $query->get();
         return response()->json(['products' => $products]);
     }
-    public function showProductCategories(Product $product) // $id is the id of the product
+    public function showProductCategories(Product $product)
     {
         $categories = $product->categories;
-        return view('products.categories', ['categories' => $categories]);
+        return view('admin.products.categories', ['categories' => $categories]);
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
-    }
-    public function activateDiscount(Request $request)
-    {
-        $validatedData = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'discount_id' => 'required|exists:discounts,id',
-        ]);
-
-        $discountDetail = DiscountDetail::create([
-            'product_id' => $validatedData['product_id'],
-            'discount_id' => $validatedData['discount_id'],
-        ]);
+        toastr()->timeOut(5000)->closeButton()->success('Product deleted successfully');
+        return redirect()->route('admin.product.index');
     }
 }

@@ -23,10 +23,12 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function orderDetails()
+    public function products()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id')
+            ->withPivot('amount', 'price');
     }
+    
     public function discounts()
     {
         return $this->belongsToMany(Discount::class, 'user_select_discount', 'order_id', 'discount_id');

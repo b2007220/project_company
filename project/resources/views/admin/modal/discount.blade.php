@@ -21,6 +21,11 @@
                     <label for="discountAmount" class="form-label">Số lượng áp dụng</label>
                     <input type="number" class="form-control" id="discountAmount" name="amount"
                         placeholder="Nhập số lượng" min="1" />
+                    <label for="discountType" class="form-label">Loại giảm giá</label>
+                    <select name="type" id="discountType" class="form-select">
+                        <option value="PRODUCT">Giảm theo sản phẩm</option>
+                        <option value="ORDER">Giảm theo đơn hàng</option>
+                    </select>
                     <label for="discountExpired" class="form-label">Thời gian hết hạn</label>
                     <input type="date" class="form-control" id="discountExpired" name="expire" />
                 </form>
@@ -52,7 +57,8 @@
             const discountDiscount = document.getElementById("discountDiscount");
             const discountAmount = document.getElementById("discountAmount");
             const discountExpired = document.getElementById("discountExpired");
-
+            const discountType = document.getElementById("discountType");
+            discountForm.reset();
             if (mode === "edit") {
                 const discount = JSON.parse(button.getAttribute("data-discount"));
                 modalTitle.textContent = "Chỉnh sửa loại giảm giá";
@@ -62,6 +68,7 @@
                 discountDiscount.value = discount.discount;
                 discountAmount.value = discount.amount;
                 discountExpired.value = discount.expired_at;
+                discountType.disabled = true;
             } else {
                 modalTitle.textContent = "Thêm mới loại giảm giá";
                 discountForm.action = `discount/add`;
@@ -70,6 +77,7 @@
                 discountDiscount.value = "";
                 discountAmount.value = "";
                 discountExpired.value = "";
+                discountType.disabled = false;
             }
         });
     });

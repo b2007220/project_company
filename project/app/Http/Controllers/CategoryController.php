@@ -44,7 +44,7 @@ class CategoryController extends Controller
         toastr()->timeOut(5000)->closeButton()->success('Category deleted successfully');
         return redirect()->route('admin.category.index');
     }
-    public function showCategoryProducts(Category $category) // $id is the id of the category
+    public function showCategoryProducts(Category $category) 
     {
         $products = $category->products;
         return view('categories.products', ['products' => $products]);

@@ -18,12 +18,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductPicture::class);
     }
-    public function orderDetails()
+    public function orders()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->belongsToMany(Order::class, 'order_details', 'product_id', 'order_id')
+            ->withPivot('amount', 'price');
     }
     public function discounts()
     {
-        return $this->belongsToMany(Discount::class, 'product_discounts', 'product_id', 'discount_id');
+        return $this->belongsToMany(Discount::class, 'product_discounts', 'product_id', 'discount_id')
+            ->withPivot('is_predefined');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Discount;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 
@@ -23,12 +24,9 @@ class DiscountController extends Controller
             'name' => 'required|string',
             'discount' => 'required|numeric',
             'amount' => 'required|numeric',
+            'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
         ]);
-        if ($request->expire != null) {
-            $data['expired_at'] = request('expire');
-        } else {
-            $data['expired_at'] = now();
-        }
+        $data['expired_at'] = request('expire');
         $data['code'] = strtoupper(uniqid());
         unset($data['expire']);
         $discount = Discount::create($data);
@@ -45,12 +43,11 @@ class DiscountController extends Controller
             'name' => 'required|string',
             'discount' => 'required|numeric',
             'amount' => 'required|numeric',
+            'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
         ]);
-        if ($request->expire != null) {
-            $data['expired_at'] = request('expire');
-        } else {
-            $data['expired_at'] = now();
-        }
+
+        $data['expired_at'] = request('expire');
+
         unset($data['expire']);
         $discount = Discount::find($id);
 

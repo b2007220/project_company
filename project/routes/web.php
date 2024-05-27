@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductDiscountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\OrderController;
@@ -28,7 +29,7 @@ require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('', [HomeController::class, 'index'])->name('home');
+        Route::get('', [OrderController::class, 'index'])->name('home');
 
         Route::prefix('category')->name('category.')->group(function () {
             Route::get('', [CategoryController::class, 'index'])->name('index');
@@ -49,7 +50,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('add', [ProductController::class, 'store'])->name('add');
             Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
             Route::delete('delete/{product}', [ProductController::class, 'destroy'])->name('delete');
-            Route::post('add-discount/{id}', [ProductController::class, 'activateDiscount'])->name('discount');
+            Route::post('add-discount', [ProductDiscountController::class, 'store'])->name('discount-add');
+            Route::delete('remove-discount/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'removeDiscount'])->name('discount-remove');
+            Route::put('update-predefine/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'updateIsPredefined'])->name('update-predefine');
         });
 
         Route::prefix('account')->name('account.')->group(function () {
