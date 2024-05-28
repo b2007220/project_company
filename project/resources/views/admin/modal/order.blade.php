@@ -8,10 +8,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="mb-3" id="updateOrderForm" method="POST"
-                    action="{{ route('admin.order.update-type') }}">
+                <form class="mb-3" id="updateOrderForm" method="POST">
                     @csrf
-                    <input type="hidden" name="orderId" id="orderId">
+                    <input type="hidden" name="orderId" id="orderId" value="">
                     <select name="status" id="status" class="form-select max-w-100 overflow-auto">
                         <option value="PENDING">Đang chờ xử lý</option>
                         <option value="DELIVERING">Đang giao hàng</option>
@@ -37,11 +36,19 @@
 </div>
 
 <script>
-    $('#updateOrderModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var orderId = button.data('order-id');
-        var modal = $(this);
-        modal.find('#orderId').val(orderId);
-        console.log(orderId);
+    document.addEventListener("DOMContentLoaded", function() {
+        const updateOrderModal = document.getElementById("updateOrderModal");
+        updateOrderModal.addEventListener("show.bs.modal", function(event) {
+            const button = event.relatedTarget;
+            const updateOrderModal = document.getElementById("updateOrderModal");
+            const orderId = document.getElementById("orderId");
+            const status = document.getElementById("status");
+            updateOrderForm.reset();
+            const order = JSON.parse(button.getAttribute("data-order"));
+            updateOrderForm.action = `admin/order/update-type`;
+            orderId.value = order.id;
+            status.value = order.role;
+
+        });
     });
 </script>

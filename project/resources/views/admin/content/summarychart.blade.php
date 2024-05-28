@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-center pb-4 gap-2 flex-column-max-lg">
-        <div class="w-30 border rounded-top border-bottomlue-700 p-3 border-2 bg-white">
+        <div class="w-30 border rounded-top  border-blue-700 p-3 border-2 bg-white">
             <span>
                 <h5 class="text-uppercase font-medium p-2">
                     Sản phẩm bán chạy
@@ -16,7 +16,7 @@
                 <div id="pie-chart" class="p-3"></div>
             </div>
         </div>
-        <div class="w-40 border rounded border-bottomlue-700 p-3 border-2 bg-white">
+        <div class="w-40 border rounded border-blue-700 p-3 border-2 bg-white">
             <span>
                 <h5 class="text-uppercase font-medium p-2">
                     Số đơn đặt hàng
@@ -26,7 +26,7 @@
                 <div id="apexcharts-area" class="p-3"></div>
             </div>
         </div>
-        <div class="w-30 border rounded-top border-bottomlue-700 p-3 border-2 bg-white">
+        <div class="w-30 border rounded-top border-bottom border-blue-700 p-3 border-2 bg-white">
             <span>
                 <h5 class="text-uppercase font-medium p-2">
                     Doanh thu theo tháng

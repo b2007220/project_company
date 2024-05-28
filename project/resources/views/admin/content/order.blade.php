@@ -1,7 +1,7 @@
 <div class="d-flex flex-column mt-8">
     <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div
-            class="d-inline-block min-w-100 overflow-hidden align-items-middle border border-gray-200 shadow rounded bg-white border rounded">
+            class="d-inline-block min-w-100 overflow-hidden align-items-middle  border-gray-200 shadow  bg-white border rounded">
             <h4 class="p-3">Chi tiết đơn hàng</h4>
             <table class="min-w-100">
                 <thead>
@@ -73,7 +73,7 @@
                                     </td>
                                 @break
 
-                                @case('CANCLE')
+                                @case('CANCELLED')
                                     <td
                                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
                                         <div
@@ -129,9 +129,9 @@
                                 <button
                                     class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1"
                                     data-bs-toggle="modal" data-bs-target="#updateOrderModal"
-                                    data-order-id={{ $order->id }}>
+                                    data-order="{{ json_encode($order) }}">
                                     Điều chỉnh
-                                    <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
+                                    <svg class="w-6 h-6  text-white" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                         viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

@@ -15,7 +15,7 @@
                         </button>
                         <div class="dropdown-menu z-3 position-absolute text-base bg-white border rounded shadow"
                             aria-labelledby="userMenu">
-                            <div class="border-bottom px-4 py-3">
+                            <div class="border-bottom px-3 py-2">
                                 <span class="d-block small text-body">Tên khách hàng</span>
                                 <span
                                     class="d-block small text-body-secondary text-truncate">{{ Auth::user()->name }}</span>

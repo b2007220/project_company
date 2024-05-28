@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'DESC')->paginate(5);
-        return view('admin.layout.index', ['orders' => $orders]);
+        $newUsers = User::where('created_at', '>=', now()->subDays(7))->count();
+        $totalOrders = Order::count();
+        $availableProducts = Product::where('amount', '>', 0)->count();
+        $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'desc')->paginate(5);
+        return view('admin.layout.index', ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts]);
     }
 
     public function store(Request $request)

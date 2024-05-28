@@ -68,7 +68,7 @@
                 discountDiscount.value = discount.discount;
                 discountAmount.value = discount.amount;
                 discountExpired.value = discount.expired_at;
-                discountType.disabled = true;
+                discountType.value = discount.type;
             } else {
                 modalTitle.textContent = "Thêm mới loại giảm giá";
                 discountForm.action = `discount/add`;
@@ -77,7 +77,7 @@
                 discountDiscount.value = "";
                 discountAmount.value = "";
                 discountExpired.value = "";
-                discountType.disabled = false;
+                discountType.value = "PRODUCT";
             }
         });
     });

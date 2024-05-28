@@ -45,8 +45,11 @@ class DiscountController extends Controller
             'amount' => 'required|numeric',
             'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
         ]);
-
-        $data['expired_at'] = request('expire');
+        if ($request->expire) {
+            $data['expired_at'] = now();
+        } else {
+            $data['expired_at'] = $request->expire;
+        }
 
         unset($data['expire']);
         $discount = Discount::find($id);

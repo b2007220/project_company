@@ -35,10 +35,18 @@
 </div>
 
 <script>
-    $('#addProductDiscountModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var productId = button.data('product-id');
-        var modal = $(this);
-        modal.find('#productId').val(productId);
+    document.addEventListener("DOMContentLoaded", function() {
+        const addProductDiscountModal = document.getElementById("addProductDiscountModal");
+        addProductDiscountModal.addEventListener("show.bs.modal", function(event) {
+            const button = event.relatedTarget;
+            const addProductDiscountModal = document.getElementById("addProductDiscountModal");
+            const productId = document.getElementById("productId");
+            // const status = document.getElementById("status");
+            productDiscountForm.reset();
+            const product = JSON.parse(button.getAttribute("data-product"));
+            productDiscountForm.action = `product/add-discount`;
+            productId.value = product.id;
+            // discount_ids.value = product.discount_ids;
+        });
     });
 </script>

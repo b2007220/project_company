@@ -9,9 +9,8 @@
                         class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1 text-decoration-none"
                         data-bs-toggle="modal" data-bs-target="#addProductModal" data-mode="create">
                         Thêm mới
-                        <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -120,9 +119,9 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="text-decoration-none p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                             Xóa
-                                            <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
+                                            <svg class="w-6 h-6  text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -132,11 +131,11 @@
                                         </button>
                                     </form>
                                     <button type="button"
-                                        class="text-decoration-none p-2 border rounded-pill bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                                        class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
                                         data-bs-toggle="modal" data-bs-target="#addProductModal" data-mode="edit"
                                         data-product="{{ json_encode($product) }}">
                                         Chỉnh sửa
-                                        <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
+                                        <svg class="w-6 h-6  text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -154,9 +153,9 @@
                                         <button
                                             class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1"
                                             data-bs-toggle="modal" data-bs-target="#addProductDiscountModal"
-                                            data-product-id="{{ $product->id }}">
+                                            data-product="{{ json_encode($product) }}">
                                             Thêm mới
-                                            <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true"
+                                            <svg class="w-6 h-6  text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -271,10 +270,9 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
-                                                                class="text-decoration-none p-2 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                                                                class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                                                 Xóa
-                                                                <svg class="w-6 h-6 text-gray-800 text-white"
-                                                                    aria-hidden="true"
+                                                                <svg class="w-6 h-6  text-white" aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" fill="none"
                                                                     viewBox="0 0 24 24">
@@ -293,8 +291,7 @@
                                                             <button type="submit"
                                                                 class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
                                                                 Áp dụng
-                                                                <svg class="w-6 h-6 text-gray-800 text-white"
-                                                                    aria-hidden="true"
+                                                                <svg class="w-6 h-6  text-white" aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" fill="none"
                                                                     viewBox="0 0 24 24">

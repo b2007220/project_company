@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->enum('payment_type', ['CASH', 'TRANSFER'])->default('CASH');
-            $table->enum('status', ['PENDING', 'DELIVERING', 'DELIVERED', 'CANCEL'])->default('PENDING');
+            $table->enum('status', ['PENDING', 'DELIVERING', 'DELIVERED', 'CANCELLED', 'UNACCEPTED'])->default('PENDING');
             $table->string('address');
             $table->integer('total_price');
             $table->timestamp('delivery_date')->default(now()->addWeek());
@@ -31,6 +31,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('orders');
     }
-
-    
 };

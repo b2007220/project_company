@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductDiscountController;
@@ -10,16 +11,15 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('', [HomeController::class, 'home'])->name('home');
+Route::get('', [HomeController::class, 'home'])->middleware(['auth', 'verified'])->name('home');
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(
+    ['auth', 'is_active']
+)->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -63,10 +63,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
         });
 
         Route::prefix('account')->name('account.')->group(function () {
-            Route::get('', [ProfileController::class, 'index'])->name('index');
-            Route::post('add', [ProfileController::class, 'store'])->name('add');
-            Route::post('update/{id}', [ProfileController::class, 'update'])->name('update');
-            Route::delete('delete/{user}', [ProfileController::class, 'destroy'])->name('delete');
+            Route::get('', [AccountController::class, 'index'])->name('index');
+            Route::post('add', [AccountController::class, 'store'])->name('add');
+            // Route::post('update/{id}', [AccountController::class, 'update'])->name('update');
+            // Route::delete('delete/{user}', [AccountController::class, 'destroy'])->name('delete');
+            Route::put('active/{user}', [AccountController::class, 'active'])->name('active');
+            Route::put('update-role', [AccountController::class, 'updateRole'])->name('update-role');
         });
     });
 });

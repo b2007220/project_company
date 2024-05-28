@@ -69,7 +69,7 @@
                 productDescription.value = product.description;
                 productPrice.value = product.price;
                 productQuantity.value = product.amount;
-                
+
             } else {
                 modalTitle.textContent = "Thêm mới sản phẩm";
                 productForm.action = `product/add`;
@@ -79,6 +79,9 @@
                 productPrice.value = "";
                 productQuantity.value = "";
             }
+
+
         });
+
     });
 </script>
