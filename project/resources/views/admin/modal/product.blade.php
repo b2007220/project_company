@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="productForm" method="POST">
+                <form id="productForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="productId" name="id" value="" />
                     <label for="productName" class="my-2">Tên sản phẩm</label>
@@ -28,6 +28,9 @@
                     <label for="productQuantity" class="my-2">Số lượng</label>
                     <input type="number" class="form-control" id="productQuantity" name="amount"
                         placeholder="Nhập số lượng" required />
+                    <label for="images">Hình ảnh</label>
+                    <input type="file" name="images[]" id="images" class="form-control" multiple>
+
                 </form>
             </div>
             <div class="modal-footer">

@@ -8,7 +8,11 @@
 body {
     width: 100%;
 }
-
+.custom-img {
+    width: 360px !important;
+    height: 260px !important;
+    object-fit: cover !important;
+  }
 .gap-6 {
     gap: 1.5rem;
 }

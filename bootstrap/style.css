@@ -648,7 +648,6 @@ ul {
   .d-none-lg {
     display: none !important;
   }
-
 }
 @media (min-width: 1280px) {
   .px-xl-0 {

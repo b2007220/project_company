@@ -147,7 +147,19 @@
                                 </td>
                             </tr>
                             <tr class="detail-{{ $product->id }} collapse ">
-                                <td colspan="10">
+
+                                <td colspan="12">
+                                    <h5 class="p-3">Hình ảnh của sản phẩm</h5>
+                                    <div
+                                        class="d-flex align-items-center justify-content-center px-6 gap-4 flex-column-max-lg">
+                                        @foreach ($product->pictures as $picture)
+                                            <div class="col">
+                                                <img class="img-fluid custom-img rounded "
+                                                    src="{{ asset('product/' . $picture->link) }}" alt="">
+                                            </div>
+                                        @endforeach
+                                    </div>
+
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="p-3 ">Giảm giá của sản phẩm</h5>
                                         <button
@@ -311,6 +323,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $products->links()
+                }}
             </div>
         </div>
     </div>
