@@ -16,4 +16,6 @@
     @include('home.components.footer')
 </body>
 
+
+
 </html>

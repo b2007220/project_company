@@ -2,7 +2,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mx-auto container p-4">
         <a href="
         {{ route('home') }}" class="d-flex align-items-center text-decoration-none">
-            <img src="fast-delivery.png" class="h-20 w-20" alt="Logo" />
+            <img src="{{ asset('fast-delivery.png') }}" class="h-20 w-20" alt="Logo" />
             <span class="align-self-center fs-2 fw-bold text-nowrap text-dark space-x-3">Cửa hàng Online</span>
         </a>
         <div class="dropdown d-flex align-items-center order-md-2">

@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Discount extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'discount',
         'amount',
         'expired_at',
-        'is_predefined',
         'is_active',
         'code',
         'type',
@@ -33,6 +34,11 @@ class Discount extends Model
     {
         return $this->belongsToMany(User::class, 'user_select_discounts', 'discount_id', 'user_id');
     }
+    public static function expiredDiscounts()
+    {
+        return static::where('expired_at', '<=', Carbon::now())->get();
+    }
+    
     // public function discountDetails()
     // {
     //     return $this->hasMany(DiscountDetail::class);

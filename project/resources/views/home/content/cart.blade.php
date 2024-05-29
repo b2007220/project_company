@@ -45,7 +45,7 @@
                                 </button>
                             </div>
                             <div class="space-y-6-sm space-x-6-sm d-flex align-items-center justify-content-between">
-                                <p class="text-sm space-x-4 text-center mb-0">
+                                <p class="text-sm  text-center mb-0">
                                     259.000 đồng
                                 </p>
                                 <button type="button" data-product-id="product-1"
@@ -325,7 +325,7 @@
                                 </button>
                             </div>
                             <div class="space-y-6-sm space-x-6-sm d-flex align-items-center justify-content-between">
-                                <p class="text-sm space-x-4 text-center mb-0">
+                                <p class="text-sm  text-center mb-0">
                                     259.000 đồng
                                 </p>
                                 <button type="button" data-product-id="product-2"

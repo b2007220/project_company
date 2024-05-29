@@ -46,9 +46,9 @@ class DiscountController extends Controller
             'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
         ]);
         if ($request->expire) {
-            $data['expired_at'] = now();
-        } else {
             $data['expired_at'] = $request->expire;
+        } else {
+            $data['expired_at'] = now()->addWeek();
         }
 
         unset($data['expire']);

@@ -92,24 +92,6 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function search(Request $request)
-    {
-        $searchText = $request->query('q');
-        $categoryId = $request->query('category');
-
-        $query = Product::query();
-
-        if ($searchText) {
-            $query->where('name', 'LIKE', '%' . $searchText . '%');
-        }
-
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
-        }
-
-        $products = $query->get();
-        return response()->json(['products' => $products]);
-    }
     public function showProductCategories(Product $product)
     {
         $categories = $product->categories;
@@ -144,4 +126,6 @@ class ProductController extends Controller
         toastr()->timeOut(5000)->closeButton()->success('Product images deleted successfully');
         return redirect()->back();
     }
+
+
 }

@@ -15,6 +15,7 @@ Route::get('', [HomeController::class, 'home'])->name('home');
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
+Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
 
 
 Route::middleware(
