@@ -20,31 +20,31 @@
                     <thead>
                         <tr>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Tên sản phẩm
                             </th>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Mô tả sản phẩm
                             </th>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Loại sản phẩm
                             </th>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Giá gốc
                             </th>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Giá đã áp dụng giảm giá
                             </th>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Số lượng
                             </th>
                             <th
-                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                 Thao tác
                             </th>
                         </tr>
@@ -149,17 +149,39 @@
                             <tr class="detail-{{ $product->id }} collapse ">
 
                                 <td colspan="12">
-                                    <h5 class="p-3">Hình ảnh của sản phẩm</h5>
-                                    <div
-                                        class="d-flex align-items-center justify-content-center px-6 gap-4 flex-column-max-lg">
-                                        @foreach ($product->pictures as $picture)
-                                            <div class="col">
-                                                <img class="img-fluid custom-img rounded "
-                                                    src="{{ asset('product/' . $picture->link) }}" alt="">
-                                            </div>
-                                        @endforeach
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="p-3">Hình ảnh của sản phẩm</h5>
+                                        <button type="submit" form="deletePictureForm"
+                                            class="p-2 m-3 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                                            Xóa ảnh
+                                            <svg class="w-6 h-6  text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                        </button>
                                     </div>
 
+                                    <form action="{{ route('admin.product.deleteImages', $product->id) }}"
+                                        method="POST" id="deletePictureForm">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="selected_pictures" id="selected_pictures">
+                                        <div class="d-flex align-items-center px-6 gap-4 flex-column-max-lg"
+                                            id="pictures-container">
+                                            @foreach ($product->pictures as $picture)
+                                                <div class="border rounded border-gray-300 picture-item"
+                                                    data-id="{{ $picture->id }}">
+                                                    <img class="img-fluid custom-img rounded"
+                                                        src="{{ asset('product/' . $picture->link) }}"
+                                                        alt="">
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                    </form>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="p-3 ">Giảm giá của sản phẩm</h5>
                                         <button
@@ -180,31 +202,31 @@
                                         <thead>
                                             <tr>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50  text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center">
                                                     Code giảm giá
                                                 </th>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                                     Tên giảm giá
                                                 </th>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                                     Phần trăm giảm giá
                                                 </th>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                                     Số lượng giảm giá
                                                 </th>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                                     Ngày hết hạn
                                                 </th>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                                     Đang áp dụng
                                                 </th>
                                                 <th
-                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50 text-center">
+                                                    class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                                                     Thao tác
                                                 </th>
 
@@ -323,8 +345,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $products->links()
-                }}
+                {{ $products->links() }}
             </div>
         </div>
     </div>
@@ -349,3 +370,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
     integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedPictures = new Set();
+
+        document.querySelectorAll('.picture-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const pictureId = this.getAttribute('data-id');
+                if (selectedPictures.has(pictureId)) {
+                    selectedPictures.delete(pictureId);
+                    this.classList.remove('selected');
+                } else {
+                    selectedPictures.add(pictureId);
+                    this.classList.add('selected');
+                }
+                console.log(Array.from(selectedPictures));
+            });
+        });
+
+        document.querySelector('#deletePictureForm').addEventListener('submit', function(event) {
+            const inputHidden = document.getElementById('selected_pictures');
+            inputHidden.value = JSON.stringify(Array.from(selectedPictures));
+            console.log(inputHidden.value);
+        });
+    });
+</script>

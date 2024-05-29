@@ -11,7 +11,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('', [HomeController::class, 'home'])->middleware(['auth', 'verified'])->name('home');
+Route::get('', [HomeController::class, 'home'])->name('home');
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
@@ -53,6 +53,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('add-discount', [ProductDiscountController::class, 'store'])->name('discount-add');
             Route::delete('remove-discount/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'removeDiscount'])->name('discount-remove');
             Route::put('update-predefine/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'updateIsPredefined'])->name('update-predefine');
+            Route::delete('product/{productId}/pictures/delete', [ProductController::class, 'deleteImages'])->name('deleteImages');
         });
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('', [OrderController::class, 'index'])->name('index');

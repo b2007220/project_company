@@ -23,7 +23,7 @@ class ProductDiscountController extends Controller
             toastr()->timeOut(5000)->closeButton()->warning('Không mã giảm giá nào được chọn');
         }
 
-        return redirect()->route('admin.product.index');
+        return redirect()->back();
     }
     public function removeDiscount($productId, $discountId)
     {
@@ -32,7 +32,7 @@ class ProductDiscountController extends Controller
 
         toastr()->timeOut(5000)->closeButton()->success('Xóa mã giảm giá có trong sản phẩm thành công');
 
-        return redirect()->route('admin.product.index');
+        return redirect()->back();
     }
     public function updateIsPredefined(Request $request, $productId, $discountId)
     {
@@ -46,6 +46,6 @@ class ProductDiscountController extends Controller
 
         toastr()->timeOut(5000)->closeButton()->success('Áp dụng mã giảm giá thành công');
 
-        return redirect()->route('admin.product.index');
+        return redirect()->back();
     }
 }

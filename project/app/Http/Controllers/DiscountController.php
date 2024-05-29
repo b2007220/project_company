@@ -56,13 +56,13 @@ class DiscountController extends Controller
 
         $discount->update($data);
         toastr()->timeOut(5000)->closeButton()->success('Discount updated successfully' . $discount->id);
-        return redirect()->route('admin.discount.index');
+        return redirect()->back();
     }
 
     public function destroy(Discount $discount)
     {
         $discount->delete();
         toastr()->timeOut(5000)->closeButton()->success('Discount deleted successfully');
-        return redirect()->route('admin.discount.index');
+        return redirect()->back();
     }
 }

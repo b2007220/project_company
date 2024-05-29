@@ -32,7 +32,7 @@
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
-                            <li class="page-item active d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-decoration-none"
+                            <li class="page-item active d-flex align-items-center justify-content-center px-4 h-10 leading-tight text-gray-500 bg-white border text-blue-500 hover:bg-gray-100 hover:text-gray-700 text-decoration-none fw-bolder"
                                 aria-current="page"><span class="page-link">{{ $page }}</span></li>
                         @else
                             <li

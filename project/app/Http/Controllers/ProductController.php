@@ -9,6 +9,7 @@ use App\Models\DiscountDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Models\Product_Picture;
+use App\Models\ProductPicture;
 
 class ProductController extends Controller
 {
@@ -29,7 +30,6 @@ class ProductController extends Controller
             'amount' => 'required|numeric',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
-            'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -51,55 +51,46 @@ class ProductController extends Controller
             }
 
             toastr()->timeOut(5000)->closeButton()->success('Product added successfully with images.');
-        } else {
-            toastr()->timeOut(5000)->closeButton()->error('No images were uploaded.');
-        }
+        };
+        toastr()->timeOut(5000)->closeButton()->error('Product added successfully without images.');
 
-        return redirect()->route('admin.product.index');
+        return redirect()->back();
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $validatedData = $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'description' => 'required|string',
-    //         'price' => 'required|numeric|min:0',
-    //         'amount' => 'required|numeric|min:0',
-    //         'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    //     ]);
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-    //     $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-    //     $product->name = $validatedData['name'];
-    //     $product->description = $validatedData['description'];
-    //     $product->price = $validatedData['price'];
-    //     $product->amount = $validatedData['amount'];
+        $product->name = $validatedData['name'];
+        $product->description = $validatedData['description'];
+        $product->price = $validatedData['price'];
+        $product->amount = $validatedData['amount'];
 
-    //     $product->save();
-    //     if ($request->categories) {
-    //         $product->categories()->sync($request->categories);
-    //     }
-    //     if ($files = $request->file('images')) {
-    //         foreach ($files as $file) {
-    //             $destinationPath = 'public/product/';
-    //             $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
-    //             $file->move($destinationPath, $profileImage);
+        $product->save();
+        if ($request->categories) {
+            $product->categories()->sync($request->categories);
+        }
 
-    //             $product->images()->create(['file_name' => $profileImage]);
-    //         }
-    //     }
-    //     if ($request->has('delete_images')) {
-    //         foreach ($request->delete_images as $imageId) {
-    //             $image = Product_Picture::find($imageId);
-    //             if ($image) {
-    //                 \File::delete('public/product/' . $image->file_name);
-    //                 $image->delete();
-    //             }
-    //         }
-    //     }
-    //     toastr()->timeOut(5000)->closeButton()->success('Product updated successfully');
-    //     return redirect()->back();
-    // }
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                $destinationPath = 'product/';
+                $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $profileImage);
+
+                $product->images()->create(['link' => $profileImage]);
+            }
+        }
+        toastr()->timeOut(5000)->closeButton()->success('Product updated successfully');
+        return redirect()->back();
+    }
 
     public function search(Request $request)
     {
@@ -129,26 +120,28 @@ class ProductController extends Controller
     {
         $product->delete();
         toastr()->timeOut(5000)->closeButton()->success('Product deleted successfully');
-        return redirect()->route('admin.product.index');
+        return redirect()->back();
     }
 
-    // public function deleteImages(Request $request, $productId)
-    // {
-    //     $request->validate([
-    //         'image_ids' => 'required|array',
-    //         'image_ids.*' => 'exists:images,id',
-    //     ]);
+    public function deleteImages(Request $request, $productId)
+    {
+        $selectedPictures = json_decode($request->input('selected_pictures'), true);
 
-    //     $product = Product::findOrFail($productId);
+        $request->merge(['selected_pictures' => $selectedPictures])->validate([
+            'selected_pictures' => 'required|array',
+            'selected_pictures.*' => 'exists:product_pictures,id',
+        ]);
 
-    //     foreach ($request->image_ids as $imageId) {
-    //         $image = Product_Picture::find($imageId);
-    //         if ($image) {
-    //             \File::delete('public/product/' . $image->file_name);
-    //             $image->delete();
-    //         }
-    //     }
+        $product = Product::findOrFail($productId);
+        foreach ($request->selected_pictures as $pictureId) {
+            $picture = ProductPicture::find($pictureId);
 
-    //     return Response::json(['message' => 'Images deleted successfully']);
-    // }
+            if ($picture && $picture->product_id == $product->id) {
+                File::delete(public_path('product/' . $picture->link));
+                $picture->delete();
+            }
+        }
+        toastr()->timeOut(5000)->closeButton()->success('Product images deleted successfully');
+        return redirect()->back();
+    }
 }

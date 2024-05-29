@@ -28,7 +28,7 @@ class AccountController extends Controller
         } else {
             toastr()->timeOut(5000)->closeButton()->error('Không thể cập nhật trạng thái tài khoản ADMIN');
         }
-        return redirect()->route('admin.account.index');
+        return redirect()->back();
     }
     public function store(Request $request)
     {
@@ -50,7 +50,7 @@ class AccountController extends Controller
 
 
         toastr()->timeOut(5000)->closeButton()->success('Thêm tài khoản thành công');
-        return redirect()->route('admin.account.index');
+        return redirect()->back();
     }
     public function updateRole(Request $request)
     {
@@ -65,6 +65,6 @@ class AccountController extends Controller
         } else {
             toastr()->timeOut(5000)->closeButton()->error('Không tìm thấy tài khoản');
         }
-        return redirect()->route('admin.account.index');
+        return redirect()->back();
     }
 }

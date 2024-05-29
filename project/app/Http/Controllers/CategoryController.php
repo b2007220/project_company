@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $category = Category::create($data);
         toastr()->timeOut(5000)->closeButton()->success('Category added successfully');
 
-        return redirect()->route('admin.category.index');
+        return redirect()->back();
     }
 
 
@@ -36,15 +36,15 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->update($data);
         toastr()->timeOut(5000)->closeButton()->success('Category updated successfully');
-        return redirect()->route('admin.category.index');
+        return redirect()->back();
     }
     public function destroy(Category $category)
     {
         $category->delete();
         toastr()->timeOut(5000)->closeButton()->success('Category deleted successfully');
-        return redirect()->route('admin.category.index');
+        return redirect()->back();
     }
-    public function showCategoryProducts(Category $category) 
+    public function showCategoryProducts(Category $category)
     {
         $products = $category->products;
         return view('categories.products', ['products' => $products]);

@@ -31,8 +31,8 @@ class OrderController extends Controller
             'quantity' => $validated['quantity'],
             'total' => $validated['total'],
         ]);
-
-        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
+        toastr()->timeOut(5000)->closeButton()->success('Tạo đơn hàng thành công');
+        return redirect()->back();
     }
 
 
@@ -45,7 +45,7 @@ class OrderController extends Controller
         $order->status = $validated['status'];
         $order->save();
         toastr()->timeOut(5000)->closeButton()->success('Cập nhật trạng thái đơn hàng thành công');
-        return redirect()->route('admin.home');
+        return redirect()->back();
     }
 
 
@@ -62,7 +62,7 @@ class OrderController extends Controller
         $order->quantity = $validated['quantity'];
         $order->total = $validated['total'];
         $order->save();
-
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
+        toastr()->timeOut(5000)->closeButton()->success('Cập nhật đơn hàng thành công');
+        return redirect()->back();
     }
 }

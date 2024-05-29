@@ -13,19 +13,17 @@
                 </div>
                 <div class="carousel-item overflow-hidden">
                     <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/d7dfad107187879.5fa16aecd773f.jpg"
-                        class="d-block object-fit-contain-cover rounded w-180 h-92 border rounded" alt="" />
+                        class="d-block object-fit-contain-cover  w-180 h-92 border rounded" alt="" />
                 </div>
             </div>
 
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
