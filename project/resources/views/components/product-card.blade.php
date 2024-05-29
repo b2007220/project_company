@@ -1,5 +1,5 @@
 <div
-    class="px-0 col-sm-3 col-xl-4 position-relative d-flex flex-column shadow-md rounded-3 overflow-hidden shadow-lg-hover hover:-translate-y-1 transition-all duration-300 max-w-sm">
+    class="px-0 col-sm-3 col-xl-4 position-relative d-flex flex-column shadow-md rounded-3 overflow-hidden shadow-lg-hover product-card max-w-sm">
     <a href="" class="position-absolute z-3 top-2 right-0 mt-2 me-3">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="w-6 h-6 text-orange-600">

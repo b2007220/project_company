@@ -1,4 +1,4 @@
-<div class="container d-flex flex-column justify-content-center overflow-hidden py-3 bg-gray-10">
+<div class="container d-flex flex-column justify-content-center overflow-hidden py-3 bg-gray-100">
     <div class="d-flex align-items-center gap-3">
         <h3 class="fw-bolder text-gray-900 pl-6 mb-0">Giảm giá sốc</h3>
         <img src="best-price.png" class="h-16 w-16" alt="Logo" />
