@@ -45,11 +45,11 @@
 
             if (mode === "edit") {
                 const category = JSON.parse(button.getAttribute("data-category"));
+                console.log(category);
                 modalTitle.textContent = "Chỉnh sửa loại sản phẩm";
                 categoryForm.action = `category/update/${category.id}`;
                 categoryId.value = category.id;
                 categoryName.value = category.name;
-                // Add hidden input for method PUT
                 let methodInput = categoryForm.querySelector('input[name="_method"]');
                 if (!methodInput) {
                     methodInput = document.createElement('input');
@@ -63,7 +63,6 @@
                 categoryForm.action = `category/add`;
                 categoryId.value = "";
                 categoryName.value = "";
-                // Remove hidden input for method PUT if exists
                 const methodInput = categoryForm.querySelector('input[name="_method"]');
                 if (methodInput) {
                     categoryForm.removeChild(methodInput);
@@ -76,20 +75,20 @@
         event.preventDefault();
         const categoryForm = event.target;
         const formData = new FormData(categoryForm);
-
         const url = categoryForm.action;
         const method = categoryForm.querySelector('input[name="_method"]') ? 'PUT' : 'POST';
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json'
             }
         });
         $.ajax({
             url: url,
             type: method,
-            data: formData,
+            data: JSON.stringify(Object.fromEntries(formData.entries())),
+
             cache: false,
-            contentType: false,
             processData: false,
             success: function(result) {
                 $('#addCategoryModal').modal('hide');
@@ -143,12 +142,7 @@
                 const errors = xhr.responseJSON.errors;
                 if (errors) {
                     for (const [key, value] of Object.entries(errors)) {
-                        swal({
-                            title: 'Thành công!',
-                            text: result.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        })
+                        console.log(key, value);
                     }
                 }
             }

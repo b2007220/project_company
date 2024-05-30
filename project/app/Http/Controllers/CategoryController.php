@@ -6,12 +6,19 @@ use App\Models\Category;
 
 use Illuminate\Http\Request;
 
+
+
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate(5);
-
+        $categories = Category::latest()->paginate(5);
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'categories' => $categories
+            ]);
+        }
         return view("admin.layout.category", ["categories" => $categories]);
     }
 

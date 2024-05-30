@@ -46,20 +46,19 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $searchText = $request->query('q');
-        $categoryId = $request->query('category');
-
-        $query = Product::query();
-
-        if ($searchText) {
-            $query->where('name', 'LIKE', '%' . $searchText . '%');
+        $product = Product::query()->paginate(9);
+        if ($request->ajax()) {
+            $product = Product::query()
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->search . '%');
+                })
+                // ->orWhere('description', 'like', '%' . $request->search . '%');
+                ->when($request->stock, function ($query) use ($request) {
+                    $query->where('stock', $request->stock);
+                })
+                ->paginate(9);
+            return view('home.content.product-data', ['products' => $product]);
         }
-
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
-        }
-
-        $products = $query->get();
-        return response()->json(['products' => $products]);
+        return view('home.layout.search', ['products' => $product]);
     }
 }
