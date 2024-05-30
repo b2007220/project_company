@@ -14,5 +14,9 @@
     @include('home.components.footer')
 
 </body>
+<script>
+    var topProducts = @json($products);
+    console.log(topProducts);
+</script>
 
 </html>

@@ -13,6 +13,8 @@
         </div>
     </div>
     @include('admin.modal.discount')
+    <script src="{{ asset('js/ajax-form-setup.js') }}"></script>
 </body>
+
 
 </html>

@@ -13,3 +13,4 @@
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
 <link rel="stylesheet" href="{{ asset('style.css') }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}">

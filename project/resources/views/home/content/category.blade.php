@@ -56,19 +56,22 @@
                         </div>
                     </nav>
                     <div class="collapse" id="productSort">
-                        <div class="d-flex align-items-center mb-4">
-                            <input id="default-checkbox" type="checkbox" value=""
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700" />
-                            <label for="default-checkbox"
-                                class="ms-2 fs-5 font-medium text-gray-900 dark:text-gray-300">Sản phẩm
-                                mới</label>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <input checked id="checked-checkbox" type="checkbox" value=""
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2" />
-                            <label for="checked-checkbox"
-                                class="ms-2 fs-5 fw-medium text-gray-900 dark:text-gray-300">Giảm giá</label>
-                        </div>
+                        <a href="{{ asset('sort/new') }}"
+                            class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                            Sản phẩm mới
+                        </a>
+                        <a href="{{ asset('sort/discount') }}"
+                            class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                            Giảm giá
+                        </a>
+                        <a href="{{ asset('sort/price/incre') }}"
+                            class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                            Tăng dần
+                        </a>
+                        <a href="{{ asset('sort/price/decre') }}"
+                            class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                            Giảm dần
+                        </a>
                     </div>
                 </li>
                 <li
@@ -103,39 +106,7 @@
                 </li>
 
 
-                <li
-                    class="list-group-item d-block justify-content-between align-items-center border-0 border-bottom border-dark border-2 rounded-0">
-                    <nav class="navbar navbar-dark">
-                        <div class="d-flex justify-content-between  align-items-center w-100 gap-3">
-                            <span class="fs-4 fw-bolder text-uppercase">Nhu cầu</span>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#productSale" aria-controls="productSale" aria-expanded="false"
-                                aria-label="Toggle navigation">
-                                <svg class="w-6 h-6 text-gray-800" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="M5 12h14m-7 7V5" />
-                                </svg>
-                            </button>
-                        </div>
-                    </nav>
-                    <div class="collapse" id="productSale">
-                        <div class="d-flex align-items-center mb-4">
-                            <input id="default-checkbox" type="checkbox" value=""
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 dark:bg-gray-700" />
-                            <label for="default-checkbox"
-                                class="ms-2 fs-5 font-medium text-gray-900 dark:text-gray-300">Sản phẩm
-                                mới</label>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <input checked id="checked-checkbox" type="checkbox" value=""
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2" />
-                            <label for="checked-checkbox"
-                                class="ms-2 fs-5 fw-medium text-gray-900 dark:text-gray-300">Giảm giá</label>
-                        </div>
-                    </div>
-                </li>
+
             </ul>
         </div>
         <div class="row gap-6 col-md-10 col-12 py-3">
@@ -145,8 +116,6 @@
                     : 0"
                     :product-link="route('product', $product->id)" />
             @endforeach
-
-
         </div>
 
     </div>

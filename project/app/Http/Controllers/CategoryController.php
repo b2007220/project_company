@@ -20,10 +20,18 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
         ]);
-        $category = Category::create($data);
-        toastr()->timeOut(5000)->closeButton()->success('Category added successfully');
 
-        return redirect()->back();
+        $category = Category::create($data);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Category added successfully',
+                'category' => $category
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Category added successfully');
     }
 
 
@@ -33,16 +41,40 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
         ]);
-        $category = Category::find($id);
+
+        $category = Category::findOrFail($id);
         $category->update($data);
-        toastr()->timeOut(5000)->closeButton()->success('Category updated successfully');
-        return redirect()->back();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Category updated successfully',
+                'category' => $category
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Category updated successfully');
     }
-    public function destroy(Category $category)
+
+
+    public function destroy(Request $request, $id)
     {
-        $category->delete();
-        toastr()->timeOut(5000)->closeButton()->success('Category deleted successfully');
-        return redirect()->back();
+        $category = Category::findOrFail($id);
+
+        if ($category->delete()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'category' => $category
+                ]);
+            }
+            return redirect()->back()->with('success', 'Category deleted successfully');
+        } else {
+            if ($request->ajax()) {
+                return response()->json(['success' => false]);
+            }
+            return redirect()->back()->with('error', 'Failed to delete category');
+        }
     }
     public function showCategoryProducts(Category $category)
     {

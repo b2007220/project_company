@@ -16,7 +16,11 @@ Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::get('/sort/{sort}', [HomeController::class, 'sort'])->name('sort');
 
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+Route::get('/order', [HomeController::class, 'order'])->name('order');
 
 Route::middleware(
     ['auth', 'is_active']
@@ -35,14 +39,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::prefix('category')->name('category.')->group(function () {
             Route::get('', [CategoryController::class, 'index'])->name('index');
             Route::post('add', [CategoryController::class, 'store'])->name('add');
-            Route::post('update/{id}', [CategoryController::class, 'update'])->name('update');
-            Route::delete('delete/{category}', [CategoryController::class, 'destroy'])->name('delete');
+            Route::put('update/{id}', [CategoryController::class, 'update'])->name('update');
+            Route::delete('delete/{id}', [CategoryController::class, 'destroy'])->name('delete');
         });
 
         Route::prefix('discount')->name('discount.')->group(function () {
             Route::get('', [DiscountController::class, 'index'])->name('index');
             Route::post('add', [DiscountController::class, 'store'])->name('add');
-            Route::post('update/{id}', [DiscountController::class, 'update'])->name('update');
+            Route::put('update/{id}', [DiscountController::class, 'update'])->name('update');
             Route::delete('delete/{discount}', [DiscountController::class, 'destroy'])->name('delete');
         });
 

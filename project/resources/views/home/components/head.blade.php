@@ -11,3 +11,4 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 <link rel="stylesheet" href="{{ asset('style.css') }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}">

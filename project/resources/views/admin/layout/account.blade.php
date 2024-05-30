@@ -15,6 +15,8 @@
 
     @include('admin.modal.account')
     @include('admin.modal.accountadding')
+    <script src="{{ asset('js/ajax-form-setup.js') }}"></script>
 </body>
+
 
 </html>
