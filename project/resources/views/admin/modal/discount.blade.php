@@ -246,14 +246,15 @@
                         </button>
                     </td>`;
                     document.querySelector('tbody').appendChild(newRow);
+                    swal({
+                        title: 'Thành công!',
+                        text: result.message,
+                        icon: 'success',
+                        button: 'OK',
+                        timer: 1000
+                    });
                 }
-                swal({
-                    title: 'Thành công!',
-                    text: result.message,
-                    icon: 'success',
-                    button: 'OK',
-                    timer: 1000
-                });
+
             },
             error: function(xhr) {
                 const errors = xhr.responseJSON.errors;

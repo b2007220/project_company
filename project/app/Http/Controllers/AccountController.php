@@ -12,9 +12,12 @@ use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $accounts = User::orderBy('role', 'desc')->paginate(10);
+        if ($request->ajax()) {
+            return view('admin.layout.account', ['accounts' => $accounts])->render();
+        }
         return view('admin.layout.account', ['accounts' => $accounts]);
     }
 
@@ -24,11 +27,21 @@ class AccountController extends Controller
         if ($user->role !== 'ADMIN') {
             $user->is_active = !$user->is_active;
             $user->save();
-            toastr()->timeOut(5000)->closeButton()->success('Cập nhật trạng thái tài khoản thành công');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'account' => $account
+                ]);
+            }
         } else {
-            toastr()->timeOut(5000)->closeButton()->error('Không thể cập nhật trạng thái tài khoản ADMIN');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                ]);
+            }
+            return redirect()->back()->with('error', 'Failed to activate/deactivate admin account');
         }
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Account activated/deactivated successfully');
     }
     public function store(Request $request)
     {
@@ -48,9 +61,15 @@ class AccountController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-
-        toastr()->timeOut(5000)->closeButton()->success('Thêm tài khoản thành công');
-        return redirect()->back();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'account' => $user
+            ]);
+        } else {
+            return redirect()->back()->with('error', 'Account created falied');
+        }
+        return redirect()->back()->with('success', 'Account created successfully');
     }
     public function updateRole(Request $request)
     {
@@ -61,10 +80,15 @@ class AccountController extends Controller
         if ($user) {
             $user->role = $data['role'];
             $user->save();
-            toastr()->timeOut(5000)->closeButton()->success('Đã chỉnh sửa vai trò tài khoản thành công');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'account' => $user
+                ]);
+            }
         } else {
-            toastr()->timeOut(5000)->closeButton()->error('Không tìm thấy tài khoản');
+            return redirect()->back()->with('error', 'Account role update falied');
         }
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Account role update successfully');
     }
 }

@@ -48,4 +48,75 @@
             adjustAccountRole.value = account.role;
         });
     });
+    document.addEventListener("DOMContentLoaded", function() {
+        const adjustAccountModal = document.getElementById("adjustAccountModal");
+        adjustAccountModal.addEventListener("show.bs.modal", function(event) {
+            const button = event.relatedTarget;
+            const adjustAccountForm = document.getElementById("adjustAccountForm");
+            const adjustAccountId = document.getElementById("adjustAccountId");
+            const adjustAccountRole = document.getElementById("adjustAccountRole");
+
+            adjustAccountForm.reset();
+
+
+            const account = JSON.parse(button.getAttribute("data-account"));
+            adjustAccountForm.action = `account/update-role`;
+            adjustAccountId.value = account.id;
+            adjustAccountRole.value = account.role;
+
+            let methodInput = accountForm.querySelector('input[name="_method"]');
+            if (!methodInput) {
+                methodInput = document.createElement('input');
+                methodInput.setAttribute('type', 'hidden');
+                methodInput.setAttribute('name', '_method');
+                accountForm.appendChild(methodInput);
+            }
+            methodInput.value = 'PUT';
+
+        });
+    });
+
+    document.getElementById("adjustAccountForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const adjustAccountForm = event.target;
+        const formData = new FormData(adjustAccountForm);
+        const url = adjustAccountForm.action;
+        const method = adjustAccountForm.querySelector('input[name="_method"]');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json'
+            }
+        });
+        $.ajax({
+            url: url,
+            type: method,
+            data: JSON.stringify(Object.fromEntries(formData.entries())),
+            cache: false,
+            processData: false,
+            success: function(result) {
+                $('#adjustAccountModal').modal('hide');
+
+                const row = document.querySelector(
+                    `tr[data-account-id="${result.account.id}"]`);
+                if (row) {
+                    row.querySelector('td div').textContent = result.account.name;
+                }
+                swal({
+                    title: 'Thành công!',
+                    text: result.message,
+                    icon: 'success',
+                    button: 'OK'
+                });
+            },
+            error: function(xhr) {
+                const errors = xhr.responseJSON.errors;
+                if (errors) {
+                    for (const [key, value] of Object.entries(errors)) {
+                        console.log(key, value);
+                    }
+                }
+            }
+        });
+    });
 </script>
