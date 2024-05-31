@@ -47,14 +47,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::get('', [DiscountController::class, 'index'])->name('index');
             Route::post('add', [DiscountController::class, 'store'])->name('add');
             Route::put('update/{id}', [DiscountController::class, 'update'])->name('update');
-            Route::delete('delete/{discount}', [DiscountController::class, 'destroy'])->name('delete');
+            Route::delete('delete/{id}', [DiscountController::class, 'destroy'])->name('delete');
         });
 
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('', [ProductController::class, 'index'])->name('index');
             Route::post('add', [ProductController::class, 'store'])->name('add');
             Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
-            Route::delete('delete/{product}', [ProductController::class, 'destroy'])->name('delete');
+            Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
             Route::post('add-discount', [ProductDiscountController::class, 'store'])->name('discount-add');
             Route::delete('remove-discount/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'removeDiscount'])->name('discount-remove');
             Route::put('update-predefine/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'updateIsPredefined'])->name('update-predefine');

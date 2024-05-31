@@ -16,142 +16,64 @@
                         </svg>
                     </button>
                 </div>
-                <table class="min-w-100">
-                    <thead>
-                        <tr>
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                CODE
-                            </th>
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                Tên loại giảm giá
-                            </th>
-
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                Phần trăm giảm giá
-                            </th>
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                Số lượng còn lại
-                            </th>
-
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                Thời gian hết hạng
-                            </th>
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                Loại giảm giá
-                            </th>
-                            <th
-                                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                Thao tác
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="bg-white">
-                        @foreach ($discounts as $discount)
-                            <tr>
-                                <td
-                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                                    <div
-                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                        {{ $discount->code }}
-                                    </div>
-                                </td>
-                                <td
-                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
-                                    <div
-                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                        {{ $discount->name }}
-                                    </div>
-                                </td>
-
-                                <td
-                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                                    <div
-                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                        {{ $discount->discount }} %</div>
-
-                                </td>
-
-                                <td
-                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                                    <div
-                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                        {{ number_format($discount->amount, 0, ',', '.') }}</div>
-
-                                </td>
-
-                                <td
-                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                                    <div
-                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                        {{ date('d-m-Y', strtotime($discount->expired_at)) }}</div>
-
-
-                                </td>
-                                <td
-                                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                                    <div
-                                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                        @if ($discount->type === 'PRODUCT')
-                                            Sản phẩm
-                                        @else
-                                            Đơn hàng
-                                        @endif
-                                    </div>
-                                </td>
-                                <td
-                                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
-                                    <form action="{{ route('admin.discount.delete', $discount) }}" method="POST"
-                                        onsubmit="return confirmation(event, this)">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
-                                            Xóa
-                                            <svg class="w-6 h-6  text-white" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                    <button type="button"
-                                        class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
-                                        data-bs-toggle="modal" data-bs-target="#addDiscountModal" data-mode="edit"
-                                        data-discount="{{ json_encode($discount) }}">
-                                        Chỉnh sửa
-                                        <svg class="w-6 h-6  text-white" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-                {{ $discounts->links() }}
-
+                <div id="item-lists">
+                    @include('admin.content.discount-data')
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    function confirmation(event, form) {
+    $(document).ready(function() {
+
+        $(window).on('hashchange', function() {
+            if (window.location.hash) {
+                var page = window.location.hash.replace('#', '');
+                if (page == Number.NaN || page <= 0) {
+                    return false;
+                } else {
+                    getData(page);
+                }
+            }
+        });
+
+        $(document).on('click', '.pagination a', function(event) {
+            $('li').removeClass('active');
+            $(this).parent('li').addClass('active');
+            event.preventDefault();
+
+            var myurl = $(this).attr('href');
+            var page = $(this).attr('href').split('page=')[1];
+
+            getData(page);
+        });
+
+        function getData(page) {
+            $.ajax({
+                    url: '?page=' + page,
+                    type: "get",
+                    datatype: "html",
+                })
+                .done(function(data) {
+                    $("#item-lists").empty().html(data);
+                    location.hash = page;
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    swal({
+                        title: 'Lỗi!',
+                        text: result.message,
+                        icon: 'error',
+                        button: 'Đã hiểu',
+                        timer: 1000
+                    });
+                });
+        }
+    });
+
+    function confirmation(event, id) {
         event.preventDefault();
-        const url = form.action;
+        const url = 'discount/delete/' + id;
+
         swal({
             title: "Bạn có chắc chắn muốn xóa?",
             text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
@@ -160,11 +82,27 @@
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
-                form.submit();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function(result) {
+                        console.log(result);
+                        swal("Dữ liệu đã được xóa!", {
+                            icon: "success",
+                            timer: 1000,
+                        });
+                        $('tr[data-discount-id="' + id + '"]').remove();
+
+                    }
+                })
             }
         });
     }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -6,15 +6,18 @@ use App\Models\Discount;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 
 
 class DiscountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $discounts = Discount::paginate(5);
-
+        if ($request->ajax()) {
+            return view("admin.content.discount-data", ["discounts" => $discounts])->render();
+        }
         return view("admin.layout.discount", ["discounts" => $discounts]);
     }
 
@@ -30,9 +33,15 @@ class DiscountController extends Controller
         $data['code'] = strtoupper(uniqid());
         unset($data['expire']);
         $discount = Discount::create($data);
-        toastr()->timeOut(5000)->closeButton()->success('Discount added successfully');
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Discount added successfully',
+                'discount' => $discount
+            ]);
+        }
 
-        return redirect()->route('admin.discount.index');
+        return redirect()->back()->with('success', 'Discount added successfully');
     }
 
 
@@ -48,21 +57,41 @@ class DiscountController extends Controller
         if ($request->expire) {
             $data['expired_at'] = $request->expire;
         } else {
-            $data['expired_at'] = now()->addWeek();
+            $data['expired_at'] =  Carbon::now()->addWeeks(2);
         }
 
         unset($data['expire']);
         $discount = Discount::find($id);
 
         $discount->update($data);
-        toastr()->timeOut(5000)->closeButton()->success('Discount updated successfully' . $discount->id);
-        return redirect()->back();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Discount updated successfully',
+                'discount' => $discount
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Discount updated successfully');
     }
 
-    public function destroy(Discount $discount)
+    public function destroy(Request $request, $id)
     {
-        $discount->delete();
-        toastr()->timeOut(5000)->closeButton()->success('Discount deleted successfully');
-        return redirect()->back();
+        $discount = Discount::findOrFail($id);
+
+        if ($discount->delete()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'discount' => $discount
+                ]);
+            }
+            return redirect()->back()->with('success', 'Discount deleted successfully');
+        } else {
+            if ($request->ajax()) {
+                return response()->json(['success' => false]);
+            }
+            return redirect()->back()->with('error', 'Failed to delete discount');
+        }
     }
 }

@@ -13,11 +13,14 @@ use App\Models\ProductPicture;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::with(['categories', 'discounts', 'pictures'])->paginate(5);
         $categories = Category::all();
         $discounts = Discount::where('type', 'PRODUCT')->get();
+        if ($request->ajax()) {
+            return view("admin.content.product-data", ['products' => $products, 'categories' => $categories, 'discounts' => $discounts,])->render();
+        }
         return view('admin.layout.product', ['products' => $products, 'categories' => $categories, 'discounts' => $discounts,]);
     }
 
@@ -49,12 +52,15 @@ class ProductController extends Controller
                 $file->move($destinationPath, $profileImage);
                 $product->pictures()->create(['link' => $profileImage]);
             }
-
-            toastr()->timeOut(5000)->closeButton()->success('Product added successfully with images.');
         };
-        toastr()->timeOut(5000)->closeButton()->error('Product added successfully without images.');
-
-        return redirect()->back();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added successfully',
+                'product' => $product
+            ]);
+        }
+        return redirect()->back()->with('success', 'Product added successfully');
     }
 
     public function update(Request $request, $id)
@@ -84,12 +90,17 @@ class ProductController extends Controller
                 $destinationPath = 'product/';
                 $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
                 $file->move($destinationPath, $profileImage);
-
                 $product->images()->create(['link' => $profileImage]);
             }
         }
-        toastr()->timeOut(5000)->closeButton()->success('Product updated successfully');
-        return redirect()->back();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product updated successfully',
+                'product' => $product
+            ]);
+        }
+        return redirect()->back()->with('success', 'Product updated successfully');
     }
 
     public function showProductCategories(Product $product)
@@ -98,11 +109,18 @@ class ProductController extends Controller
         return view('admin.products.categories', ['categories' => $categories]);
     }
 
-    public function destroy(Product $product)
+    public function destroy(Request $request, $id)
     {
+        $product = Product::findOrFail($id);
         $product->delete();
-        toastr()->timeOut(5000)->closeButton()->success('Product deleted successfully');
-        return redirect()->back();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully',
+                'product' => $product
+            ]);
+        }
+        return redirect()->back()->with('success', 'Product deleted successfully');
     }
 
     public function deleteImages(Request $request, $productId)
@@ -117,15 +135,24 @@ class ProductController extends Controller
         $product = Product::findOrFail($productId);
         foreach ($request->selected_pictures as $pictureId) {
             $picture = ProductPicture::find($pictureId);
-
             if ($picture && $picture->product_id == $product->id) {
                 File::delete(public_path('product/' . $picture->link));
                 $picture->delete();
             }
         }
-        toastr()->timeOut(5000)->closeButton()->success('Product images deleted successfully');
-        return redirect()->back();
+        if ($product->delete()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'product' => $product
+                ]);
+            }
+            return redirect()->back()->with('success', 'images deleted successfully');
+        } else {
+            if ($request->ajax()) {
+                return response()->json(['success' => false]);
+            }
+            return redirect()->back()->with('error', 'Failed to delete picture in product');
+        }
     }
-
-
 }

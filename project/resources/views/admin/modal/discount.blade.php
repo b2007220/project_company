@@ -1,5 +1,5 @@
 <div class="modal fade" id="addDiscountModal" tabindex="-1" aria-labelledby="addDiscountModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabll" style="max-width: 512px">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollablle" style="max-width: 512px">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle" class="modal-title fs-5 text-xl fw-bolder text-gray-900">
@@ -8,8 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="mb-3" id="discountForm" method="POST">
-                    @csrf
+                <form class="mb-3" id="discountForm">
                     <input type="hidden" id="discountId" name="id" value="" />
                     <label for="discountName" class="form-label">Tên loại giảm giá</label>
                     <input type="text" class="form-control" id="discountName" name="name"
@@ -67,8 +66,17 @@
                 discountName.value = discount.name;
                 discountDiscount.value = discount.discount;
                 discountAmount.value = discount.amount;
-                discountExpired.value = discount.expired_at;
                 discountType.value = discount.type;
+                const dateOnly = new Date(discount.expired_at).toISOString().split('T')[0];
+                discountExpired.value = dateOnly;
+                let methodInput = discountForm.querySelector('input[name="_method"]');
+                if (!methodInput) {
+                    methodInput = document.createElement('input');
+                    methodInput.setAttribute('type', 'hidden');
+                    methodInput.setAttribute('name', '_method');
+                    discountForm.appendChild(methodInput);
+                }
+                methodInput.value = 'PUT';
             } else {
                 modalTitle.textContent = "Thêm mới loại giảm giá";
                 discountForm.action = `discount/add`;
@@ -78,6 +86,182 @@
                 discountAmount.value = "";
                 discountExpired.value = "";
                 discountType.value = "PRODUCT";
+                const methodInput = discountForm.querySelector('input[name="_method"]');
+                if (methodInput) {
+                    discountForm.removeChild(methodInput);
+                }
+            }
+        });
+    });
+
+    document.getElementById("discountForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const discountForm = event.target;
+        const formData = new FormData(discountForm);
+        const url = discountForm.action;
+        const method = discountForm.querySelector('input[name="_method"]') ? 'PUT' : 'POST';
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json'
+            }
+        });
+        $.ajax({
+            url: url,
+            type: method,
+            data: JSON.stringify(Object.fromEntries(formData.entries())),
+            cache: false,
+            processData: false,
+            success: function(result) {
+                $('#addDiscountModal').modal('hide');
+                if (method === 'PUT') {
+                    const row = document.querySelector(
+                        `tr[data-discount-id="${result.discount.id}"]`);
+                    if (row) {
+                        row.innerHTML = `
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.discount.code}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.discount.name}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.discount.discount} %
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.discount.amount.toLocaleString('en-US')}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${new Date(result.discount.expired_at).toLocaleDateString('en-GB')}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.discount.type === 'PRODUCT' ? 'Sản phẩm' : 'Đơn hàng'}
+                    </div>
+                </td>
+                <td class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                    <form action="javascript:void(0)" enctype="multipart/form-data" onsubmit="confirmation(event, ${result.discount.id})">
+                        <button type="submit" class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                            Xóa
+                            <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <button type="button" class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1" data-bs-toggle="modal" data-bs-target="#addDiscountModal" data-mode="edit" data-discount="${JSON.stringify(result.discount)}">
+                        Chỉnh sửa
+                        <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </button>
+                </td>`;
+                    }
+                    swal({
+                        title: 'Thành công!',
+                        text: result.message,
+                        icon: 'success',
+                        button: 'OK'
+                        timer: 1000
+                    });
+                } else if (method === 'POST') {
+                    const newRow = document.createElement('tr');
+                    newRow.setAttribute('data-discount-id', result.discount.id);
+                    newRow.innerHTML = `
+                    <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                        <div
+                            class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${result.discount.code}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                        <div
+                            class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${result.discount.name}
+                        </div>
+                    </td>
+                    <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                        <div
+                            class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${result.discount.discount} %</div>
+                    </td>
+                    <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                        <div
+                            class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${result.discount.amount.toLocaleString('en-US')}
+                        </div>
+                    </td>
+
+                    <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                        <div
+                            class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${new Date(result.discount.expired_at).toLocaleDateString('en-GB')}
+
+                        </div>
+                    </td>
+                    <td
+                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                        <div
+                            class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${result.discount.type === 'PRODUCT' ? 'Sản phẩm' : 'Đơn hàng'}
+                        </div>
+                    </td>
+                    <td
+                        class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                        <form action="javascript:void(0)" enctype="multipart/form-data"
+                            onsubmit="confirmation(event, ${result.discount.id})">
+                            <button type="submit"
+                                class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                                Xóa
+                                <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                        </form>
+                        <button type="button"
+                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                            data-bs-toggle="modal" data-bs-target="#addDiscountModal" data-mode="edit"
+                            data-discount="${JSON.stringify(result.discount)}">
+                            Chỉnh sửa
+                            <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </button>
+                    </td>`;
+                    document.querySelector('tbody').appendChild(newRow);
+                }
+                swal({
+                    title: 'Thành công!',
+                    text: result.message,
+                    icon: 'success',
+                    button: 'OK',
+                    timer: 1000
+                });
+            },
+            error: function(xhr) {
+                const errors = xhr.responseJSON.errors;
+                if (errors) {
+                    for (const [key, value] of Object.entries(errors)) {
+                        console.log(key, value);
+                    }
+                }
             }
         });
     });

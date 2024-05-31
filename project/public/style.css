@@ -17,6 +17,14 @@ body {
 .picture-item {
     cursor: pointer;
 }
+.active > .page-link,
+.page-link.active {
+    color: #2563eb !important;
+    background-color: #f9fafb !important;
+}
+.page-link {
+    color: #6b7280 !important;
+}
 .picture-item.selected {
     border-color: #2563eb !important;
 }

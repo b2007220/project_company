@@ -45,7 +45,6 @@
 
             if (mode === "edit") {
                 const category = JSON.parse(button.getAttribute("data-category"));
-                console.log(category);
                 modalTitle.textContent = "Chỉnh sửa loại sản phẩm";
                 categoryForm.action = `category/update/${category.id}`;
                 categoryId.value = category.id;
@@ -87,7 +86,6 @@
             url: url,
             type: method,
             data: JSON.stringify(Object.fromEntries(formData.entries())),
-
             cache: false,
             processData: false,
             success: function(result) {
@@ -102,7 +100,7 @@
                         title: 'Thành công!',
                         text: result.message,
                         icon: 'success',
-                        confirmButtonText: 'OK'
+                        button: 'OK'
                     });
                 } else if (method === 'POST') {
                     const newRow = document.createElement('tr');
@@ -135,7 +133,8 @@
                     title: 'Thành công!',
                     text: result.message,
                     icon: 'success',
-                    confirmButtonText: 'OK'
+                    button: 'OK',
+                    timer: 1000
                 });
             },
             error: function(xhr) {

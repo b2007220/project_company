@@ -19,14 +19,15 @@
                 <div id="item-lists">
                     @include('admin.content.category-data')
                 </div>
-                {!! $categories->links() !!}
             </div>
         </div>
     </div>
 </div>
 </div>
+</div>
 <script>
     $(document).ready(function() {
+
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -46,22 +47,14 @@
             var myurl = $(this).attr('href');
             var page = $(this).attr('href').split('page=')[1];
 
-            console.log(myurl);
-            console.log(page);
             getData(page);
         });
 
         function getData(page) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Content-Type': 'application/json'
-                }
-            });
             $.ajax({
-                    url: '{{ route('admin.category.index') }}?page=' + page,
-                    type: "GET",
-                    dataType: "HTML",
+                    url: '?page=' + page,
+                    type: "get",
+                    datatype: "html",
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);

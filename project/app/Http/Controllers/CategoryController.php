@@ -14,10 +14,7 @@ class CategoryController extends Controller
     {
         $categories = Category::latest()->paginate(5);
         if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'categories' => $categories
-            ]);
+            return view("admin.content.category-data", ["categories" => $categories])->render();
         }
         return view("admin.layout.category", ["categories" => $categories]);
     }

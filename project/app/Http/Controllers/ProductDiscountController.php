@@ -16,9 +16,12 @@ class ProductDiscountController extends Controller
         if (!empty($discountIds)) {
             foreach ($discountIds as $discountId) {
                 $discount = Discount::findOrFail($discountId);
-                $product->discounts()->attach($discount->id);
+                if (!$product->discounts->contains($discount)) {
+                    $product->discounts()->attach($discount->id);
+                } else {
+                    toastr()->timeOut(5000)->closeButton()->error('Mã giảm giá đã có trong sản phẩm');
+                }
             }
-            toastr()->timeOut(5000)->closeButton()->success('Mã giảm giá đã có trong sản phẩm');
         } else {
             toastr()->timeOut(5000)->closeButton()->warning('Không mã giảm giá nào được chọn');
         }
