@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Discount;
-use App\Models\DiscountDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use App\Models\Product_Picture;
 use App\Models\ProductPicture;
 
 class ProductController extends Controller
@@ -35,7 +33,6 @@ class ProductController extends Controller
             'categories.*' => 'exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
         $product = Product::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
@@ -43,21 +40,29 @@ class ProductController extends Controller
             'amount' => $validated['amount'],
         ]);
 
-        $product->categories()->sync($validated['categories']);
 
-        if ($files = $request->file('images')) {
-            foreach ($files as $file) {
+        for ($i = 0; $i < count($validated['categories']); $i++) {
+            $product->categories()->attach($validated['categories'][$i]);
+        }
+
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
                 $destinationPath = 'product/';
                 $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
                 $file->move($destinationPath, $profileImage);
                 $product->pictures()->create(['link' => $profileImage]);
             }
-        };
+        }
+
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Product added successfully',
-                'product' => $product
+                'product' => $product,
+                'categories' => $product->categories,
+                'pictures' => $product->pictures
+
             ]);
         }
         return redirect()->back()->with('success', 'Product added successfully');
@@ -65,12 +70,14 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'amount' => 'required|numeric|min:0',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categories.*' => 'exists:categories,id',
         ]);
 
         $product = Product::findOrFail($id);
@@ -81,23 +88,28 @@ class ProductController extends Controller
         $product->amount = $validatedData['amount'];
 
         $product->save();
-        if ($request->categories) {
-            $product->categories()->sync($request->categories);
-        }
+        $categories = explode(',', $request->categories);
 
-        if ($files = $request->file('images')) {
-            foreach ($files as $file) {
+        $product->categories()->sync($categories);
+
+
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
                 $destinationPath = 'product/';
                 $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
                 $file->move($destinationPath, $profileImage);
-                $product->images()->create(['link' => $profileImage]);
+                $product->pictures()->create(['link' => $profileImage]);
             }
         }
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Product updated successfully',
-                'product' => $product
+                'request' => $request->all(),
+                'product' => $product,
+                'categories' => $product->categories,
+                'pictures' => $product->pictures
             ]);
         }
         return redirect()->back()->with('success', 'Product updated successfully');
@@ -147,12 +159,12 @@ class ProductController extends Controller
                     'product' => $product
                 ]);
             }
-            return redirect()->back()->with('success', 'images deleted successfully');
+            return redirect()->back()->with('success', 'Images deleted successfully');
         } else {
             if ($request->ajax()) {
                 return response()->json(['success' => false]);
             }
-            return redirect()->back()->with('error', 'Failed to delete picture in product');
+            return redirect()->back()->with('error', 'Failed to delete pictures in product');
         }
     }
 }

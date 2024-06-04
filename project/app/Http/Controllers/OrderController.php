@@ -9,12 +9,20 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $newUsers = User::where('created_at', '>=', now()->subDays(7))->count();
         $totalOrders = Order::count();
         $availableProducts = Product::where('amount', '>', 0)->count();
         $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'desc')->paginate(5);
+        if ($request->ajax()) {
+            return response()->json([
+                'orders' => $orders,
+                'totalOrders' => $totalOrders,
+                'availableProducts' => $availableProducts,
+                'newUsers' => $newUsers,
+            ])->render();
+        }
         return view('admin.layout.index', ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts]);
     }
 

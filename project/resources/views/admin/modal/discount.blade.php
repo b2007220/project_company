@@ -113,6 +113,7 @@
             cache: false,
             processData: false,
             success: function(result) {
+                console.log(result);
                 $('#addDiscountModal').modal('hide');
                 if (method === 'PUT') {
                     const row = document.querySelector(
@@ -136,12 +137,12 @@
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                     <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        ${result.discount.amount.toLocaleString('en-US')}
+                        ${Number(result.discount.amount).toLocaleString('de-DE')}
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                     <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        ${new Date(result.discount.expired_at).toLocaleDateString('en-GB')}
+                        ${result.discount.expired_at ? new Date(result.discount.expired_at).toLocaleDateString('en-GB') :  new Date().toLocaleDateString('en-GB')}
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
@@ -170,10 +171,11 @@
                         title: 'Thành công!',
                         text: result.message,
                         icon: 'success',
-                        button: 'OK'
+                        button: 'OK',
                         timer: 1000
                     });
                 } else if (method === 'POST') {
+
                     const newRow = document.createElement('tr');
                     newRow.setAttribute('data-discount-id', result.discount.id);
                     newRow.innerHTML = `
@@ -199,7 +201,7 @@
                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                         <div
                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                            ${result.discount.amount.toLocaleString('en-US')}
+                            ${Number(result.discount.amount).toLocaleString('de-DE')}
                         </div>
                     </td>
 
@@ -207,8 +209,7 @@
                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                         <div
                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                            ${new Date(result.discount.expired_at).toLocaleDateString('en-GB')}
-
+                            ${result.discount.expired_at ? new Date(result.discount.expired_at).toLocaleDateString('en-GB') :  new Date().toLocaleDateString('en-GB')}
                         </div>
                     </td>
                     <td

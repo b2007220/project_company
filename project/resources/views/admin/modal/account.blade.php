@@ -34,20 +34,7 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const adjustAccountModal = document.getElementById("adjustAccountModal");
-        adjustAccountModal.addEventListener("show.bs.modal", function(event) {
-            const button = event.relatedTarget;
-            const adjustAccountForm = document.getElementById("adjustAccountForm");
-            const adjustAccountId = document.getElementById("adjustAccountId");
-            const adjustAccountRole = document.getElementById("adjustAccountRole");
-            adjustAccountForm.reset();
-            const account = JSON.parse(button.getAttribute("data-account"));
-            adjustAccountForm.action = `account/update-role`;
-            adjustAccountId.value = account.id;
-            adjustAccountRole.value = account.role;
-        });
-    });
+
     document.addEventListener("DOMContentLoaded", function() {
         const adjustAccountModal = document.getElementById("adjustAccountModal");
         adjustAccountModal.addEventListener("show.bs.modal", function(event) {

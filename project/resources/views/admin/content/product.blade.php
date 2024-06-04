@@ -105,28 +105,4 @@
             }
         });
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectedPictures = new Set();
-
-        document.querySelectorAll('.picture-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const pictureId = this.getAttribute('data-id');
-                if (selectedPictures.has(pictureId)) {
-                    selectedPictures.delete(pictureId);
-                    this.classList.remove('selected');
-                } else {
-                    selectedPictures.add(pictureId);
-                    this.classList.add('selected');
-                }
-                console.log(Array.from(selectedPictures));
-            });
-        });
-
-        document.querySelector('#deletePictureForm').addEventListener('submit', function(event) {
-            const inputHidden = document.getElementById('selected_pictures');
-            inputHidden.value = JSON.stringify(Array.from(selectedPictures));
-            console.log(inputHidden.value);
-        });
-    });
 </script>
