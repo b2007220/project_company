@@ -211,6 +211,9 @@ tr.show {
 .h-3 {
     height: 0.75rem;
 }
+.max-h-304 {
+    max-height: 19rem !important;
+}
 .w-5 {
     width: 1.25rem;
 }

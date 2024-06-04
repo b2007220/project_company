@@ -25,15 +25,43 @@ class HomeController extends Controller
         return view('home.layout.cart');
     }
 
-    public function category()
+    public function category(Request $request)
     {
         $categories = Category::all();
-        $products = Product::with(['discounts' => function ($query) {
-            $query->orderBy('is_active')
-                ->orderBy('is_predefined');
-        }, 'pictures'])->paginate(9);
-        return view('home.layout.category', ['categories' => $categories, 'products' => $products]);
+        $productsQuery = Product::with(['discounts' => function ($query) {
+            $query->orderBy('is_active')->orderBy('is_predefined');
+        }, 'pictures']);
+
+        if ($request->ajax()) {
+            if ($request->search) {
+                $productsQuery->where('name', 'like', '%' . $request->search . '%');
+            }
+            if ($request->sort) {
+                switch ($request->sort) {
+                    case 'new':
+                        $productsQuery->orderBy('created_at', 'desc');
+                        break;
+                    case 'discount':
+                        $productsQuery->whereHas('discounts', function ($query) {
+                            $query->where('is_active', true);
+                        });
+                        break;
+                    case 'price_asc':
+                        $productsQuery->orderBy('price', 'asc');
+                        break;
+                    case 'price_desc':
+                        $productsQuery->orderBy('price', 'desc');
+                        break;
+                }
+            }
+            $products = $productsQuery->paginate(9);
+            return view('home.content.category-data', ['products' => $products, 'categories' => $categories])->render();
+        }
+
+        $products = $productsQuery->paginate(9);
+        return view('home.layout.category', ['products' => $products, 'categories' => $categories]);
     }
+
     public function show($id)
     {
         $product = Product::with(['discounts' => function ($query) {
@@ -47,18 +75,5 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $product = Product::query()->paginate(9);
-        if ($request->ajax()) {
-            $product = Product::query()
-                ->when($request->search, function ($query) use ($request) {
-                    $query->where('name', 'like', '%' . $request->search . '%');
-                })
-                // ->orWhere('description', 'like', '%' . $request->search . '%');
-                ->when($request->stock, function ($query) use ($request) {
-                    $query->where('stock', $request->stock);
-                })
-                ->paginate(9);
-            return view('home.content.product-data', ['products' => $product]);
-        }
-        return view('home.layout.search', ['products' => $product]);
     }
 }

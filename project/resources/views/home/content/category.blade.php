@@ -5,7 +5,7 @@
     <hr class="h-px my-3 bg-gray-200" />
     <div class="mx-auto container-fluid row gap-3">
         <div class="col-md-2 p-0">
-            <ul class="list-group">
+            <ul class="list-group rounded border shadow-md ">
                 <li class="list-group-item border-0 border-bottom border-dark border-2 rounded-0">
                     <nav class="navbar navbar-dark">
                         <div class="d-flex justify-content-between gap-3  align-items-center w-100">
@@ -23,7 +23,7 @@
                         </div>
                     </nav>
                     <div class="collapse" id="searchProduct">
-                        <form class="max-w-md mx-auto">
+                        <div class="max-w-md mx-auto">
                             <div class="position-relative w-100">
                                 <div class="position-absolute inset-y-0 start-0 d-flex align-items-center ps-3 pe-none">
                                     <svg class="w-4 h-4 text-gray-500" aria-hidden="true"
@@ -32,11 +32,11 @@
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg>
                                 </div>
-                                <input type="search" id="default-search"
+                                <input type="search" id="search"
                                     class="d-block w-100 p-4 ps-10 small text-gray-900 border border-gray-300 rounded bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                                    required placeholder="Tên sản phẩm" onkeyup="productSearch()" />
+                                    required placeholder="Tên sản phẩm" />
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </li>
                 <li
@@ -56,19 +56,19 @@
                         </div>
                     </nav>
                     <div class="collapse" id="productSort">
-                        <a href="{{ asset('sort/new') }}"
+                        <a href="#" id="sort-new"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Sản phẩm mới
                         </a>
-                        <a href="{{ asset('sort/discount') }}"
+                        <a href="#" id="sort-discount"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Giảm giá
                         </a>
-                        <a href="{{ asset('sort/price/incre') }}"
+                        <a href="#" id="sort-price-asc"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Tăng dần
                         </a>
-                        <a href="{{ asset('sort/price/decre') }}"
+                        <a href="#" id="sort-price-desc"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Giảm dần
                         </a>
@@ -109,35 +109,89 @@
 
             </ul>
         </div>
-        <div class="row gap-6 col-md-10 col-12 py-3">
-            @foreach ($products as $product)
-                <x-product-card :product-name="$product->name" :price="$product->price" :image-src="$product->pictures && $product->pictures->isNotEmpty() ? $product->pictures[0]->link : ''" :product-discount="$product->discounts && $product->discounts->isNotEmpty()
-                    ? $product->discounts[0]->discount
-                    : 0"
-                    :product-link="route('product', $product->id)" />
-            @endforeach
+        <div id="item-lists" class="row gap-6 col-sm-10 col-12 py-3 max-h-100">
+            @include('home.content.category-data')
         </div>
-
     </div>
-    <div class="container"> {{ $products->links() }}</div>
 </div>
 
 <script>
-    function productSearch() {
-        const searchInput = document.getElementById("default-search");
-        const productNames = document.querySelectorAll(".product-name");
-
-        const searchText = searchInput.value.toLowerCase();
-
-        productNames.forEach((product) => {
-            const productName = product.textContent.toLowerCase();
-            const productParent = product.closest(".product");
-
-            if (!productName.includes(searchText)) {
-                productParent.classList.add("d-none");
-            } else {
-                productParent.classList.remove("d-none");
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    }
+        $('#search').on('keyup', function(event) {
+            event.preventDefault();
+            let value = $(this).val();
+            $.ajax({
+                url: "{{ route('category') }}",
+                type: "GET",
+                data: {
+                    search: value
+                },
+                success: function(data) {
+                    $('#item-lists').html(data);
+                }
+            });
+        });
+        $("#sort-new, #sort-discount, #sort-price-asc, #sort-price-desc").click(function(event) {
+            event.preventDefault();
+            let sortType = $(this).attr('id').split('-')[1];
+            $.ajax({
+                url: "{{ route('category') }}",
+                type: "GET",
+                data: {
+                    sort: sortType
+                },
+                success: function(data) {
+                    $("#item-lists").html(data);
+                }
+            });
+        });
+
+        $(window).on('hashchange', function() {
+            if (window.location.hash) {
+                var page = window.location.hash.replace('#', '');
+                if (page == Number.NaN || page <= 0) {
+                    return false;
+                } else {
+                    getData(page);
+                }
+            }
+        });
+
+        $(document).on('click', '.pagination a', function(event) {
+            $('li').removeClass('active');
+            $(this).parent('li').addClass('active');
+            event.preventDefault();
+
+            var myurl = $(this).attr('href');
+            var page = $(this).attr('href').split('page=')[1];
+
+            getData(page);
+        });
+
+        function getData(page) {
+            $.ajax({
+                    url: '?page=' + page,
+                    type: "get",
+                    datatype: "html",
+                })
+                .done(function(data) {
+                    $("#item-lists").empty().html(data);
+                    location.hash = page;
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    swal({
+                        title: 'Lỗi!',
+                        text: result.message,
+                        icon: 'error',
+                        button: 'Đã hiểu',
+                        timer: 1000
+                    });
+                });
+        }
+    });
 </script>
