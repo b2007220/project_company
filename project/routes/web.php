@@ -32,7 +32,6 @@ Route::middleware(
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('cart', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 });
@@ -60,6 +59,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('', [ProductController::class, 'index'])->name('index');
             Route::post('add', [ProductController::class, 'store'])->name('add');
+            Route::post('{id}/upload-images', [ProductController::class, 'storeImages'])->name('store-images');
             Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
             Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
             Route::post('add-discount', [ProductDiscountController::class, 'store'])->name('discount-add');

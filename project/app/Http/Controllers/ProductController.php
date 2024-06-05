@@ -31,7 +31,6 @@ class ProductController extends Controller
             'amount' => 'required|numeric',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $product = Product::create([
             'name' => $validated['name'],
@@ -46,6 +45,29 @@ class ProductController extends Controller
         }
 
 
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added successfully',
+                'product' => $product,
+            ]);
+        }
+        return redirect()->back()->with('success', 'Product added successfully');
+    }
+    public function storeImages(Request $request, $id)
+    {
+        $request->validate([
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $product = Product::findOrFail($id);
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not found'
+            ], 404);
+        }
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
                 $destinationPath = 'product/';
@@ -53,20 +75,21 @@ class ProductController extends Controller
                 $file->move($destinationPath, $profileImage);
                 $product->pictures()->create(['link' => $profileImage]);
             }
+        } else {
+            error_log('No files found in the request');
         }
 
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Product added successfully',
-                'product' => $product,
-                'categories' => $product->categories,
+                'message' => 'Product images added successfully',
                 'pictures' => $product->pictures
-
             ]);
         }
-        return redirect()->back()->with('success', 'Product added successfully');
+
+        return redirect()->back()->with('success', 'Product images added successfully');
     }
+
 
     public function update(Request $request, $id)
     {
@@ -92,24 +115,12 @@ class ProductController extends Controller
 
         $product->categories()->sync($categories);
 
-
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $destinationPath = 'product/';
-                $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
-                $file->move($destinationPath, $profileImage);
-                $product->pictures()->create(['link' => $profileImage]);
-            }
-        }
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Product updated successfully',
-                'request' => $request->all(),
                 'product' => $product,
                 'categories' => $product->categories,
-                'pictures' => $product->pictures
             ]);
         }
         return redirect()->back()->with('success', 'Product updated successfully');

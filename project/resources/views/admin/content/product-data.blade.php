@@ -125,7 +125,7 @@
                 </td>
             </tr>
             <tr class="detail-{{ $product->id }} collapse ">
-                <td colspan="12">
+                <td colspan="7">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="p-3">Hình ảnh của sản phẩm</h5>
                         <button type="submit" form="deletePictureForm"
@@ -143,13 +143,40 @@
                     <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
                         onsubmit="deleteImages(event, {{ $product->id }})">
                         <input type="hidden" name="selected_pictures" id="selected_pictures">
-                        <div class="d-flex align-items-center px-6 gap-4 flex-column-max-lg" id="pictures-container">
-                            @foreach ($product->pictures as $picture)
-                                <div class="border rounded border-gray-300 picture-item" data-id="{{ $picture->id }}">
-                                    <img class="img-fluid custom-img rounded"
-                                        src="{{ asset('product/' . $picture->link) }}" alt="">
+                        <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg " id="pictures-container">
+                            @php
+                                $chunkedProducts = $product->pictures->chunk(4);
+                            @endphp
+                            <div id="similarProduct-{{ $product->id }}"
+                                class="carousel carousel-dark slide w-100 max-w-1516" data-bs-ride="false">
+                                <div class="carousel-inner">
+                                    @foreach ($chunkedProducts as $index => $chunk)
+                                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                            <div class="card-group justify-content-evenly">
+                                                @foreach ($chunk as $product->picture)
+                                                    <div class="border rounded border-gray-300 picture-item"
+                                                        data-id="{{ $product->picture->id }}">
+                                                        <img class="img-fluid custom-img rounded"
+                                                            src="{{ asset('product/' . $product->picture->link) }}"
+                                                            alt="">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    @if ($chunkedProducts->count() > 1)
+                                        <button class="carousel-control-prev z-2 justify-content-start" type="button"
+                                            data-bs-target="#similarProduct-{{ $product->id }}" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        </button>
+                                        <button class="carousel-control-next z-2 justify-content-end" type="button"
+                                            data-bs-target="#similarProduct-{{ $product->id }}"
+                                            data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        </button>
+                                    @endif
                                 </div>
-                            @endforeach
+                            </div>
                         </div>
                     </form>
                     <div class="d-flex justify-content-between align-items-center">

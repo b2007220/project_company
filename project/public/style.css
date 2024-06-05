@@ -22,6 +22,9 @@ body {
     color: #2563eb !important;
     background-color: #f9fafb !important;
 }
+.max-w-1516 {
+    max-width: 94.75rem;
+}
 .page-link {
     color: #6b7280 !important;
 }
