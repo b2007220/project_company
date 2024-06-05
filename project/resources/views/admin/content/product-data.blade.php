@@ -124,7 +124,7 @@
                     </div>
                 </td>
             </tr>
-            <tr class="detail-{{ $product->id }} collapse ">
+            <tr class="detail-{{ $product->id }} collapse">
                 <td colspan="7">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="p-3">Hình ảnh của sản phẩm</h5>
@@ -139,11 +139,10 @@
                             </svg>
                         </button>
                     </div>
-
                     <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
-                        onsubmit="deleteImages(event, {{ $product->id }})">
+                        onsubmit="deleteImages(event,{{ $product->id }})">
                         <input type="hidden" name="selected_pictures" id="selected_pictures">
-                        <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg " id="pictures-container">
+                        <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg" id="pictures-container">
                             @php
                                 $chunkedProducts = $product->pictures->chunk(4);
                             @endphp
@@ -153,11 +152,11 @@
                                     @foreach ($chunkedProducts as $index => $chunk)
                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                             <div class="card-group justify-content-evenly">
-                                                @foreach ($chunk as $product->picture)
+                                                @foreach ($chunk as $picture)
                                                     <div class="border rounded border-gray-300 picture-item"
-                                                        data-id="{{ $product->picture->id }}">
+                                                        data-id="{{ $picture->id }}">
                                                         <img class="img-fluid custom-img rounded"
-                                                            src="{{ asset('product/' . $product->picture->link) }}"
+                                                            src="{{ asset('product/' . $picture->link) }}"
                                                             alt="">
                                                     </div>
                                                 @endforeach
@@ -400,13 +399,17 @@
                             icon: "success",
                             timer: 1000,
                         });
-                        $('tr[data-product-id="' + id + '"]').remove();
-                        $('tr.detail-' + id).remove();
+                        const selectedPictures = Array.from(formData.getAll('selected_pictures[]'));
+                        selectedPictures.forEach(pictureId => {
+                            const pictureElement = document.querySelector(
+                                '.picture-item[data-id="' + pictureId + '"]');
+                            if (pictureElement) {
+                                pictureElement.parentElement.removeChild(pictureElement);
+                            }
+                        });
                     }
                 });
             }
         });
-
-
     }
 </script>

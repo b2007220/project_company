@@ -29,7 +29,6 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'amount' => 'required|numeric',
-            'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
         ]);
         $product = Product::create([
@@ -40,9 +39,9 @@ class ProductController extends Controller
         ]);
 
 
-        for ($i = 0; $i < count($validated['categories']); $i++) {
-            $product->categories()->attach($validated['categories'][$i]);
-        }
+        $categories = explode(',', $request->categories);
+
+        $product->categories()->sync($categories);
 
 
         if ($request->ajax()) {
@@ -163,19 +162,13 @@ class ProductController extends Controller
                 $picture->delete();
             }
         }
-        if ($product->delete()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'product' => $product
-                ]);
-            }
-            return redirect()->back()->with('success', 'Images deleted successfully');
-        } else {
-            if ($request->ajax()) {
-                return response()->json(['success' => false]);
-            }
-            return redirect()->back()->with('error', 'Failed to delete pictures in product');
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'product' => $product
+            ]);
         }
+        return redirect()->back()->with('success', 'Images deleted successfully');
     }
 }
