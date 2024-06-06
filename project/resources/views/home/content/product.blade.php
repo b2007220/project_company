@@ -22,10 +22,10 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
             </button>
 
-            <ol class="carousel-indicators">
+            <ol class="carousel-indicators d-none d-sm-flex">
                 @foreach ($product->pictures as $picture)
                     <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $loop->index }}"
-                        class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first }}"
+                        class="{{ $loop->first ? 'active' : '' }} h-120 w-140" aria-current="{{ $loop->first }}"
                         aria-label="Slide {{ $loop->index + 1 }}">
                         <img src="{{ asset('product/' . $picture->link) }}" alt="" class="border rounded" />
                     </li>

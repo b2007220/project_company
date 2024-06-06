@@ -35,7 +35,7 @@ Route::middleware(
 
 
     Route::prefix('cart')->name('cart.')->group(function () {
-        Route::get('', [HomeController::class, 'cart'])->name('cart');
+        Route::get('', [HomeController::class, 'cart'])->name('index');
         Route::post('apply-discount', [CartController::class, 'applyDiscount'])->name('apply-discount');
         Route::post('add', [CartController::class, 'add'])->name('add');
         Route::delete('remove', [CartController::class, 'remove'])->name('remove');

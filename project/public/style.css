@@ -509,8 +509,6 @@ ul {
 }
 .carousel-indicators li,
 .carousel-indicators li.active {
-    width: 140px !important ;
-    height: 120px !important;
     background-color: #fff !important;
     position: relative !important;
     margin: 10px !important;
@@ -577,6 +575,12 @@ ul {
 
 .carousel-control-next-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+.w-140 {
+    width: 8.75rem !important;
+}
+.h-120 {
+    height: 7.5rem !important;
 }
 .text-lg {
     font-size: 1.125rem;

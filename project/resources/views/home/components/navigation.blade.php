@@ -10,7 +10,7 @@
                     phẩm</a>
                 <a class="nav-link d-block py-2 px-3 text-dark rounded p-md-0 space-x-8"
                     href="
-                {{ route('cart') }}">Giỏ
+                {{ route('cart.index') }}">Giỏ
                     hàng</a>
                 <a class="nav-link d-block py-2 px-3 text-dark rounded p-md-0 space-x-8" href="{{ route('about') }}">Hỗ
                     trợ</a>
