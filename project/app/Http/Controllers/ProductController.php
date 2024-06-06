@@ -49,6 +49,8 @@ class ProductController extends Controller
                 'success' => true,
                 'message' => 'Product added successfully',
                 'product' => $product,
+                'categories' => $product->categories,
+                'discounts' => $product->discounts,
             ]);
         }
         return redirect()->back()->with('success', 'Product added successfully');
@@ -120,6 +122,7 @@ class ProductController extends Controller
                 'message' => 'Product updated successfully',
                 'product' => $product,
                 'categories' => $product->categories,
+                'discounts' => $product->discounts,
             ]);
         }
         return redirect()->back()->with('success', 'Product updated successfully');

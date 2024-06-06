@@ -19,5 +19,6 @@ class IsActiveMiddleware
             toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị khóa');
             return redirect('/login');
         }
+        return $next($request);
     }
 }

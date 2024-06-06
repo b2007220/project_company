@@ -1,12 +1,10 @@
 <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-blue-500">
-    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 text-white min-vh-100 pt-10">
-        <a href="/" class=" align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none ">
-            <a href="#" class="d-flex align-items-center text-decoration-none ">
-                <img src="{{ asset('fast-delivery.png') }}" class="h-10 w-10" alt="Logo" />
-                <span class="align-self-center fs-4 fw-bold text-nowrap text-white space-x-3 d-none d-sm-flex">Cửa
-                    hàng
-                    Online</span>
-            </a>
+    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 text-white min-vh-100 pt-10 ">
+        <a href="/"
+            class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none justify-content-between w-100">
+            <img src="{{ asset('fast-delivery.png') }}" class="h-10 w-10" alt="Logo" />
+            <span class="align-self-center fs-4 fw-bold  text-white space-x-3 d-none d-sm-flex ">Cửa
+                hàng Online</span>
         </a>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start pt-10"
             id="menu">

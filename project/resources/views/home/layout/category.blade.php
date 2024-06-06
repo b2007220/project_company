@@ -15,8 +15,6 @@
 
 </body>
 <script>
-    var topProducts = @json($products);
-    console.log(topProducts);
 </script>
 
 </html>

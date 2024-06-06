@@ -14,6 +14,9 @@ body {
 .product-card:hover {
     transform: translateY(-5px) !important;
 }
+.max-w-164 {
+    max-width: 10.25rem;
+}
 .picture-item {
     cursor: pointer;
 }
@@ -506,11 +509,11 @@ ul {
 }
 .carousel-indicators li,
 .carousel-indicators li.active {
-    width: 140px;
-    height: 120px;
-    background-color: #fff;
-    position: relative;
-    margin: 10px;
+    width: 140px !important ;
+    height: 120px !important;
+    background-color: #fff !important;
+    position: relative !important;
+    margin: 10px !important;
 }
 .carousel-indicators img {
     position: absolute;

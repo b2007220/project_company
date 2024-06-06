@@ -12,7 +12,6 @@
         @include('home.content.cart')
     </main>
     @include('home.components.footer')
-    <script src="{{ asset('js/ajax-form-setup.js') }}"></script>
 
 </body>
 

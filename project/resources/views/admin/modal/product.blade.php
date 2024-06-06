@@ -169,14 +169,14 @@
                                                 `<span>
                                                     ${(result.product.price-(result.product.price * discount.discount) / 100).toLocaleString('en-US')} đ
                                                 </span>` :'').join('') :
-                                                `<span>${result.product.price.toLocaleString('en-US')} đ
+                                                `<span>${Number(result.discount.amount).toLocaleString('de-DE')} đ
                                                 </span>`
                                     }
                                         </div>
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
                                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                            ${result.product.amount.toLocaleString('en-US')}
+                                            ${Number(result.discount.amount).toLocaleString('de-DE')}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
@@ -222,7 +222,6 @@
                                             </div>
 
                                     </td>`;
-                        document.querySelector('tbody').appendChild(row);
                     }
                 } else if (method === 'POST') {
                     const newRow = document.createElement('tr');
@@ -260,14 +259,14 @@
                                                 ${(result.product.price-(result.product.price * discount.discount) / 100).toLocaleString('en-US')} đ
                                             </span>` :'').join('') :
                                             `<span>
-                                                ${result.product.price.toLocaleString('en-US')} đ
+                                                ${Number(result.discount.amount).toLocaleString('de-DE')} đ
                                             </span>`
                                                 }
                                         </div>
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
                                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                            ${result.product.amount.toLocaleString('en-US')}
+                                            ${Number(result.discount.amount).toLocaleString('de-DE')}
                                         </div>
 
                                     </td>
@@ -364,30 +363,7 @@
                                                 id = "selected_pictures">
                                                 <div class="d-flex align-items-center px-6 gap-4 flex-column-max-lg" id="pictures-container">
                                                     <div id="similarProduct-${result.product.id}" class="carousel carousel-dark slide w-100 max-w-1516" data-bs-ride="false">
-                                                        <div class="carousel-inner">`
-                            const carouselInner = document.querySelector(
-                                `#similarProduct-${result.product.id} .carousel-inner`
-                                );
-                            if (fileResponse.pictures && fileResponse.pictures.length >
-                                0) {
-                                carouselInner.innerHTML = fileResponse.pictures.reduce((
-                                    acc, picture, index) => {
-                                    if (index % 3 === 0) acc.push([]);
-                                    acc[acc.length - 1].push(picture);
-                                    return acc;
-                                }, []).map((chunk, chunkIndex) =>
-                                    `<div class="carousel-item ${chunkIndex === 0 ? 'active' : ''}">
-                                                                        <div class="card-group justify-content-evenly">
-                                                                            ${chunk.map(picture => `
-                                                                                <div class="border rounded border-gray-300 picture-item" data-id="${picture.id}">
-                                                                                    <img class="img-fluid custom-img rounded" src="product/${picture.link}" alt="">
-                                                                                </div>
-                                                                            `).join('')}
-                                                                        </div>
-                                                                </div>`).join('');
-                            }
-
-                            detailRow.innerHTML += `
+                                                        <div class="carousel-inner">
                                                             ${fileResponse.pictures && fileResponse.pictures.length > 0 ? `
                                                                 <button class="carousel-control-prev z-2 justify-content-start" type="button" data-bs-target="#similarProduct-${result.product.id}" data-bs-slide="prev">
                                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -415,7 +391,7 @@
                                                     stroke-linecap = "round"
                                                     stroke-linejoin = "round"
                                                     stroke-width = "2"
-                                                    d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                     </svg>
                                                 </button>
                                             </div>
@@ -425,18 +401,17 @@
                                                     <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center">
                                                         Code giảm giá
                                                     </th>
-                                                    <th
-                                            class =
-                                            "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Tên giảm giá
-                                                </th> <th
-                                            class =
-                                            "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Phần trăm giảm giá
-                                                </th> <th
-                                            class =
-                                            "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Số lượng giảm giá
-                                                </th> <th
-                                            class =
-                                            "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Ngày hết hạn
+                                                    <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
+                                                        Tên giảm giá
+                                                    </th>
+                                                    <th class = "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
+                                                        Phần trăm giảm giá
+                                                    </th>
+                                                <th
+                                            class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Số lượng giảm giá
+
+                                            </th>
+                                            <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Ngày hết hạn
                                                 </th> <th
                                             class =
                                             "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Đang áp dụng
@@ -477,7 +452,7 @@
                                                         <div
                                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                                            ${discount.amount}
+                                                            ${Number(discount.amount).toLocaleString('de-DE')}
                                                         </div>
 
 
@@ -563,7 +538,7 @@
                                                     stroke-width = "2"
                                                     d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                     </svg>
-                                                <button>
+                                                </button>
                                             </div>
                                             <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
                         onsubmit="deleteImages(event, ${result.product.id })">
@@ -573,7 +548,7 @@
                                                 <div class="d-flex align-items-center px-6 gap-4 flex-column-max-lg" id="pictures-container">
                                                     <div id="similarProduct-${result.product.id}" class="carousel carousel-dark slide w-100 max-w-1516" data-bs-ride="false">
                                                         <div class="carousel-inner">
-                                                        </div>
+
                                                         ${fileResponse.pictures && fileResponse.pictures.length > 0 ? `
                                                                 <button class="carousel-control-prev z-2 justify-content-start" type="button" data-bs-target="#similarProduct-${result.product.id}" data-bs-slide="prev">
                                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -582,73 +557,53 @@
                                                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                                 </button>
                                                             ` : ''}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </form>
-                                                    <div class ="d-flex justify-content-between align-items-center" >
+                                            <div class ="d-flex justify-content-between align-items-center" >
                                                         <h5 class = "p-3 " > Giảm giá của sản phẩm </h5>
                                                         <button class ="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1"
                                                     data-bs-toggle = "modal"
                                                     data-bs-target = "#addProductDiscountModal"
                                                     data-product = "${JSON.stringify(result.product)}" >
-                                                        Thêm mới <svg class = "w-6 h-6  text-white"
+                                                        Thêm mới <svg class = "w-6 h-6 text-white"
                                                     aria-hidden = "true"
                                                     xmlns = "http://www.w3.org/2000/svg"
                                                     width = "24"
                                                     height = "24"
                                                     fill = "none"
-                                                    viewBox = "0 0 24 24" > < path stroke = "currentColor"
+                                                    viewBox = "0 0 24 24"> <path stroke = "currentColor"
                                                     stroke-linecap = "round"
                                                     stroke-linejoin = "round"
                                                     stroke-width = "2"
                                                     d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                        </svg> <button >
-                                                        </div>
-                                                        <table class = "w-100" >
-                                                    <
-                                                    thead >
-                                                        <
-                                                        tr >
-                                                        <
-                                                        th class =
-                                                        "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center" >
-                                                        Code giảm giá <
-                                                        /th> <
-                                                    th
-                                                    class =
-                                                    "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
+                                                        </svg>
+                                                        </button>
+                                                    </div>
+                                            <table class = "w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th class = "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center" >
+                                                        Code giảm giá </th> <th class = "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
                                                     Tên giảm giá
-                                                        <
-                                                        /th> <th
-                                                    class =
-                                                    "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
+                                                        </th> <th class = "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
                                                     Phần trăm giảm giá
-                                                        <
-                                                        /th> <th
-                                                    class =
-                                                    "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
+                                                        </th> <th class = "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
                                                     Số lượng giảm giá
-                                                        <
-                                                        /th> <th
-                                                    class =
-                                                    "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
+                                                        </th> <th
+                                                    class =  "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
                                                     Ngày hết hạn
-                                                        <
-                                                        /th> <th
-                                                    class =
+                                                        </th> <th class =
                                                     "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
                                                     Đang áp dụng
-                                                        <
-                                                        /th> <th
-                                                    class =
+                                                        </th> <th class =
                                                     "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center" >
                                                     Thao tác
-                                                        <
-                                                        /th>
+                                                        </th>
 
-                                                        <
-                                                        /tr> <thead> <tbody>    ${
-                                                    result.discounts ? result.discounts.map(discount => `<tr>
+                                                        </tr> <thead> <tbody>
+                                                ${result.discounts ? result.discounts.map(discount => `<tr>
                                                     <td
                                                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                                         <div
@@ -680,7 +635,7 @@
                                                         <div
                                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                                            ${discount.amount}
+                                                            ${Number(discount.amount).toLocaleString('de-DE')}
                                                         </div>
 
 
@@ -740,23 +695,24 @@
                                                 </tr>`).join('') : ''
                                                 };
 
-                                                <
-                                                /tbody> <table> </td > < tr > `;
+                                                </tbody> <table> </td > <tr> `;
 
                             document.querySelector('tbody').appendChild(
                                 newRowDetail);
-                            const carouselInner = document.querySelector(
-                                `#similarProduct-${result.product.id} .carousel-inner`
-                                );
-                            if (fileResponse.pictures && fileResponse.pictures.length >
-                                0) {
-                                carouselInner.innerHTML = fileResponse.pictures.reduce((
-                                    acc, picture, index) => {
-                                    if (index % 3 === 0) acc.push([]);
-                                    acc[acc.length - 1].push(picture);
-                                    return acc;
-                                }, []).map((chunk, chunkIndex) =>
-                                    `<div class="carousel-item ${chunkIndex === 0 ? 'active' : ''}">
+
+                        }
+                        const carouselInner = document.querySelector(
+                            `#similarProduct-${result.product.id} .carousel-inner`
+                        );
+                        if (fileResponse.pictures && fileResponse.pictures.length >
+                            0) {
+                            carouselInner.innerHTML = fileResponse.pictures.reduce((
+                                acc, picture, index) => {
+                                if (index % 3 === 0) acc.push([]);
+                                acc[acc.length - 1].push(picture);
+                                return acc;
+                            }, []).map((chunk, chunkIndex) =>
+                                `<div class="carousel-item ${chunkIndex === 0 ? 'active' : ''}">
                                                 <div class="card-group justify-content-evenly">
                                                     ${chunk.map(picture => `
                                                         <div class="border rounded border-gray-300 picture-item" data-id="${picture.id}">
@@ -765,7 +721,6 @@
                                                     `).join('')}
                                                 </div>
                                         </div>`).join('');
-                            }
                         }
                     },
                     error: function(fileError) {

@@ -3,51 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Discount;
 
 class CartController extends Controller
 {
-    public function addToCart(Request $request)
+    public function index(Request $request)
     {
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity', 1);
+    }
+
+    public function add(Request $request)
+    {
+        $product = Product::findOrFail($request->product_id);
+        $amount = $request->input('amount', 1);
 
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] += $quantity;
-        } else {
-            // Đây chỉ là ví dụ, bạn cần lấy thông tin sản phẩm từ database
-            $product = [
-                "name" => "Product $productId",
-                "price" => 100, // Ví dụ giá sản phẩm là 100
-                "quantity" => $quantity
-            ];
 
-            $cart[$productId] = $product;
+        if (isset($cart[$product['id']])) {
+            $cart[$product['id']]['amount'] += $amount;
+        } else {
+            $cart[$product['id']] = [
+                "name" => $product->name,
+                "amount" => $amount,
+                "price" => $product->price,
+                "image" => $product->pictures()->first()->link,
+                'predifined' => $product->discounts()->where('is_predefined', 1)->first(),
+            ];
         }
 
         session()->put('cart', $cart);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Product added to cart!',
-            'cart' => $cart
-        ]);
+        return response()->json(['cart' => $cart]);
     }
 
-    public function showCart()
+    public function remove(Request $request)
     {
-        $cart = session()->get('cart', []);
-        $total = array_reduce($cart, function ($sum, $item) {
-            return $sum + ($item['price'] * $item['quantity']);
-        }, 0);
-
-        return view('cart', compact('cart', 'total'));
-    }
-
-    public function removeFromCart(Request $request)
-    {
-        $productId = $request->input('product_id');
+        $productId = $request->id;
         $cart = session()->get('cart', []);
 
         if (isset($cart[$productId])) {
@@ -55,10 +46,36 @@ class CartController extends Controller
             session()->put('cart', $cart);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Product removed from cart!',
-            'cart' => $cart
-        ]);
+        return response()->json(['cart' => $cart]);
+    }
+
+    public function update(Request $request)
+    {
+        $productId = $request->id;
+        $amount = (int) $request->amount;
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$productId])) {
+            $cart[$productId]['amount'] = $amount;
+            session()->put('cart', $cart);
+        }
+
+        return response()->json(['cart' => $cart]);
+    }
+    public function clear(Request $request)
+    {
+        session()->forget('cart');
+        return response()->json(['cart' => []]);
+    }
+    public function applyDiscount(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $discount = Discount::where('code', $request->code)->first();
+        if ($discount->amount === 0 || $discount->expired_at < now()) {
+            return response()->json(['message' => 'Discount code is invalid']);
+        }else{
+            $cart[$discount->discount] = $discount->discount;
+        }
+        return response()->json(['cart' => $cart]);
     }
 }

@@ -1,4 +1,4 @@
-{{-- <div class="modal fade" id="addProductDiscountModal" tabindex="-1" aria-labelledby="addProductDiscountModal">
+<div class="modal fade" id="addProductDiscountModal" tabindex="-1" aria-labelledby="addProductDiscountModal">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 512px">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,28 +107,20 @@
                     });
                 } else if (method === 'POST') {
                     const newRow = document.createElement('tr');
-                    newRow.setAttribute('data-discount-id', result.category.id);
+                    newRow.setAttribute('data-discount-id', result.discount.id);
                     newRow.innerHTML = `
                                             <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                {{ $discount->code }}
+                                ${result.discount.code}
                             </div>
                         </td>
                         <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                {{ $discount->name }}
-                            </div>
-
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-
-                                {{ $discount->discount }}
+                                      ${result.discount.name}
                             </div>
 
                         </td>
@@ -136,7 +128,15 @@
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                {{ number_format($discount->amount, 0, ',', '.') }}</div>
+                                ${result.discount.discount} %
+                            </div>
+
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                                ${Number(result.discount.amount).toLocaleString('de-DE')}
                             </div>
 
 
@@ -144,7 +144,7 @@
                         <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                {{ date('d-m-Y', strtotime($discount->expired_at)) }}
+                                ${result.discount.expired_at ? new Date(result.discount.expired_at).toLocaleDateString('en-GB') :  new Date().toLocaleDateString('en-GB')}
                             </div>
 
                         </td>
@@ -152,17 +152,13 @@
                         <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                @if ($discount->pivot->is_predefined)
-                                    <span class="text-success">Áp dụng trực tiếp</span>
-                                @else
-                                    <span class="text-danger">Chưa áp dụng</span>
-                                @endif
+                                ${ result.discount.pivot.is_predefined ? ' <span class="text-success">Áp dụng trực tiếp</span>' : '<span class="text-danger">Chưa áp dụng</span>'}
                             </div>
 
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d">
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <form action="{{ route('admin.product.discount-remove', [$product->id, $discount->id]) }}" method="POST"
+                                <form action="" method="POST"
                                     onsubmit="return confirmation(event, this)">
                                     @csrf
                                     @method('DELETE')
@@ -176,7 +172,7 @@
                                         </svg>
                                     </button>
                                 </form>
-                                <form action="{{ route('admin.product.update-predefine', [$product->id, $discount->id]) }}" method="POST">
+                                <form action="" method="POST">
                                     @csrf
                                     @method('PUT')
 
@@ -213,10 +209,4 @@
             }
         });
     });
-    $('#discount').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-        closeOnSelect: false,
-    });
-</script> --}}
+</script>

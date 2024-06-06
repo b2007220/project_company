@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('', [HomeController::class, 'home'])->name('home');
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/sort/{sort}', [HomeController::class, 'sort'])->name('sort');
@@ -32,8 +31,16 @@ Route::middleware(
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::post('cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+
+
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('', [HomeController::class, 'cart'])->name('cart');
+        Route::post('apply-discount', [CartController::class, 'applyDiscount'])->name('apply-discount');
+        Route::post('add', [CartController::class, 'add'])->name('add');
+        Route::delete('remove', [CartController::class, 'remove'])->name('remove');
+        Route::put('update', [CartController::class, 'update'])->name('update');
+    });
 });
 
 require __DIR__ . '/auth.php';

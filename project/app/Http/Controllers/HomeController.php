@@ -20,9 +20,14 @@ class HomeController extends Controller
         return view('home.layout.about');
     }
 
-    public function cart()
+    public function cart(Request $request)
     {
-        return view('home.layout.cart');
+        $cart = session()->get('cart', []);
+        if ($request->ajax()) {
+            return view('home.layout.cart', ['cart' => $cart])->render();
+        }
+        return view('home.layout.cart', ['cart' => $cart]);
+        // return view('home.layout.cart', compact('cart'));
     }
 
     public function category(Request $request)
@@ -72,8 +77,11 @@ class HomeController extends Controller
         return view('home.layout.product', ['product' => $product, 'products' => $products]);
     }
 
-    public function search(Request $request)
+
+
+    public function checkout(Request $request)
     {
-        $product = Product::query()->paginate(9);
+        $cart = session()->get('cart', []);
+        return view('home.layout.checkout', ['cart' => $cart]);
     }
 }

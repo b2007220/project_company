@@ -1,7 +1,9 @@
 <div class="container-fluid d-flex flex-lg-row flex-column justify-content-center align-items-stretch">
     <div
         class="position-relative d-flex overflow-hidden justify-content-center bg-gray-100 gap-4 py-4 rounded flex-column align-items-center max-w-3xl">
-        <div id="carouselExampleIndicators" class="carousel slide position-relative" data-bs-ride="carousel">
+
+        <div id="carouselExampleIndicators" class="carousel carousel-dark slide relative max-w-3xl"
+            data-bs-ride="carousel">
             <div class="carousel-inner overflow-hidden h-md-96 position-relative">
                 @foreach ($product->pictures as $picture)
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }} overflow-hidden h-md-96">
@@ -14,15 +16,12 @@
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
             </button>
-        </div>
-        <div id="carouselExampleIndicators" class="carousel slide relative max-w-3xl" data-bs-ride="carousel">
+
             <ol class="carousel-indicators">
                 @foreach ($product->pictures as $picture)
                     <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $loop->index }}"
@@ -31,12 +30,12 @@
                         <img src="{{ asset('product/' . $picture->link) }}" alt="" class="border rounded" />
                     </li>
                 @endforeach
-
             </ol>
         </div>
+
     </div>
     <div class="position-relative border border-2 rounded max-w-xl  d-flex d-inline-flex w-100 h-auto m-3 p-4">
-        <form id="productForm" class="w-100">
+        <form id="addToCart" class="w-100" action="javascript:void(0)">
             <div class="flex flex-column" name="product-id">
                 <h1 class="mb-4 fs-3 fw-bold leading-none tracking-tight text-gray-900 text-md-2xl text-lg-3xl"
                     name="product-name">
@@ -75,7 +74,7 @@
                             <input type="text" id="quantity-input" data-input-counter
                                 aria-describedby="helper-text-explanation"
                                 class="bg-gray-50 border-0 border-top border-bottom border-gray-300 h-11 text-center text-gray-900 fs-5 focus:ring-blue-500 focus:border-blue-500 d-block w-100 py-25"
-                                value="1" min="1" required name="product-quantity" />
+                                value="1" min="1" required name="amount" />
                             <button type="button" id="increment-button" data-input-counter-increment="quantity-input"
                                 class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-end p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none d-flex align-items-center justify-content-center">
                                 <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -87,10 +86,13 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center"><button type="submit"
+                    <div class="d-flex justify-content-center align-items-center">
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit" form="addToCart"
                             class="text-dark text-uppercase bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 fw-bold rounded-pill fs-5 px-5 py-25 me-2 mb-2">
                             thêm vào giỏ hàng
-                        </button></div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -133,4 +135,59 @@
             @endif
         </div>
     </div>
-    
+
+    <script>
+        const decrementButton = document.getElementById("decrement-button");
+
+        const incrementButton = document.getElementById("increment-button");
+
+        const quantityInput = document.getElementById("quantity-input");
+
+        decrementButton.addEventListener("click", () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
+
+        incrementButton.addEventListener("click", () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                }
+            });
+            $('#addToCart').submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+                $.ajax({
+                    url: '/cart/add',
+                    type: 'POST',
+                    data: JSON.stringify(Object.fromEntries(formData.entries())),
+                    cache: false,
+                    processData: false,
+                    success: function(result) {
+                        swal({
+                            title: 'Thành công!',
+                            text: result.message,
+                            icon: 'success',
+                            button: 'OK',
+                            timer: 1000
+                        });
+                    },
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            for (const [key, value] of Object.entries(errors)) {
+                                console.log(key, value);
+                            }
+                        }
+                    }
+                });
+            })
+
+
+        })
+    </script>

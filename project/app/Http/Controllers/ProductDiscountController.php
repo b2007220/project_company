@@ -19,14 +19,21 @@ class ProductDiscountController extends Controller
                 if (!$product->discounts->contains($discount)) {
                     $product->discounts()->attach($discount->id);
                 } else {
-                    toastr()->timeOut(5000)->closeButton()->error('Mã giảm giá đã có trong sản phẩm');
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Product not found'
+                    ], 404);
                 }
             }
-        } else {
-            toastr()->timeOut(5000)->closeButton()->warning('Không mã giảm giá nào được chọn');
         }
-
-        return redirect()->back();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Thêm mã giảm giá thành công',
+                'discounts' => $product->discounts,
+            ]);
+        }
+        return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
     }
     public function removeDiscount($productId, $discountId)
     {
