@@ -97,7 +97,7 @@
                     const row = document.querySelector(
                         `tr[data-category-id="${result.category.id}"]`);
                     if (row) {
-                        row.querySelector('td div').textContent = result.category.name;
+                        row.querySelector('td div').textContent = result.discount.name;
                     }
                     swal({
                         title: 'Thành công!',
