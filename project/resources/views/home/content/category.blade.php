@@ -64,11 +64,11 @@
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Giảm giá
                         </a>
-                        <a href="#" id="sort-price-asc"
+                        <a href="#" id="sort-priceAsc"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Tăng dần
                         </a>
-                        <a href="#" id="sort-price-desc"
+                        <a href="#" id="sort-priceDesc"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Giảm dần
                         </a>
@@ -99,7 +99,6 @@
                                     {{ $category->name }}
                                 </a>
                             @endforeach
-
                         </div>
 
                     </div>
@@ -136,7 +135,7 @@
                 }
             });
         });
-        $("#sort-new, #sort-discount, #sort-price-asc, #sort-price-desc").click(function(event) {
+        $("#sort-new, #sort-discount, #sort-priceAsc, #sort-priceDesc").click(function(event) {
             event.preventDefault();
             let sortType = $(this).attr('id').split('-')[1];
             $.ajax({

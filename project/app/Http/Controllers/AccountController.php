@@ -21,22 +21,23 @@ class AccountController extends Controller
         return view('admin.layout.account', ['accounts' => $accounts]);
     }
 
-    public function active(Request $request, $account)
+    public function active(Request $request, $id)
     {
-        $user = User::find($account);
+        $user = User::find($id);
         if ($user->role !== 'ADMIN') {
             $user->is_active = !$user->is_active;
             $user->save();
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'account' => $account
+                    'account' => $user
                 ]);
             }
         } else {
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
+                    'account' => $user
                 ]);
             }
             return redirect()->back()->with('error', 'Failed to activate/deactivate admin account');
@@ -54,7 +55,9 @@ class AccountController extends Controller
             'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
             'avatar' => ['nullable', 'image'],
         ]);
-
+        if ($request->password !== $request->password_confirmation) {
+            return redirect()->back()->with('error', 'Password confirmation does not match');
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

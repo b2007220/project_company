@@ -9,8 +9,6 @@
             </div>
             <div class="modal-body">
                 <form class="mb-3" id="adjustAccountForm" method="POST">
-                    @csrf
-                    @method('PUT')
                     <input type="hidden" id="adjustAccountId" name="adjustAccountId" value="" />
                     <label for="adjustAccountRole" class="form-label">Tên loại giảm giá</label>
                     <select class="form-select max-w-100 overflow-auto" id="adjustAccountRole" name="role">
@@ -34,7 +32,6 @@
     </div>
 </div>
 <script>
-
     document.addEventListener("DOMContentLoaded", function() {
         const adjustAccountModal = document.getElementById("adjustAccountModal");
         adjustAccountModal.addEventListener("show.bs.modal", function(event) {
@@ -51,12 +48,12 @@
             adjustAccountId.value = account.id;
             adjustAccountRole.value = account.role;
 
-            let methodInput = accountForm.querySelector('input[name="_method"]');
+            let methodInput = adjustAccountForm.querySelector('input[name="_method"]');
             if (!methodInput) {
                 methodInput = document.createElement('input');
                 methodInput.setAttribute('type', 'hidden');
                 methodInput.setAttribute('name', '_method');
-                accountForm.appendChild(methodInput);
+                adjustAccountForm.appendChild(methodInput);
             }
             methodInput.value = 'PUT';
 
@@ -67,8 +64,8 @@
         event.preventDefault();
         const adjustAccountForm = event.target;
         const formData = new FormData(adjustAccountForm);
-        const url = adjustAccountForm.action;
-        const method = adjustAccountForm.querySelector('input[name="_method"]');
+        const url = `account/update-role`;
+        const method = adjustAccountForm.querySelector('input[name="_method"]').value;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -82,12 +79,95 @@
             cache: false,
             processData: false,
             success: function(result) {
+                console.log(result.account);
                 $('#adjustAccountModal').modal('hide');
+                content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <div
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
+                                                  ${result.account.email ? result.account.email : 'Chưa cập nhật'}
+
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <div
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                                                  ${result.account.name ? result.account.name : 'Chưa cập nhật'}
+
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <div
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.account.phone ? result.account.phone : 'Chưa cập nhật'}
+                    </div>
+                </td>
+
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <div
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        ${result.account.address ? result.account.address : 'Chưa cập nhật'}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    ${result.account.is_active ? `<div
+                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang hoạt
+                                động</span>
+                        </div>` : ` <div
+                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            <span class="bg-red-700 text-white p-2 fw-bolder border rounded">Vô hiệu
+                                hóa</span>
+                        </div>`}
+
+                </td>
+
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+
+                    ${result.account.role==='ADMIN' ? `<div
+                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            <span class="bg-orange-300 text-white p-2 fw-bolder border rounded">Quản trị
+                                viên</span>
+                        </div>` : ` <div
+                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            <span class="bg-blue-300 text-white p-2 fw-bolder border rounded">Người
+                                dùng</span>
+                        </div>`}
+
+                </td>
+                <td
+                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                    <form onsubmit="disableAccount(${result.account.id })">
+
+                        <button type="submit"
+                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                            Vô hiệu hóa
+                            <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <button type="button"
+                        class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                        data-bs-toggle="modal" data-bs-target="#adjustAccountModal"
+                        data-account="${JSON.stringify(result.account)}">
+                        Chỉnh sửa
+                        <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </button>
+
+                </td>`;
                 const row = document.querySelector(
                     `tr[data-account-id="${result.account.id}"]`);
                 if (row) {
-                    row.querySelector('td div').textContent = result.account.name;
+                    row.innerHTML = content;
                 }
                 swal({
                     title: 'Thành công!',

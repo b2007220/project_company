@@ -123,6 +123,7 @@ class ProductController extends Controller
                 'product' => $product,
                 'categories' => $product->categories,
                 'discounts' => $product->discounts,
+
             ]);
         }
         return redirect()->back()->with('success', 'Product updated successfully');

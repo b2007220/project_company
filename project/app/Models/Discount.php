@@ -24,7 +24,7 @@ class Discount extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_discounts', 'discount_id', 'product_id')
-            ->withPivot('is_predefined');
+            ->withPivot('is_predefined', 'id');
     }
     public function orders()
     {
@@ -38,7 +38,7 @@ class Discount extends Model
     {
         return static::where('expired_at', '<=', Carbon::now())->get();
     }
-    
+
     // public function discountDetails()
     // {
     //     return $this->hasMany(DiscountDetail::class);

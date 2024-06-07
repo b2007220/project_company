@@ -32,7 +32,7 @@ Route::middleware(
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
-
+    Route::get('/order', [HomeController::class, 'order'])->name('order');
 
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('', [HomeController::class, 'cart'])->name('index');
@@ -73,6 +73,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::delete('remove-discount/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'removeDiscount'])->name('discount-remove');
             Route::put('update-predefine/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'updateIsPredefined'])->name('update-predefine');
             Route::delete('/{productId}/pictures/delete', [ProductController::class, 'deleteImages'])->name('deleteImages');
+            Route::get('/{productId}/discounted-price', [ProductDiscountController::class, 'getDiscountedPrice'])->name('getDiscountedPrice');
         });
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('', [OrderController::class, 'index'])->name('index');
@@ -87,7 +88,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('add', [AccountController::class, 'store'])->name('add');
             // Route::post('update/{id}', [AccountController::class, 'update'])->name('update');
             // Route::delete('delete/{user}', [AccountController::class, 'destroy'])->name('delete');
-            Route::put('active/{user}', [AccountController::class, 'active'])->name('active');
+            Route::put('active/{id}', [AccountController::class, 'active'])->name('active');
             Route::put('update-role', [AccountController::class, 'updateRole'])->name('update-role');
         });
     });

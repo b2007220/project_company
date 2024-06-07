@@ -8,21 +8,55 @@ use App\Models\Discount;
 
 class ProductDiscountController extends Controller
 {
+    public function getDiscountedPrice($productId)
+    {
+        $product = Product::findOrFail($productId);
+        $total_discount = 0;
+
+        if ($product->discounts->count() > 0) {
+            foreach ($product->discounts as $discount) {
+                if ($discount->pivot->is_predefined) {
+                    $total_discount += $discount->discount;
+                }
+            }
+        }
+
+        $discounted_price = $product->price - ($product->price * $total_discount) / 100;
+
+        if (request()->ajax()) {
+            return response()->json([
+                'discounted_price' => $discounted_price,
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'productId' => 'required|exists:products,id',
+            'discounts.*' => 'exists:discounts,id',
+        ]);
+        $discounts = explode(',', $request->discounts);
         $product = Product::findOrFail($request->productId);
-        $discountIds = $request->discount_ids;
-
-        if (!empty($discountIds)) {
-            foreach ($discountIds as $discountId) {
+        $newDiscountsApply = [];
+        if (!empty($discounts)) {
+            foreach ($discounts as $discountId) {
                 $discount = Discount::findOrFail($discountId);
                 if (!$product->discounts->contains($discount)) {
                     $product->discounts()->attach($discount->id);
+                    $product->load('discounts');
+                    $attachedDiscount = $product->discounts->find($discount->id);
+                    if ($attachedDiscount) {
+                        $newDiscountsApply[] = [
+                            'discount' => $attachedDiscount,
+                            'pivot_id' => $attachedDiscount->pivot->id,
+                            'is_predefined' => $attachedDiscount->pivot->is_predefined,
+                        ];
+                    }
                 } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Product not found'
-                    ], 404);
+                    continue;
                 }
             }
         }
@@ -30,7 +64,7 @@ class ProductDiscountController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Thêm mã giảm giá thành công',
-                'discounts' => $product->discounts,
+                'newDiscounts' => $newDiscountsApply,
             ]);
         }
         return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
@@ -40,21 +74,33 @@ class ProductDiscountController extends Controller
         $product = Product::findOrFail($productId);
         $product->discounts()->detach($discountId);
 
-        toastr()->timeOut(5000)->closeButton()->success('Xóa mã giảm giá có trong sản phẩm thành công');
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Xóa mã giảm giá thành công',
+            ]);
+        }
 
         return redirect()->back();
     }
     public function updateIsPredefined(Request $request, $productId, $discountId)
     {
         $product = Product::findOrFail($productId);
+        $discount = Discount::findOrFail($discountId);
+        $attachedDiscount = $product->discounts->find($discount->id);
 
-        $discountIds = $product->discounts()->pluck('discounts.id')->toArray();
+        $product->discounts()->updateExistingPivot($discountId, ['is_predefined' => !$attachedDiscount->pivot->is_predefined]);
 
-        $product->discounts()->updateExistingPivot($discountIds, ['is_predefined' => 0]);
 
-        $product->discounts()->updateExistingPivot($discountId, ['is_predefined' => 1]);
-
-        toastr()->timeOut(5000)->closeButton()->success('Áp dụng mã giảm giá thành công');
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật mã giảm giá thành công',
+                'discount' => $discount,
+                'pivot_id' => $attachedDiscount->pivot->id,
+                'is_predefined' => !$attachedDiscount->pivot->is_predefined,
+            ]);
+        }
 
         return redirect()->back();
     }

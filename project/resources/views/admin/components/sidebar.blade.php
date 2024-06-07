@@ -2,14 +2,14 @@
     <div class="d-flex flex-column align-items-center align-items-sm-start px-3 text-white min-vh-100 pt-10 ">
         <a href="/"
             class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none justify-content-between w-100">
-            <img src="{{ asset('fast-delivery.png') }}" class="h-10 w-10" alt="Logo" />
-            <span class="align-self-center fs-4 fw-bold  text-white space-x-3 d-none d-sm-flex ">Cửa
+            <img src="{{ asset('fast-delivery.png') }}" class="h-15 w-15" alt="Logo" />
+            <span class="align-self-center fs-4 fw-bold  text-white  d-none d-sm-flex ">Cửa
                 hàng Online</span>
         </a>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start pt-10"
             id="menu">
             <li class="nav-item">
-                <a href="{{ route('admin.home') }}" class="nav-link align-items-middle px-0 text-white">
+                <a href="{{ route('admin.home') }}" class="nav-link align-items-middle px-0 text-white ">
                     <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

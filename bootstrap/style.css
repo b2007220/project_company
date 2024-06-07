@@ -469,11 +469,11 @@ ul {
 }
 .carousel-indicators li,
 .carousel-indicators li.active {
-  width: 140px;
-  height: 120px;
-  background-color: #fff;
-  position: relative;
-  margin: 10px;
+  width: 140px !important;
+  height: 120px !important;
+  background-color: #fff !important;
+  position: relative !important;
+  margin: 10px !important;
 }
 .carousel-indicators img {
   position: absolute;

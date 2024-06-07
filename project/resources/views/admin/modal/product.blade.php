@@ -114,7 +114,6 @@
             selectedCategories.push(option.value);
         });
         formData.append('categories', selectedCategories);
-        console.log(selectedCategories);
         const url = this.action;
         var method = this.querySelector('input[name="_method"]') ? 'PUT' : 'POST';
 
@@ -134,6 +133,19 @@
             contentType: 'application/json',
             cache: false,
             success: function(result) {
+                const product = result.product;
+                const discounts = result.discounts;
+
+                let total_discount = 0;
+                if (discounts && discounts.length > 0 && discounts.some(discount => discount.pivot
+                        .is_predefined)) {
+                    discounts.forEach(discount => {
+                        if (discount.pivot.is_predefined) {
+                            total_discount += discount.discount;
+                        }
+                    });
+                    $price = product.price - (product.price * total_discount) / 100;
+                }
                 $('#addProductModal').modal('hide');
                 content = `
                                     <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
@@ -159,15 +171,15 @@
                                         </div>
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                            ${result.discounts && result.discounts.length> 0 ?
+                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
+                                            ${result.discounts && result.discounts.length > 0 ?
                                                 result.discounts.map(discount => discount.is_predefined ?
                                                 `<span>
-                                                    ${(result.product.price-(result.product.price * discount.discount) / 100).toLocaleString('en-US')} đ
+                                                    ${price.toLocaleString('en-US')} đ
                                                 </span>` :'').join('') :
                                                 `<span>  ${result.product.price.toLocaleString('en-US')} đ
                                                 </span>`
-                                    }
+                                            }
                                         </div>
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
@@ -221,7 +233,6 @@
                 if (method === 'PUT') {
                     const row = document.querySelector(
                         `tr[data-product-id="${result.product.id}"]`);
-                    console.log(row);
                     if (row) {
                         row.innerHTML = content;
                     }
@@ -306,15 +317,15 @@
                                                     d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                     </svg>
                                                 </button>
-                                            </div>`;
+                                            </div>`
                         console.log('File uploaded:', fileResponse);
                         if (method === 'PUT') {
                             const detailRow = document.querySelector(
                                 `tr.detail-${result.product.id}.collapse`);
                             detailRow.innerHTML = pictureContent + `
-                                        <table class = "w-100">
+                                        <table class = "w-100"  id="discount-table">
                                             <thead>
-                                                <tr>
+                                                <tr data-pivot-id="${result.pivot.id}">
                                                     <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center">
                                                         Code giảm giá
                                                     </th>
@@ -394,11 +405,11 @@
                                                     <td
                                                         class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
         <div class="d-flex justify-content-center align-items-center gap-2">
-            <form
-                                                            method="POST" onsubmit="return confirmation(event, this)">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+   <form action="javascript:void(0)" enctype="multipart/form-data" id="removeDiscountForm-${result.pivot_id}m"
+                            onsubmit="removeDiscount(event, ${productId},${discount.id},${result.pivot.id})>
+
+                                                            <button type="submit" form="removeDiscountForm-${result.pivot_id}"
+                                                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                                                 Xóa
                                                                 <svg class="w-6 h-6  text-white" aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -409,12 +420,10 @@
                                                                 </svg>
                                                             </button>
                                                         </form>
-                                                        <form
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-
-                                                            <button type="submit" class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
+                                                <form action="javascript:void(0)" enctype="multipart/form-data" id="applyDiscountForm-${result.pivot_id}"
+                            onsubmit="apply(event, ${productId},${discount.id},${result.pivot.id})>
+                                                            <button type="submit"  form="applyDiscountForm-${result.pivot_id}"
+                                                            class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
                                                                 Áp dụng
                                                                 <svg class="w-6 h-6  text-white" aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -428,7 +437,7 @@
 
                                                     </td>
                                                 </tr>`).join('') : ''
-                                                };
+                                                }
 
                                             </tbody> <table> </td> <tr> `;
                         } else if (method === 'POST') {

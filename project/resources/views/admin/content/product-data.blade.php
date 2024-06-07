@@ -73,14 +73,20 @@
                 <td
                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
                     <div
-                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
+                        @php
+                            $total_discount = 0;
+                            if ($product->discounts->count() > 0) {
+                                foreach ($product->discounts as $discount) {
+                                    if ($discount->pivot->is_predefined) {
+                                        $total_discount += $discount->discount;
+                                    }
+                                }
+                            }
+                        @endphp
                         @if ($product->discounts->count() > 0)
-                            @foreach ($product->discounts as $discount)
-                                @if ($discount->pivot->is_predefined)
-                                    {{ number_format($product->price - ($product->price * $discount->discount) / 100, 0, ',', '.') }}
-                                    đ
-                                @endif
-                            @endforeach
+                            {{ number_format($product->price - ($product->price * $total_discount) / 100, 0, ',', '.') }}
+                            đ
                         @else
                             {{ number_format($product->price, 0, ',', '.') }} đ
                         @endif
@@ -193,7 +199,7 @@
                             </svg>
                         </button>
                     </div>
-                    <table class="w-100">
+                    <table class="w-100" id="discount-table">
                         <thead>
                             <tr>
                                 <th
@@ -229,7 +235,7 @@
                         </thead>
                         <tbody>
                             @foreach ($product->discounts as $discount)
-                                <tr>
+                                <tr data-pivot-id="{{ $discount->pivot->id }}">
                                     <td
                                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
@@ -290,12 +296,11 @@
                                     <td
                                         class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d">
                                         <div class="d-flex justify-content-center align-items-center gap-2">
-                                            <form
-                                                action="{{ route('admin.product.discount-remove', [$product->id, $discount->id]) }}"
-                                                method="POST" onsubmit="return confirmation(event, this)">
-                                                @csrf
-                                                @method('DELETE')
+                                            <form action="javascript:void(0)" enctype="multipart/form-data"
+                                                id="removeDiscountForm-{{ $discount->pivot->id }}"
+                                                onsubmit="removeDiscount(event,{{ $product->id }}, {{ $discount->id }},{{ $discount->pivot->id }})">
                                                 <button type="submit"
+                                                    form="removeDiscountForm-{{ $discount->pivot->id }}"
                                                     class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                                     Xóa
                                                     <svg class="w-6 h-6  text-white" aria-hidden="true"
@@ -307,13 +312,12 @@
                                                     </svg>
                                                 </button>
                                             </form>
-                                            <form
-                                                action="{{ route('admin.product.update-predefine', [$product->id, $discount->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PUT')
+                                            <form action="javascript:void(0)" enctype="multipart/form-data"
+                                                id="applyDiscountForm-{{ $discount->pivot->id }}"
+                                                onsubmit="apply(event,{{ $product->id }}, {{ $discount->id }},{{ $discount->pivot->id }})">
 
                                                 <button type="submit"
+                                                    form="applyDiscountForm-{{ $discount->pivot->id }}"
                                                     class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
                                                     Áp dụng
                                                     <svg class="w-6 h-6  text-white" aria-hidden="true"
@@ -361,55 +365,4 @@
             console.log(inputHidden.value);
         });
     });
-
-    function deleteImages(event, id) {
-        event.preventDefault();
-        const url = 'product/' + id + '/pictures/delete';
-        const form = document.getElementById('deletePictureForm');
-
-        if (!(form instanceof HTMLFormElement)) {
-            console.error('The form element is not a valid HTMLFormElement.');
-            return;
-        }
-
-        const formData = new FormData(form);
-        console.log(Object.fromEntries(formData.entries()));
-
-        swal({
-            title: "Bạn có chắc chắn muốn xóa?",
-            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
-                    }
-                });
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    data: JSON.stringify(Object.fromEntries(formData.entries())),
-                    success: function(result) {
-                        console.log(result);
-                        swal("Dữ liệu đã được xóa!", {
-                            icon: "success",
-                            timer: 1000,
-                        });
-                        const selectedPictures = Array.from(formData.getAll('selected_pictures[]'));
-                        selectedPictures.forEach(pictureId => {
-                            const pictureElement = document.querySelector(
-                                '.picture-item[data-id="' + pictureId + '"]');
-                            if (pictureElement) {
-                                pictureElement.parentElement.removeChild(pictureElement);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    }
 </script>

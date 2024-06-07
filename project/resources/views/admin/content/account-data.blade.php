@@ -39,26 +39,42 @@
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $account->email }}
+                        @if ($account->email)
+                            {{ $account->email }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $account->name }}
+                        @if ($account->name)
+                            {{ $account->name }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $account->phone }}
+                        @if ($account->phone)
+                            {{ $account->phone }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $account->address }}
+                        @if ($account->address)
+                            {{ $account->address }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
@@ -97,9 +113,8 @@
                 </td>
                 <td
                     class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
-                    <form action="{{ route('admin.account.active', $account) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <form onsubmit="disableAccount({{ $account->id }})">
+
                         <button type="submit"
                             class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                             Vô hiệu hóa

@@ -8,11 +8,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="mb-3" id="productDiscountForm" method="POST"
-                    action="{{ route('admin.product.discount-add') }}">
-                    @csrf
-                    <input type="hidden" name="productId" id="productId">
-                    <select name="discount_ids[]" id="discount" multiple class="form-select max-w-100 overflow-auto">
+                <form class="mb-3" id="productDiscountForm">
+                    <input type="hidden" id="discountedProductId">
+                    <label for="discounts" class="my-2">Loại giảm giá</label>
+                    <select name="discounts" id="discounts" multiple class="form-select max-w-100 overflow-auto">
                         @foreach ($discounts as $discount)
                             <option value="{{ $discount->id }}">{{ $discount->name }}</option>
                         @endforeach
@@ -39,96 +38,65 @@
         const addProductDiscountModal = document.getElementById("addProductDiscountModal");
         addProductDiscountModal.addEventListener("show.bs.modal", function(event) {
             const button = event.relatedTarget;
-            const addProductDiscountModal = document.getElementById("addProductDiscountModal");
-            const productId = document.getElementById("productId");
-            // const status = document.getElementById("status");
-            productDiscountForm.reset();
-            const product = JSON.parse(button.getAttribute("data-product"));
-            productDiscountForm.action = `product/add-discount`;
-            productId.value = product.id;
-            // discount_ids.value = product.discount_ids;
-        });
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-        const addProductDiscountModal = document.getElementById("addProductDiscountModal");
-        addProductDiscountModal.addEventListener("show.bs.modal", function(event) {
-            const button = event.relatedTarget;
             const productDiscountForm = document.getElementById("productDiscountForm");
-            const productId = document.getElementById("productId");
-
+            const product = JSON.parse(button.getAttribute("data-product"))
+            const discountedProductId = document.getElementById("discountedProductId");
+            discountedProductId.value = product.id;
             productDiscountForm.reset();
 
-            const product = JSON.parse(button.getAttribute("data-product"));
-            productDiscountForm.action = `/add-discount`;
+            productDiscountForm.action = `product/add-discount`;
 
-
-            let methodInput = accountForm.querySelector('input[name="_method"]');
-            if (!methodInput) {
-                methodInput = document.createElement('input');
-                methodInput.setAttribute('type', 'hidden');
-                methodInput.setAttribute('name', '_method');
-                accountForm.appendChild(methodInput);
-            }
-            methodInput.value = 'POST';
         });
-    });
+        document.getElementById("productDiscountForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const productDiscountForm = event.target;
+            const formData = new FormData();
+            const selectedDiscounts = [];
+            const discounts = document.getElementById("discounts");
+            const productId = document.getElementById('discountedProductId').value;
+            const selectedOptions = [...discounts.selectedOptions];
+            selectedOptions.forEach(option => {
+                selectedDiscounts.push(option.value);
+            });
+            formData.append('discounts', selectedDiscounts);
+            formData.append('productId', productId);
+            const url = productDiscountForm.action;
+            const method = 'POST';
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                }
+            });
+            $.ajax({
+                url: url,
+                type: method,
+                data: JSON.stringify(Object.fromEntries(formData.entries())),
+                cache: false,
+                processData: false,
+                success: function(result) {
+                    $('#addProductDiscountModal').modal('hide');
+                    console.log(result.newDiscounts);
+                    result.newDiscounts.forEach(function(discountData) {
+                        const discount = discountData.discount;
+                        const pivot_id = discountData.pivot_id;
+                        const is_predefined = discountData.is_predefined;
 
-    document.getElementById("productDiscountForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const productDiscountForm = event.target;
-        const formData = new FormData(productDiscountForm);
-        const url = productDiscountForm.action;
-        const method = productDiscountForm.querySelector('input[name="_method"]') ? 'PUT' : 'POST';
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
-            }
-        });
-        $.ajax({
-            url: url,
-            type: method,
-            data: JSON.stringify(Object.fromEntries(formData.entries())),
-            cache: false,
-            processData: false,
-            success: function(result) {
-                $('#addProductDiscountModal').modal('hide');
-                if (method === 'PUT') {
-                    const row = document.querySelector(
-                        `tr[data-category-id="${result.category.id}"]`);
-                    if (row) {
-                        row.querySelector('td div').textContent = result.discount.name;
-                    }
-                    swal({
-                        title: 'Thành công!',
-                        text: result.message,
-                        icon: 'success',
-                        button: 'OK'
-                    });
-                } else if (method === 'POST') {
-                    const newRow = document.createElement('tr');
-                    newRow.setAttribute('data-discount-id', result.discount.id);
-                    newRow.innerHTML = `
-                                            <td
+                        const newRow = document.createElement('tr');
+                        newRow.setAttribute('data-pivot-id', pivot_id);
+                        newRow.innerHTML = `
+                        <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                ${result.discount.code}
+                            ${discount.code}
                             </div>
                         </td>
                         <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                      ${result.discount.name}
-                            </div>
-
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
-                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-
-                                ${result.discount.discount} %
+                            ${discount.name}
                             </div>
 
                         </td>
@@ -136,7 +104,15 @@
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
-                                ${Number(result.discount.amount).toLocaleString('de-DE')}
+                                ${discount.discount} %
+                            </div>
+
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                                ${Number(discount.amount).toLocaleString('de-DE')}
                             </div>
 
 
@@ -144,7 +120,7 @@
                         <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                ${result.discount.expired_at ? new Date(result.discount.expired_at).toLocaleDateString('en-GB') :  new Date().toLocaleDateString('en-GB')}
+                                ${discount.expired_at ? new Date(discount.expired_at).toLocaleDateString('en-GB') :  new Date().toLocaleDateString('en-GB')}
                             </div>
 
                         </td>
@@ -152,17 +128,15 @@
                         <td
                             class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                             <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                ${ result.discount.pivot.is_predefined ? ' <span class="text-success">Áp dụng trực tiếp</span>' : '<span class="text-danger">Chưa áp dụng</span>'}
+                                ${is_predefined ? ' <span class="text-success">Áp dụng trực tiếp</span>' : '<span class="text-danger">Chưa áp dụng</span>'}
                             </div>
 
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d">
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <form action="" method="POST"
-                                    onsubmit="return confirmation(event, this)">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
+                                <form action="javascript:void(0)" enctype="multipart/form-data"
+                            onsubmit="removeDiscount(event, ${productId},${discount.id}, ${pivot_id})" id="removeDiscountForm-${pivot_id}">
+                                    <button type="submit" form="removeDiscountForm-${pivot_id}"
                                         class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                         Xóa
                                         <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -172,11 +146,9 @@
                                         </svg>
                                     </button>
                                 </form>
-                                <form action="" method="POST">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <button type="submit"
+                                <form  action="javascript:void(0)" enctype="multipart/form-data" id="applyDiscountForm-${pivot_id}"
+                            onsubmit="apply(event,${productId}, ${discount.id}, ${pivot_id})">
+                                    <button type="submit" form="applyDiscountForm-${pivot_id}"
                                         class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
                                         Áp dụng
                                         <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -188,7 +160,10 @@
                                 </form>
                             </div>
                         </td>`;
-                    document.querySelector('tbody').appendChild(newRow);
+                        console.log(newRow);
+                        document.querySelector('#discount-table tbody').appendChild(
+                            newRow);
+                    });
                     swal({
                         title: 'Thành công!',
                         text: result.message,
@@ -196,17 +171,19 @@
                         button: 'OK',
                         timer: 1000
                     });
-                }
 
-            },
-            error: function(xhr) {
-                const errors = xhr.responseJSON.errors;
-                if (errors) {
-                    for (const [key, value] of Object.entries(errors)) {
-                        console.log(key, value);
+                },
+                error: function(xhr) {
+                    const errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        for (const [key, value] of Object.entries(errors)) {
+                            console.log(key, value);
+                        }
                     }
                 }
-            }
+            });
+
+
         });
     });
 </script>

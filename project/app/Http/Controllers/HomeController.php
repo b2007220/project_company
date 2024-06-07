@@ -27,7 +27,6 @@ class HomeController extends Controller
             return view('home.layout.cart', ['cart' => $cart])->render();
         }
         return view('home.layout.cart', ['cart' => $cart]);
-        // return view('home.layout.cart', compact('cart'));
     }
 
     public function category(Request $request)
@@ -51,15 +50,18 @@ class HomeController extends Controller
                             $query->where('is_active', true);
                         });
                         break;
-                    case 'price_asc':
+                    case 'priceAsc':
                         $productsQuery->orderBy('price', 'asc');
                         break;
-                    case 'price_desc':
+                    case 'priceDesc':
                         $productsQuery->orderBy('price', 'desc');
+                        break;
+                    default:
                         break;
                 }
             }
             $products = $productsQuery->paginate(9);
+
             return view('home.content.category-data', ['products' => $products, 'categories' => $categories])->render();
         }
 
@@ -76,7 +78,10 @@ class HomeController extends Controller
         $products = Product::sameCategories($product);
         return view('home.layout.product', ['product' => $product, 'products' => $products]);
     }
-
+    public function order(Request $request)
+    {
+        return view('home.layout.order');
+    }
 
 
     public function checkout(Request $request)

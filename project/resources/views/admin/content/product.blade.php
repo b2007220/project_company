@@ -105,4 +105,236 @@
             }
         });
     }
+
+    function deleteImages(event, id) {
+        event.preventDefault();
+        const url = `product/${id}/pictures/delete`;
+        const form = document.getElementById('deletePictureForm');
+
+        if (!(form instanceof HTMLFormElement)) {
+            console.error('The form element is not a valid HTMLFormElement.');
+            return;
+        }
+
+        const formData = new FormData(form);
+        console.log(Object.fromEntries(formData.entries()));
+
+        swal({
+            title: "Bạn có chắc chắn muốn xóa?",
+            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    data: JSON.stringify(Object.fromEntries(formData.entries())),
+                    success: function(result) {
+                        console.log(result);
+                        swal("Dữ liệu đã được xóa!", {
+                            icon: "success",
+                            timer: 1000,
+                        });
+                        const selectedPictures = Array.from(formData.getAll('selected_pictures[]'));
+                        selectedPictures.forEach(pictureId => {
+                            const pictureElement = document.querySelector(
+                                '.picture-item[data-id="' + pictureId + '"]');
+                            if (pictureElement) {
+                                pictureElement.parentElement.removeChild(pictureElement);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function updateProductPrice(productId) {
+        const url = `product/${productId}/discounted-price`;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(result) {
+                const priceDiv = document.querySelector(
+                `tr[data-product-id="${productId}"] .product-price`);
+                if (priceDiv) {
+                    priceDiv.innerHTML = `${result.discounted_price.toLocaleString('en-US')} đ`;
+                }
+            },
+            error: function(xhr) {
+                console.error("Error updating product price", xhr);
+            }
+        });
+    }
+
+    function removeDiscount(event, productId, discountId, pivotId) {
+        event.preventDefault();
+        const url = `product/remove-discount/product/${productId}/discount/${discountId}`;
+        console.log(url);
+        swal({
+            title: "Bạn có chắc chắn muốn xóa?",
+            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+
+                    success: function(result) {
+                        updateProductPrice(productId);
+                        const row = document.querySelector(
+                            `tr[data-pivot-id="${pivotId}"]`);
+                        if (row) {
+                            row.remove();
+                        }
+                        swal("Dữ liệu đã được xóa!", {
+                            icon: "success",
+                            timer: 1000,
+                        });
+                    },
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            for (const [key, value] of Object.entries(
+                                    errors)) {
+                                console.log(key, value);
+                            }
+                        }
+                    }
+                })
+            }
+        });
+    }
+
+    function apply(event, productId, discountId, pivotId) {
+        event.preventDefault();
+        const url = `product/update-predefine/product/${productId}/discount/${discountId}`;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                    'content'),
+                'Content-Type': 'application/json'
+            }
+        });
+        $.ajax({
+            url: url,
+            type: 'PUT',
+
+            success: function(result) {
+                updateProductPrice(productId);
+                const row = document.querySelector(
+                    `tr[data-pivot-id="${pivotId}"]`);
+                if (row) {
+                    row.innerHTML = `
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                            ${result.discount.code}
+                            </div>
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                            ${result.discount.name}
+                            </div>
+
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                                ${result.discount.discount} %
+                            </div>
+
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+
+                                ${Number(result.discount.amount).toLocaleString('de-DE')}
+                            </div>
+
+
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                ${result.discount.expired_at ? new Date(result.discount.expired_at).toLocaleDateString('en-GB') :  new Date().toLocaleDateString('en-GB')}
+                            </div>
+
+                        </td>
+
+                        <td
+                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                            <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                ${result.is_predefined ? ' <span class="text-success">Áp dụng trực tiếp</span>' : '<span class="text-danger">Chưa áp dụng</span>'}
+                            </div>
+
+                        </td>
+                        <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <form action="javascript:void(0)" enctype="multipart/form-data" id="removeDiscountForm-${result.pivot_id}"
+                            onsubmit="removeDiscount(event, ${productId},${result.discount.id}, ${result.pivot_id})">
+                                    <button type="submit" form="removeDiscountForm-${result.pivot_id}"
+                                        class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
+                                        Xóa
+                                        <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                                <form  action="javascript:void(0)" enctype="multipart/form-data" id="applyDiscountForm-${result.pivot_id}"
+                            onsubmit="apply(event,${productId}, ${result.discount.id}, ${result.pivot_id})">
+                                    <button type="submit" form="applyDiscountForm-${result.pivot_id}"
+                                        class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
+                                        Áp dụng
+                                        <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>`;
+                };
+                swal("Dữ liệu đã được xóa!", {
+                    icon: "success",
+                    timer: 1000,
+                });
+            },
+            error: function(xhr) {
+                const errors = xhr.responseJSON.errors;
+                if (errors) {
+                    for (const [key, value] of Object.entries(errors)) {
+                        console.log(key, value);
+                    }
+                }
+            }
+        })
+    }
 </script>
