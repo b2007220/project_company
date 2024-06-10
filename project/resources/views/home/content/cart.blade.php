@@ -76,30 +76,29 @@
 
             </div>
             <div class="rounded border bg-white p-3 shadow-md t-0-md w-13-md h-100">
-                <form action="{{ route('order.store') }}" id="paymentForm">
+                <form id="paymentForm">
+
                     <h4 class="fw-bold text-gray-900 mb-4 text-center text-uppercase">Thông tin đơn hàng</h4>
                     <div class="d-flex justify-content-between">
                         <p class="text-gray-700">Tiền sản phẩm</p>
                         @php
                             $total = 0;
-                            if ($details['predifined']) {
-                                $discount = $details['predifined']->discount;
-                            }
                             foreach ($cart as $id => $cartItem) {
                                 $price = $cartItem['price'];
                                 if ($cartItem['predifined']) {
+                                    $discount = $cartItem['predifined']->discount;
                                     $price -= ($price * $discount) / 100;
                                 }
                                 $total += $price * $cartItem['amount'];
                             }
                         @endphp
-                        <input type="hidden" value="{{ $total}}">
-                        <p class="text-gray-700" id="total">{{ number_format($total) }} Đồng</p>
+                        <input type="hidden" value="{{ $total }}" name="price">
+                        <p class="text-gray-700" id="total">{{ number_format($total) }} price</p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p class="text-gray-700">Tiền phí ship</p>
                         @php $ship = 9000; @endphp
-                        <input type="hidden" value="{{ $ship }}">
+                        <input type="hidden" value="{{ $ship }}" name="ship">
                         <p class="text-gray-700">{{ number_format($ship) }} Đồng</p>
                     </div>
                     @if (session('discount'))
@@ -107,13 +106,15 @@
                             <p class="text-gray-700">Mã giảm giá</p>
                             <p class="text-gray-700">-{{ session('discount') }}%</p>
                         </div>
-                        <input type="hidden" value="{{ session('discount') }}" id="discount" />
+                        <input type="hidden" value="{{ session('discount') }}" id="discount" name="code" />
                     @endif
                     <hr class="my-4" />
                     <div class="d-flex justify-content-between">
                         <p class="fs-5 fw-bold">Tổng tiền</p>
                         <div class="">
-                            <p class="mb-1 fs-6 fw-bold" id="total-amount">{{ number_format($total + $ship) }} Đồng</p>
+                            <p class="mb-1 fs-6 fw-bold" id="total-amount">{{ number_format($total + $ship) }} Đồng
+                            </p>
+                            <input type="hidden" value="{{ $total + $ship }}" name="total">
                             <p class="small text-gray-700">Đã bao gồm VAT</p>
                         </div>
                     </div>
@@ -261,5 +262,44 @@
             $('#total-amount').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
             $('#total').text(total.toLocaleString('de-DE') + ' Đồng');
         }
+    });
+    document.getElementById("paymentForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const paymentForm = event.target;
+        const formData = new FormData(paymentForm);
+        console.log(Object.fromEntries(formData.entries()));
+        const url = 'checkout';
+        const method = 'POST';
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json'
+            }
+        });
+        $.ajax({
+            url: url,
+            type: method,
+            data: JSON.stringify(Object.fromEntries(formData.entries())),
+            cache: false,
+            processData: false,
+            success: function(result) {
+                swal({
+                    title: 'Thành công!',
+                    text: result.message,
+                    icon: 'success',
+                    button: 'OK',
+                    timer: 1000
+                });
+                window.location.href = 'checkout';
+            },
+            error: function(xhr) {
+                const errors = xhr.responseJSON.errors;
+                if (errors) {
+                    for (const [key, value] of Object.entries(errors)) {
+                        console.log(key, value);
+                    }
+                }
+            }
+        });
     });
 </script>

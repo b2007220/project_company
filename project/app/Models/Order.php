@@ -16,12 +16,18 @@ class Order extends Model
         'address',
         'delivery_date',
         'total_price',
-
+        'receiver_name',
+        'ship',
+        'bank_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function bank()
+    {
+        return $this->belongsTo(BankAccount::class);
     }
     public function products()
     {

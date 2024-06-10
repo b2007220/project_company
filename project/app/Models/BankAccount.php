@@ -18,4 +18,8 @@ class BankAccount extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function bank()
+    {
+        return $this->hasOne(Order::class);
+    }
 }

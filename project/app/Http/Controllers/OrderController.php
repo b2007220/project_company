@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Discount;
+use App\Models\BankAccount;
+use Faker\Core\Number;
 
 class OrderController extends Controller
 {
@@ -31,28 +33,48 @@ class OrderController extends Controller
     {
         $validated = $request->validate([
             'total' => 'required|numeric',
+            'code' => 'nullable|exists:discounts,code',
+            'price' => 'required|numeric',
+            'ship' => 'required|numeric',
         ]);
-        $cart = session()->get('cart', []);
+        $total = (int)$request->total;
 
+        $price = (int)$validated['price'];
+        $ship = (int)$validated['ship'];
+        $cart = session()->get('cart', []);
         $order = Order::create([
-            'total_price' => $validated['total'],
+            'total_price' =>  $total,
             'user_id' => $request->user()->id,
         ]);
-        if ($request->code) {
-            $discount = Discount::findOrFail($request->code);
-            $order->discounts()->attach($discount);
+        if ($validated['code']) {
+            $code = $validated['code'];
+            $discountCode = Discount::findOrFail($code);
+            $order->discounts()->attach($discountCode);
         }
-        foreach ($cart as $item) {
-            $order->products()->attach($item['id'], [
+        foreach ($cart as $productId => $item) {
+            $discountProduct = $item['predifined'];
+            $order->products()->attach($productId, [
                 'amount' => $item['amount'],
-                'price' => $item['price'],
+                'price' => $item['price'] - $discountProduct->discount * $item['price'] / 100,
             ]);
         }
-
-        return view('home.layout.checkout', ['order' => $order]);
+        session()->put('order', $order);
+        session()->put('price', $price);
+        session()->put('ship', $ship);
+        if ($request->ajax()) {
+            return response()->json([
+                'order' => $order,
+                'price' => $price,
+                'ship' => $ship,
+            ]);
+        }
+        return redirect()->back();
     }
 
-
+    public function checkOut(Request $request)
+    {
+        return view('home.layout.checkout', ['order' => session()->get('order'), 'price' => session()->get('price'), 'ship' => session()->get('ship')]);
+    }
     public function updateType(Request $request)
     {
         $validated = $request->validate([
@@ -80,6 +102,44 @@ class OrderController extends Controller
         $order->total = $validated['total'];
         $order->save();
         toastr()->timeOut(5000)->closeButton()->success('Cập nhật đơn hàng thành công');
+        return redirect()->back();
+    }
+    public function confirm(Request $request)
+    {
+        $validated = $request->validate([
+            'receiver_name' => 'required|string',
+            'address' => 'required|string',
+            'payment_type' => 'required|in:CASH,TRANSFER',
+            'bankName' => 'required_if:payment-type,TRANSFER',
+            'bankNumber' => 'required_if:payment-type,TRANSFER',
+        ]);
+
+        $order = Order::find($request->id);
+        $order->receiver_name = $validated['receiver_name'];
+        $order->address = $validated['address'];
+        $order->total_price = $validated['total'];
+        if ($validated['payment_type'] == 'CASH') {
+            $order->payment_type = 'CASH';
+        } else {
+            $order->payment_type = 'TRANSFER';
+            $bank = BankAccount::findOrFail($request->bank_id);
+            if ($bank) {
+                $bank = new BankAccount([
+                    'bank_name' => $validated['bankName'],
+                    'bank_number' => $validated['bankNumber'],
+                    'user_id' => $request->user()->id,
+                ]);
+            }
+        }
+        $order->bank()->save($bank);
+        session()->forget('cart');
+        session()->forget('order');
+        if ($request->ajax()) {
+            return response()->json([
+                'order' => $order,
+                'success' => 'Đặt hàng thành công',
+            ]);
+        }
         return redirect()->back();
     }
 }

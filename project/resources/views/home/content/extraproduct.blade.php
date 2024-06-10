@@ -4,8 +4,8 @@
         <img src="cardboard-box.png" class="h-16 w-16" alt="Logo" />
     </div>
     <hr class="h-px my-3 bg-gray-200" />
-    <div class="mx-auto">
-        <div class = "row gap-6 py-3 max-h-100" id = "product-container">
+    <div class="">
+        <div class = "row gap-6 py-3 max-h-100 justify-content-evenly d-flex" id = "product-container">
             @include('home.content.extraproduct-data')
         </div>
         <div class="d-flex justify-content-center align-items-center">

@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'is_active' => \App\Http\Middleware\IsActiveMiddleware::class,
             'ajax' => \App\Http\Middleware\EnsureAjaxRequest::class,
+            'order' => \App\Http\Middleware\OrderMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

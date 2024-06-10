@@ -94,13 +94,11 @@
 
                         <div class="list-group">
                             @foreach ($categories as $category)
-                                <a href="{{ $category->id }}"
+                                <button value="{{ $category->id }}" id="category-{{ $category->id }}"
                                     class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                                     {{ $category->name }}
-                                </a>
+                                </button>
                             @endforeach
-
-
                         </div>
 
                     </div>
@@ -131,6 +129,20 @@
                 type: "GET",
                 data: {
                     search: value
+                },
+                success: function(data) {
+                    $('#item-lists').html(data);
+                }
+            });
+        });
+        $(document).on('click', '.list-group-item-action', function(event) {
+            event.preventDefault();
+            let categoryId = $(this).val();
+            $.ajax({
+                url: "{{ route('category') }}",
+                type: "GET",
+                data: {
+                    category: categoryId
                 },
                 success: function(data) {
                     $('#item-lists').html(data);

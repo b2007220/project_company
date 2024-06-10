@@ -22,7 +22,6 @@ Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/sort/{sort}', [HomeController::class, 'sort'])->name('sort');
 Route::get('/load-more', [HomeController::class, 'loadMore'])->name('load-more');
-Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 Route::get('/order', [HomeController::class, 'order'])->name('order');
 
 Route::middleware(
@@ -31,8 +30,9 @@ Route::middleware(
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
-    Route::get('/order', [HomeController::class, 'order'])->name('order');
+    Route::post('/checkout', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/checkout', [OrderController::class, 'checkOut'])->name('order.checkout')->middleware('order');
+    Route::post('/order', [OrderController::class, 'confirm'])->name('order.confirm');
 
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('', [HomeController::class, 'cart'])->name('index');

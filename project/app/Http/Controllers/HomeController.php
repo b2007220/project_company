@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Order;
 
 class HomeController extends Controller
 {
@@ -61,6 +62,11 @@ class HomeController extends Controller
                         break;
                 }
             }
+            if ($request->category) {
+                $productsQuery->whereHas('categories', function ($query) use ($request) {
+                    $query->where('category_id', $request->category);
+                });
+            }
             $products = $productsQuery->paginate(9);
 
             return view('home.content.category-data', ['products' => $products, 'categories' => $categories])->render();
@@ -89,13 +95,10 @@ class HomeController extends Controller
     }
     public function order(Request $request)
     {
-        return view('home.layout.order');
-    }
-
-
-    public function checkout(Request $request)
-    {
-        $cart = session()->get('cart', []);
-        return view('home.layout.checkout', ['cart' => $cart]);
+        $orders = Order::with(['discounts', 'products'])->orderBy('created_at', 'desc')->paginate(5);
+        if ($request->ajax()) {
+            return view('home.content.order-data', ['orders' => $orders]);
+        }
+        return view('home.layout.order', ['orders' => $orders]);
     }
 }

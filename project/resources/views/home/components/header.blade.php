@@ -27,12 +27,13 @@
                                             href="{{ route('profile.edit') }}">Thông tin</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
-                                        <a class="dropdown-item d-block px-3 py-2 small text-dark" href="order.html">Lịch sử
+                                        <a class="dropdown-item d-block px-3 py-2 small text-dark"
+                                            href="{{ route('order') }}">Lịch sử
                                             mua
                                             hàng</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
-                                        <a class="dropdown-item d-block px-3 py-2 small text-dark" href="#">Đổi mật
+                                        <a class="dropdown-item d-block px-3 py-2 small text-dark" href="">Đổi mật
                                             khẩu</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
@@ -46,10 +47,12 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="border-bottom px-4 py-3">
-                                <a href="{{ route('admin.home') }}"
-                                    class="d-block small text-body-secondary text-truncate text-decoration-none fs-6">Admin</a>
-                            </div>
+                            @if (Auth::user()->role == 'admin')
+                                <div class="border-bottom px-4 py-3">
+                                    <a href="{{ route('admin.home') }}"
+                                        class="d-block small text-body-secondary text-truncate text-decoration-none fs-6">Admin</a>
+                                </div>
+                            @endif
                         </div>
                         <button
                             class="navbar-toggler d-inline-flex align-items-center p-2 justify-center small text-dark border rounded d-md-none space-x-3"

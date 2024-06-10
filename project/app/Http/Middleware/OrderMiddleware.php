@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsActiveMiddleware
+class OrderMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,9 @@ class IsActiveMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->is_active === false) {
-            toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị khóa');
-            return redirect('/login');
+        $order = session()->get('order');
+        if (empty($order)) {
+            return redirect(route('cart.index'));
         }
         return $next($request);
     }
