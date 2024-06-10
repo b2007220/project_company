@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Discount;
 
 class OrderController extends Controller
 {
@@ -29,18 +30,26 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|numeric',
             'total' => 'required|numeric',
         ]);
+        $cart = session()->get('cart', []);
 
         $order = Order::create([
-            'product_id' => $validated['product_id'],
-            'quantity' => $validated['quantity'],
-            'total' => $validated['total'],
+            'total_price' => $validated['total'],
+            'user_id' => $request->user()->id,
         ]);
-        toastr()->timeOut(5000)->closeButton()->success('Tạo đơn hàng thành công');
-        return redirect()->back();
+        if ($request->code) {
+            $discount = Discount::findOrFail($request->code);
+            $order->discounts()->attach($discount);
+        }
+        foreach ($cart as $item) {
+            $order->products()->attach($item['id'], [
+                'amount' => $item['amount'],
+                'price' => $item['price'],
+            ]);
+        }
+
+        return view('home.layout.checkout', ['order' => $order]);
     }
 
 

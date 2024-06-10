@@ -18,7 +18,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->enum('payment_type', ['CASH', 'TRANSFER'])->default('CASH');
             $table->enum('status', ['PENDING', 'DELIVERING', 'DELIVERED', 'CANCELLED', 'UNACCEPTED'])->default('PENDING');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->integer('total_price');
             $table->timestamp('delivery_date')->default(now()->addWeek());
         });

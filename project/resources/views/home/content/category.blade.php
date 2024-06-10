@@ -4,7 +4,7 @@
     </h2>
     <hr class="h-px my-3 bg-gray-200" />
     <div class="mx-auto container-fluid row gap-3">
-        <div class="col-md-2 p-0">
+        <div class="col-md-2 p-0 overflow-auto max-h-xl">
             <ul class="list-group rounded border shadow-md ">
                 <li class="list-group-item border-0 border-bottom border-dark border-2 rounded-0">
                     <nav class="navbar navbar-dark">
@@ -99,6 +99,8 @@
                                     {{ $category->name }}
                                 </a>
                             @endforeach
+
+
                         </div>
 
                     </div>
@@ -108,7 +110,7 @@
 
             </ul>
         </div>
-        <div id="item-lists" class="row gap-6 col-sm-10 col-12 py-3 max-h-100">
+        <div id="item-lists" class="row gap-6 col-md-10 col-12 py-3">
             @include('home.content.category-data')
         </div>
     </div>

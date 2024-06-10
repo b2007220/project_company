@@ -1,5 +1,5 @@
-<footer class="bg-white">
-    <div class="mx-auto w-100 container">
+<footer class="bg-white pt-10">
+    <div class="mx-auto w-100 container border-1 opacity-5 border rounded">
         <div class="row g-3 px-4 py-6 py-lg-5">
             <div class="col-6 col-md-3">
                 <h2 class="mb-6 small fw-bold text-dark text-uppercase">Company</h2>

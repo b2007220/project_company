@@ -13,7 +13,8 @@ class HomeController extends Controller
     {
         $topProducts = Product::topProducts();
         $salesProducts = Product::topDiscountedProducts();
-        return view('home.layout.index', ['topProducts' => $topProducts, 'salesProducts' => $salesProducts]);
+        $products = Product::paginate(6);
+        return view('home.layout.index', ['topProducts' => $topProducts, 'salesProducts' => $salesProducts, 'products' => $products]);
     }
     public function about()
     {
@@ -67,6 +68,14 @@ class HomeController extends Controller
 
         $products = $productsQuery->paginate(9);
         return view('home.layout.category', ['products' => $products, 'categories' => $categories]);
+    }
+    public function loadMore(Request $request)
+    {
+        if ($request->ajax()) {
+            $page = $request->input('page', 1);
+            $products = Product::paginate(6, ['*'], 'page', $page);
+            return view('home.content.extraproduct-data', ['products' => $products])->render();
+        }
     }
 
     public function show($id)

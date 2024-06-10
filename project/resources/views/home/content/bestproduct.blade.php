@@ -11,7 +11,7 @@
             @endphp
             @foreach ($chunkedProducts as $index => $chunk)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="card-group justify-content-evenly">
+                    <div class="card-group justify-content-evenly py-3">
                         @foreach ($chunk as $product)
                             <x-product-card :product-name="$product->name" :price="$product->price" :image-src="$product->pictures && $product->pictures->isNotEmpty()
                                 ? $product->pictures[0]->link

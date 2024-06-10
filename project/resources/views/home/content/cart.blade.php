@@ -17,10 +17,12 @@
                                 <h2 class="fs-4 fw-bold text-gray-900 text-truncate max-w-72">{{ $details['name'] }}
                                 </h2>
                                 <p class="mt-1 text-xs text-gray-700">
-                                    @if ($details['predifined'] > 0)
-                                        <span class="line-through">{{ number_format($details['price']) }} đồng</span>
-                                        {{ number_format($details['price'] - ($details['price'] * $details['predifined']) / 100) }}
-                                        đồng
+                                    @if ($details['predifined'])
+                                        <span
+                                            class="text-gray-900 text-lg"><s>{{ number_format($details['price']) }}</s>
+                                            Đồng<br>
+                                            <strong>{{ number_format($details['price'] - ($details['price'] * $details['predifined']->discount) / 100) }}</strong>
+                                            đồng</span>
                                     @else
                                         {{ number_format($details['price']) }} đồng
                                     @endif
@@ -74,21 +76,24 @@
 
             </div>
             <div class="rounded border bg-white p-3 shadow-md t-0-md w-13-md h-100">
-                <form action="" id="paymentForm">
+                <form action="{{ route('order.store') }}" id="paymentForm">
                     <h4 class="fw-bold text-gray-900 mb-4 text-center text-uppercase">Thông tin đơn hàng</h4>
                     <div class="d-flex justify-content-between">
                         <p class="text-gray-700">Tiền sản phẩm</p>
                         @php
                             $total = 0;
-                            foreach ($cart as $id => $details) {
-                                if ($details['predifined'] > 0) {
-                                    $total += $details['price'] - ($details['price'] * $details['predifined']) / 100;
-                                } else {
-                                    $total += $details['price'] * $details['amount'];
+                            if ($details['predifined']) {
+                                $discount = $details['predifined']->discount;
+                            }
+                            foreach ($cart as $id => $cartItem) {
+                                $price = $cartItem['price'];
+                                if ($cartItem['predifined']) {
+                                    $price -= ($price * $discount) / 100;
                                 }
+                                $total += $price * $cartItem['amount'];
                             }
                         @endphp
-                        <input type="hidden" value="{{ $total }}">
+                        <input type="hidden" value="{{ $total}}">
                         <p class="text-gray-700" id="total">{{ number_format($total) }} Đồng</p>
                     </div>
                     <div class="d-flex justify-content-between">

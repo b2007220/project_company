@@ -8,9 +8,7 @@ use App\Models\Discount;
 
 class CartController extends Controller
 {
-    public function index(Request $request)
-    {
-    }
+
 
     public function add(Request $request)
     {
@@ -73,7 +71,7 @@ class CartController extends Controller
         $discount = Discount::where('code', $request->code)->first();
         if ($discount->amount === 0 || $discount->expired_at < now()) {
             return response()->json(['message' => 'Discount code is invalid']);
-        }else{
+        } else {
             $cart[$discount->discount] = $discount->discount;
         }
         return response()->json(['cart' => $cart]);

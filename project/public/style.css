@@ -389,6 +389,9 @@ ul {
 .mt-4 {
     margin-top: 1rem;
 }
+.h-36 {
+    height: 2.25rem;
+}
 .pt-10 {
     padding-top: 2.5rem;
 }
@@ -483,6 +486,9 @@ ul {
 .max-w-full {
     max-width: 100%;
 }
+.w-full {
+    width: 100%;
+}
 .me-2 {
     margin-inline-end: 0.5rem;
 }
@@ -527,11 +533,20 @@ ul {
 .max-w-xs {
     max-width: 20rem;
 }
+.max-w-432 {
+    max-width: 27rem;
+}
 .w-40-rem {
     width: 10rem;
 }
+.min-h-56 {
+    min-height: 3.5rem;
+}
 .min-w-100 {
     min-width: 100%;
+}
+.min-w-108 {
+    min-width: 6.75rem;
 }
 .max-w-72 {
     max-width: 18rem;

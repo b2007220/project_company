@@ -12,6 +12,7 @@
         @include('home.content.carousel')
         @include('home.content.bestproduct')
         @include('home.content.saleproduct')
+        @include('home.content.extraproduct')
     </main>
     @include('home.components.footer')
 

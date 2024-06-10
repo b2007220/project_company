@@ -4,14 +4,14 @@
         <img src="best-price.png" class="h-16 w-16" alt="Logo" />
     </div>
     <hr class="h-px my-3 bg-gray-200" />
-    <div id="saleProduct" class="carousel carousel-dark slide" data-bs-ride="false">
+    <div id="saleProduct" class="carousel carousel-dark slide " data-bs-ride="false">
         <div class="carousel-inner">
             @php
                 $chunkedProducts = $salesProducts->chunk(3);
             @endphp
-                @foreach ($chunkedProducts as $index => $chunk)
+            @foreach ($chunkedProducts as $index => $chunk)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="card-group justify-content-evenly">
+                    <div class="card-group justify-content-evenly py-3">
                         @foreach ($chunk as $product)
                             <x-product-card :product-name="$product->name" :price="$product->price" :image-src="$product->pictures && $product->pictures->isNotEmpty()
                                 ? $product->pictures[0]->link

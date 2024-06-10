@@ -4,23 +4,24 @@
 
         <div id="carouselExampleIndicators" class="carousel carousel-dark slide relative max-w-3xl"
             data-bs-ride="carousel">
-            <div class="carousel-inner overflow-hidden h-md-96 position-relative">
+            <div class="carousel-inner overflow-hidden h-md-96 position-relative ">
                 @foreach ($product->pictures as $picture)
-                    <div class="carousel-item {{ $loop->first ? 'active' : '' }} overflow-hidden h-md-96">
-                        <img src="{{ asset('product/' . $picture->link) }}" class="d-block max-w-full h-auto rounded"
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }} overflow-hidden h-md-96 ">
+                        <img src="{{ asset('product/' . $picture->link) }}" class="d-block img-fluid rounded w-full"
                             alt="" />
                     </div>
                 @endforeach
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
             </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            </button>
 
             <ol class="carousel-indicators d-none d-sm-flex">
                 @foreach ($product->pictures as $picture)
