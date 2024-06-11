@@ -47,7 +47,6 @@
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
                     swal({
                         title: 'Lỗi!',
-                        text: result.message,
                         icon: 'error',
                         button: 'Đã hiểu',
                         timer: 1000

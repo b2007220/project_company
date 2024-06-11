@@ -102,9 +102,7 @@
                                 @endforeach
                                 {!! $categories->links() !!}
                             </div>
-
                         </div>
-
                     </div>
                 </li>
 

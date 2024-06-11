@@ -22,7 +22,6 @@ Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/sort/{sort}', [HomeController::class, 'sort'])->name('sort');
 Route::get('/load-more', [HomeController::class, 'loadMore'])->name('load-more');
-Route::get('/order', [HomeController::class, 'order'])->name('order');
 
 Route::middleware(
     ['auth', 'is_active']
@@ -33,6 +32,7 @@ Route::middleware(
     Route::post('/checkout', [OrderController::class, 'store'])->name('order.store');
     Route::get('/checkout', [OrderController::class, 'checkOut'])->name('order.checkout')->middleware('order');
     Route::post('/order', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::get('/order', [HomeController::class, 'order'])->name('order');
 
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('', [HomeController::class, 'cart'])->name('index');

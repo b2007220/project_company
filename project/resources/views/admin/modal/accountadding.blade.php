@@ -63,7 +63,6 @@
                 cache: false,
                 processData: false,
                 success: function(result) {
-                    console.log(result.account);
                     $('#addAccountModal').modal('hide');
                     content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div

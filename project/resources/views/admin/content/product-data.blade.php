@@ -340,7 +340,7 @@
         @endforeach
     </tbody>
 </table>
-{{ $products->links() }}
+{!! $products->links() !!}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const selectedPictures = new Set();

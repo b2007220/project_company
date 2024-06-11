@@ -95,7 +95,9 @@ class HomeController extends Controller
     }
     public function order(Request $request)
     {
-        $orders = Order::with(['discounts', 'products'])->orderBy('created_at', 'desc')->paginate(5);
+        $orders = Order::with(['discounts', 'products' => function ($query) {
+            $query->with('pictures');
+        }])->orderBy('created_at', 'desc')->paginate(5);
         if ($request->ajax()) {
             return view('home.content.order-data', ['orders' => $orders]);
         }

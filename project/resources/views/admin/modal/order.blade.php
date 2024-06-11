@@ -14,7 +14,7 @@
                     <select name="status" id="status" class="form-select max-w-100 overflow-auto">
                         <option value="PENDING">Đang chờ xử lý</option>
                         <option value="DELIVERING">Đang giao hàng</option>
-                        <option value="CANCEL">Đã hủy</option>
+                        <option value="CANCELLED">Đã hủy</option>
                         <option value="DELIVERED">Đã giao</option>
                         <option value="UNACCEPTED">Đã từ chối</option>
                     </select>
@@ -40,36 +40,35 @@
         const updateOrderModal = document.getElementById("updateOrderModal");
         updateOrderModal.addEventListener("show.bs.modal", function(event) {
             const button = event.relatedTarget;
+            const mode = button.getAttribute("data-mode");
+            const modalTitle = document.getElementById("modalTitle");
             const updateOrderForm = document.getElementById("updateOrderForm");
-            const orderId = document.getElementById("orderId");
             const status = document.getElementById("status");
+            const orderId = document.getElementById("orderId");
 
             updateOrderForm.reset();
 
 
-            const order = JSON.parse(button.getAttribute("data-account"));
-            updateOrderForm.action = `account/update-role`;
-            adjustAccountId.value = account.id;
-            adjustAccountRole.value = account.role;
-
-            let methodInput = accountForm.querySelector('input[name="_method"]');
+            const order = JSON.parse(button.getAttribute("data-order"));
+            status.value = order.status;
+            orderId.value = order.id;
+            let methodInput = updateOrderForm.querySelector('input[name="_method"]');
             if (!methodInput) {
                 methodInput = document.createElement('input');
                 methodInput.setAttribute('type', 'hidden');
                 methodInput.setAttribute('name', '_method');
-                accountForm.appendChild(methodInput);
+                updateOrderForm.appendChild(methodInput);
             }
-            methodInput.value = 'PUT';
+            methodInput.value = 'POST';
 
         });
     });
-
     document.getElementById("updateOrderForm").addEventListener("submit", function(event) {
         event.preventDefault();
         const updateOrderForm = event.target;
         const formData = new FormData(updateOrderForm);
-        const url = updateOrderForm.action;
-        const method = updateOrderForm.querySelector('input[name="_method"]');
+        const url = 'admin/order/update-type';
+        const method = 'POST';
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -80,15 +79,12 @@
             url: url,
             type: method,
             data: JSON.stringify(Object.fromEntries(formData.entries())),
-            cache: false,
-            processData: false,
             success: function(result) {
                 $('#updateOrderModal').modal('hide');
-
-                const row = document.querySelector(
-                    `tr[data-account-id="${result.account.id}"]`);
+                const row = document.getElementById("order-status-" + result.order.id);
                 if (row) {
-                    row.querySelector('td div').textContent = result.account.name;
+                    row.innerHTML =
+                        `<div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">${getStatusBadge(result.order.status)}</div>`;
                 }
                 swal({
                     title: 'Thành công!',
@@ -107,4 +103,19 @@
             }
         });
     });
+
+    function getStatusBadge(status) {
+        switch (status) {
+            case 'DELIVERING':
+                return '<span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang giao</span>';
+            case 'DELIVERED':
+                return '<span class="bg-blue-300 text-white p-2 fw-bolder border rounded">Đã giao</span>';
+            case 'CANCELLED':
+                return '<span class="bg-red-400 text-white p-2 fw-bolder border rounded">Hủy đơn</span>';
+            case 'UNACCEPTED':
+                return '<span class="bg-orange-300 text-white p-2 fw-bolder border rounded">Hủy đơn</span>';
+            default:
+                return '<span class="bg-violet-600 text-white p-2 fw-bolder border rounded">Chờ duyệt</span>';
+        }
+    }
 </script>

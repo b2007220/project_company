@@ -1,8 +1,8 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollabll max-h-lg-100 max-w-screen-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="exampleModalLabel" class="modal-title fs-5 text-xl fw-bolder text-gray-900">
+                <h3 id="orderModalLabel" class="modal-title fs-5 text-xl fw-bolder text-gray-900">
                     Chi tiết đơn hàng
                 </h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -28,188 +28,37 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/apple-watch.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple Watch" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            Apple Watch
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $599
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/apple-watch.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple Watch" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            Apple Watch
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $599
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/apple-watch.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple Watch" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            Apple Watch
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $599
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/apple-watch.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple Watch" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            Apple Watch
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $599
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/apple-watch.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple Watch" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            Apple Watch
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $599
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/apple-watch.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple Watch" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            Apple Watch
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $599
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/imac.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="Apple iMac" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            iMac 27"
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $2499
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <td class="fw-bolder p-4">
-                                            <img src="https://flowbite.com/docs/images/products/iphone-12.png"
-                                                class="w-16 md:w-32 max-w-100 max-h-full" alt="iPhone 12" />
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            IPhone 12
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            5
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            $999
-                                        </td>
-                                        <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
-                                            <a href="#" class="">Chi tiết</a>
-                                        </td>
-                                    </tr>
+                                <tbody id="order-products-body">
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Sub total -->
                         <div class="rounded border bg-white mt-0-md w-13-md p-3 overflow-y-scroll-custom">
-                            <div class="mb-2 d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-gray-700">Tiền sản phẩm</p>
-                                <p class="text-gray-700">129.990 đồng</p>
+                                <p id="product-price" class="text-gray-700 text-end">0 đồng</p>
                             </div>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-gray-700">Tiền phí ship</p>
-                                <p class="text-gray-700">4.990 đồng</p>
+                                <p id="shipping-fee" class="text-gray-700 text-end">0 đồng</p>
                             </div>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-gray-700">Phiếu giảm giá</p>
-                                <p class="text-gray-700">0 đồng</p>
+                                <p id="discount" class="text-gray-700 text-end">0 đồng</p>
                             </div>
                             <hr class="my-2" />
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-lg fw-bold">Tổng tiền</p>
                                 <div class="">
-                                    <p class="mb-1 text-lg fw-bold">134.980 đồng</p>
-                                    <p class="text-sm text-gray-700">Đã bao gồm VAT</p>
+                                    <p id="total-price" class="mb-1 text-lg fw-bold text-end">0 đồng</p>
+                                    <p class="text-sm text-gray-700 text-end">Đã bao gồm VAT</p>
                                 </div>
                             </div>
                             <hr class="my-2" />
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-lg fw-bold">Giao đến</p>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p class="mb-1 text-lg">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Necessitatibus dolores architecto veniam debitis et maxime
-                                    voluptate magni voluptatibus sunt consectetur, id,
-                                    exercitationem quasi ducimus pariatur cumque fugit
-                                    doloremque inventore harum.
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p id="delivery-address" class="mb-1 text-lg ">
                                 </p>
                             </div>
                         </div>
@@ -217,13 +66,70 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" id="cancel-order-button">
                     Hủy bỏ đơn hàng
                 </button>
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" id="reorder-button">
                     Đặt lại đơn hàng
                 </button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const orderModal = document.getElementById("orderModal");
+        orderModal.addEventListener("show.bs.modal", function(event) {
+            const button = event.relatedTarget;
+            const order = JSON.parse(button.getAttribute("data-order"));
+            console.log(order);
+            const orderProductsBody = document.getElementById("order-products-body");
+            orderProductsBody.innerHTML = '';
+            var total = 0;
+            order.products.forEach(product => {
+                total += product.pivot.price * product.pivot.amount;
+                const row = document.createElement('tr');
+                row.className = 'bg-white border-b hover:bg-gray-50';
+                row.innerHTML = `
+                <td class="fw-bolder p-4">
+                    <img src="product/${product.pictures[0].link}" class="w-16 w-32-md max-w-100 max-h-full" alt="${product.name}" />
+                </td>
+                <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">${product.name}</td>
+                <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">${Number(product.pivot.amount).toLocaleString('de-DE')}</td>
+                <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">${Number(product.pivot.price).toLocaleString('de-DE')}</td>
+                <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">
+                    <a href="/product/${product.id}" class="btn btn-success">Chi tiết</a>
+                </td>
+            `;
+                orderProductsBody.appendChild(row);
+            });
+            document.getElementById('product-price').innerText =
+                `${Number(total).toLocaleString('de-DE')} đồng`;
+            document.getElementById('shipping-fee').innerText =
+                `${Number(order.ship).toLocaleString('de-DE')} đồng`;
+            if (order.discounts.length == 0)
+                discountMoney = 0;
+            else
+                discountMoney = total * (order.discounts[0].discount / 100);
+
+            document.getElementById('discount').innerText =
+                `${Number(discountMoney).toLocaleString('de-DE')} đồng`;
+            document.getElementById('total-price').innerText =
+                `${Number(order.total_price).toLocaleString('de-DE')} đồng`;
+            document.getElementById('delivery-address').innerText = order.address;
+
+            const cancelOrderButton = document.getElementById('cancel-order-button');
+            cancelOrderButton.onclick = function() {
+
+                alert('Hủy đơn hàng');
+            };
+
+            // Thêm sự kiện cho nút đặt lại đơn hàng
+            const reorderButton = document.getElementById('reorder-button');
+            reorderButton.onclick = function() {
+
+                alert('Đặt lại đơn hàng');
+            };
+        });
+    });
+</script>

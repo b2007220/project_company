@@ -78,7 +78,12 @@ class OrderController extends Controller
         $order = Order::find($request->orderId);
         $order->status = $validated['status'];
         $order->save();
-        toastr()->timeOut(5000)->closeButton()->success('Cập nhật trạng thái đơn hàng thành công');
+        if ($request->ajax()) {
+            return response()->json([
+                'order' => $order,
+                'success' => 'Cập nhật trạng thái đơn hàng thành công',
+            ]);
+        }
         return redirect()->back();
     }
 
@@ -136,4 +141,5 @@ class OrderController extends Controller
         }
         return redirect()->back();
     }
+    
 }

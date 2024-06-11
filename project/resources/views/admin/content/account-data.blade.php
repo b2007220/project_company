@@ -156,4 +156,4 @@
         </tr>
     </tbody>
 </table>
-{{ $accounts->links() }}
+{!! $accounts->links() !!}

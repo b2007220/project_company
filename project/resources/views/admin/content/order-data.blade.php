@@ -27,7 +27,7 @@
             </th>
             <th
                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                Mã giảm giá đã sử dụng
+                Giảm giá
             </th>
             <th
                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
@@ -37,9 +37,7 @@
     </thead>
 
     <tbody class="bg-white">
-        @php
-            echo $orders[1]->discounts[0]->discount;
-        @endphp
+
         @foreach ($orders as $order)
             <tr data-bs-toggle="collapse" data-bs-target=".detail-{{ $order->id }}"
                 data-order-id="{{ $order->id }}">
@@ -47,64 +45,61 @@
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $order->user->name }}
+                        @if ($order->user->name)
+                            {{ $order->user->name }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $order->address }}
+                        @if ($order->address)
+                            {{ $order->address }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ $order->receiver_name }}
+                        @if ($order->receiver_name)
+                            {{ $order->receiver_name }}
+                        @else
+                            Chưa cập nhật
+                        @endif
                     </div>
                 </td>
-                @switch($order->status)
-                    @case('DELIVERING')
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+
+                <td id="order-status-{{ $order->id }}"
+                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                    <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+
+                        @switch($order->status)
+                            @case('DELIVERING')
                                 <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang giao</span>
-                            </div>
-                        </td>
-                    @break
+                            @break
 
-                    @case('DELIVERED')
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            @case('DELIVERED')
                                 <span class="bg-blue-300 text-white p-2 fw-bolder border rounded">Đã giao</span>
-                            </div>
-                        </td>
-                    @break
+                            @break
 
-                    @case('CANCELLED')
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            @case('CANCELLED')
                                 <span class="bg-red-400 text-white p-2 fw-bolder border rounded">Hủy đơn</span>
-                            </div>
-                        </td>
-                    @break
+                            @break
 
-                    @case('UNACCEPTED')
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            @case('UNACCEPTED')
                                 <span class="bg-orange-300 text-white p-2 fw-bolder border rounded">Hủy đơn</span>
-                            </div>
-                        </td>
-                    @break
+                            @break
 
-                    @default
-                        <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
-                            <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
+                            @default
                                 <span class="bg-violet-600 text-white p-2 fw-bolder border rounded">Chờ duyệt</span>
                             </div>
-                        </td>
-                @endswitch
-
-
+                    @endswitch
+                </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
@@ -126,9 +121,9 @@
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($order->discounts->count() > 0)
-                            {{ $order->discounts[0]->code }}
+                            {{ $order->discounts[0]->discount }} %
                         @else
-                            Không sử dụng mã giảm giá
+                            Không sử dụng giảm giá
                         @endif
                     </div>
                 </td>
@@ -214,4 +209,4 @@
         @endforeach
     </tbody>
 </table>
-{{ $orders->links() }}
+{!! $orders->links() !!}

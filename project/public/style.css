@@ -17,6 +17,9 @@ body {
 .max-w-164 {
     max-width: 10.25rem;
 }
+.bg-yellow-300 {
+    background-color: #f59e0b;
+}
 .picture-item {
     cursor: pointer;
 }
@@ -701,6 +704,9 @@ ul {
     }
     .mt-0-md {
         margin-top: 0 !important;
+    }
+    .w-32-md{
+        width: 8rem !important;
     }
 }
 @media (min-width: 1024px) {
