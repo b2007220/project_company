@@ -16,8 +16,7 @@ class CartController extends Controller
         $amount = $request->input('amount', 1);
 
         $cart = session()->get('cart', []);
-
-
+        $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
         if (isset($cart[$product['id']])) {
             $cart[$product['id']]['amount'] += $amount;
         } else {
@@ -26,7 +25,7 @@ class CartController extends Controller
                 "amount" => $amount,
                 "price" => $product->price,
                 "image" => $product->pictures()->first()->link,
-                'predifined' => $product->discounts()->where('is_predefined', 1)->first(),
+                'predifined' =>   $total_discount,
             ];
         }
 
@@ -72,7 +71,7 @@ class CartController extends Controller
         if ($discount->amount === 0 || $discount->expired_at < now()) {
             return response()->json(['message' => 'Discount code is invalid']);
         } else {
-            $cart[$discount->discount] = $discount->discount;
+            $cart['discount'] = $discount;
         }
         return response()->json(['cart' => $cart]);
     }

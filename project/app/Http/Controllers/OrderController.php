@@ -19,12 +19,7 @@ class OrderController extends Controller
         $availableProducts = Product::where('amount', '>', 0)->count();
         $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'desc')->paginate(5);
         if ($request->ajax()) {
-            return response()->json([
-                'orders' => $orders,
-                'totalOrders' => $totalOrders,
-                'availableProducts' => $availableProducts,
-                'newUsers' => $newUsers,
-            ])->render();
+            return view("admin.content.order-data", ['orders' => $orders])->render();
         }
         return view('admin.layout.index', ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts]);
     }
@@ -38,24 +33,24 @@ class OrderController extends Controller
             'ship' => 'required|numeric',
         ]);
         $total = (int)$request->total;
-
         $price = (int)$validated['price'];
         $ship = (int)$validated['ship'];
         $cart = session()->get('cart', []);
         $order = Order::create([
             'total_price' =>  $total,
             'user_id' => $request->user()->id,
+            'ship' => $ship,
         ]);
         if ($validated['code']) {
             $code = $validated['code'];
-            $discountCode = Discount::findOrFail($code);
-            $order->discounts()->attach($discountCode);
+            $discountCode = Discount::where('code', $code)->first();
+            $order->discounts()->attach($discountCode, ['user_id' =>  $request->user()->id]);
         }
         foreach ($cart as $productId => $item) {
             $discountProduct = $item['predifined'];
             $order->products()->attach($productId, [
                 'amount' => $item['amount'],
-                'price' => $item['price'] - $discountProduct->discount * $item['price'] / 100,
+                'price' => $item['price'] - $discountProduct * $item['price'] / 100,
             ]);
         }
         session()->put('order', $order);
@@ -113,27 +108,26 @@ class OrderController extends Controller
             'bankName' => 'required_if:payment-type,TRANSFER',
             'bankNumber' => 'required_if:payment-type,TRANSFER',
         ]);
-
         $order = Order::find($request->id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
         $order->receiver_name = $validated['receiver_name'];
         $order->address = $validated['address'];
-        $order->total_price = $validated['total'];
-        if ($validated['payment_type'] == 'CASH') {
+        if ($validated['payment_type'] === 'CASH') {
             $order->payment_type = 'CASH';
         } else {
             $order->payment_type = 'TRANSFER';
-            $bank = BankAccount::findOrFail($request->bank_id);
-            if ($bank) {
-                $bank = new BankAccount([
-                    'bank_name' => $validated['bankName'],
-                    'bank_number' => $validated['bankNumber'],
-                    'user_id' => $request->user()->id,
-                ]);
-            }
+            $user = $request->user();
+            $bank = $user->bankAccounts()->firstOrCreate(
+                ['account_number' => $validated['bankNumber'], 'bank_name' => $validated['bankName']],
+                ['user_id' => $user->id]
+            );
         }
-        $order->bank()->save($bank);
-        session()->forget('cart');
-        session()->forget('order');
+        $order->bank_id = $bank->id;
+        $order->save();
+        $request->session()->flush();
         if ($request->ajax()) {
             return response()->json([
                 'order' => $order,

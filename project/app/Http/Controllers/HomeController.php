@@ -24,6 +24,7 @@ class HomeController extends Controller
 
     public function cart(Request $request)
     {
+
         $cart = session()->get('cart', []);
         if ($request->ajax()) {
             return view('home.layout.cart', ['cart' => $cart])->render();
@@ -33,7 +34,7 @@ class HomeController extends Controller
 
     public function category(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::paginate(6);
         $productsQuery = Product::with(['discounts' => function ($query) {
             $query->orderBy('is_active')->orderBy('is_predefined');
         }, 'pictures']);
@@ -68,7 +69,6 @@ class HomeController extends Controller
                 });
             }
             $products = $productsQuery->paginate(9);
-
             return view('home.content.category-data', ['products' => $products, 'categories' => $categories])->render();
         }
 

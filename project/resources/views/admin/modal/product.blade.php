@@ -167,7 +167,7 @@
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
                                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                            ${result.product.price.toLocaleString('en-US')} đ
+                                            ${Number(result.product.price).toLocaleString('de-DE')} đ
                                         </div>
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
@@ -175,9 +175,9 @@
                                             ${result.discounts && result.discounts.length > 0 ?
                                                 result.discounts.map(discount => discount.is_predefined ?
                                                 `<span>
-                                                    ${price.toLocaleString('en-US')} đ
+                                                    ${Number(price).toLocaleString('de-DE')} đ
                                                 </span>` :'').join('') :
-                                                `<span>  ${result.product.price.toLocaleString('en-US')} đ
+                                                `<span>  ${Number(result.product.price).toLocaleString('de-DE')} đ
                                                 </span>`
                                             }
                                         </div>

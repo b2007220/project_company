@@ -15,8 +15,16 @@
             </div>
             <div class="d-flex justify-content-between">
                 <p class="text-gray-700">Áp dụng phiếu giảm giá</p>
-                @if ($order->discount)
-                    <p class="text-gray-700">{{ ($order->price * $order->discount) / 100 }} đồng</p>
+                @php
+                    $discountPercentage = 0;
+                    if ($order->discounts) {
+                        foreach ($order->discounts as $discount) {
+                            $discountPercentage = $discount->discount;
+                        }
+                    }
+                @endphp
+                @if ($discountPercentage)
+                    <p class="text-gray-700">{{ ($price * $discountPercentage) / 100 }} đồng</p>
                 @else
                     <p class="text-gray-700">0 đồng</p>
                 @endif
@@ -35,7 +43,7 @@
             <h4 class="my-3">Phiếu thanh toán</h4>
             <form action="{{ route('order.confirm') }}" id="confirmForm" method="POST">
                 @csrf
-                <input type="hidden" name="order-id" value="{{ $order->id }}">
+                <input type="hidden" name="id" value="{{ $order->id }}">
                 <div class="mb-4">
                     <label for="name">Họ tên người nhận</label>
                     <input type="text" class="form-control" aria-label="name" value="{{ Auth::user()->name ?? '' }}"

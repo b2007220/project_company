@@ -21,7 +21,7 @@
                                         <span
                                             class="text-gray-900 text-lg"><s>{{ number_format($details['price']) }}</s>
                                             Đồng<br>
-                                            <strong>{{ number_format($details['price'] - ($details['price'] * $details['predifined']->discount) / 100) }}</strong>
+                                            <strong>{{ number_format($details['price'] - ($details['price'] * $details['predifined']) / 100) }}</strong>
                                             đồng</span>
                                     @else
                                         {{ number_format($details['price']) }} đồng
@@ -83,17 +83,19 @@
                         <p class="text-gray-700">Tiền sản phẩm</p>
                         @php
                             $total = 0;
+                            $discount = 0;
                             foreach ($cart as $id => $cartItem) {
                                 $price = $cartItem['price'];
                                 if ($cartItem['predifined']) {
-                                    $discount = $cartItem['predifined']->discount;
+                                    $discount += $cartItem['predifined'];
+
                                     $price -= ($price * $discount) / 100;
                                 }
                                 $total += $price * $cartItem['amount'];
                             }
                         @endphp
                         <input type="hidden" value="{{ $total }}" name="price">
-                        <p class="text-gray-700" id="total">{{ number_format($total) }} price</p>
+                        <p class="text-gray-700" id="total">{{ number_format($total) }} Đồng</p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p class="text-gray-700">Tiền phí ship</p>
@@ -101,20 +103,20 @@
                         <input type="hidden" value="{{ $ship }}" name="ship">
                         <p class="text-gray-700">{{ number_format($ship) }} Đồng</p>
                     </div>
-                    @if (session('discount'))
-                        <div class="d-flex justify-content-between">
-                            <p class="text-gray-700">Mã giảm giá</p>
-                            <p class="text-gray-700">-{{ session('discount') }}%</p>
-                        </div>
-                        <input type="hidden" value="{{ session('discount') }}" id="discount" name="code" />
-                    @endif
+
+                    <div class="d-flex justify-content-between">
+                        <p class="text-gray-700">Mã giảm giá</p>
+                        <p class="text-gray-700 discount-display">-0%</p>
+                    </div>
+                    <input type="hidden" value="" id="discount" name="code" />
+                    <input type="hidden" name="code" id="discount-code">
                     <hr class="my-4" />
                     <div class="d-flex justify-content-between">
                         <p class="fs-5 fw-bold">Tổng tiền</p>
                         <div class="">
-                            <p class="mb-1 fs-6 fw-bold" id="total-amount">{{ number_format($total + $ship) }} Đồng
+                            <p class="mb-1 fs-6 fw-bold total-amount-display">{{ number_format($total + $ship) }} Đồng
                             </p>
-                            <input type="hidden" value="{{ $total + $ship }}" name="total">
+                            <input type="hidden" value="" name="total" id='total-amount'>
                             <p class="small text-gray-700">Đã bao gồm VAT</p>
                         </div>
                     </div>
@@ -142,35 +144,45 @@
 </div>
 </div>
 <script>
-    document.getElementById("applyDiscountForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const applyDiscountForm = event.target;
-        const formData = new FormData(applyDiscountForm);
-        const url = '/cart/apply-discount'
-        const method = 'POST';
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
-            }
-        });
-        $.ajax({
-            url: url,
-            type: method,
-            data: JSON.stringify(Object.fromEntries(formData.entries())),
-            cache: false,
-            processData: false,
-            success: function(result) {
-                updateTotal();
-            }
-        });
-    });
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 'Content-Type': 'application/json'
             }
+        });
+        document.getElementById("applyDiscountForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const applyDiscountForm = event.target;
+            const formData = new FormData(applyDiscountForm);
+            const url = '/cart/apply-discount'
+            const method = 'POST';
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                }
+            });
+            $.ajax({
+                url: url,
+                type: method,
+                data: JSON.stringify(Object.fromEntries(formData.entries())),
+                cache: false,
+                processData: false,
+                success: function(result) {
+                    if (result.cart && result.cart.discount && result.cart.discount
+                        .discount) {
+                        var discountPercentage = result.cart.discount.discount;
+                        var discountCode = result.cart.discount.code;
+                        $('#discount').val(
+                            discountPercentage);
+                        $('.discount-display').text('-' + discountPercentage +
+                            '%');
+                        $('#discount-code').val(discountCode);
+                    }
+                    updateTotal();
+                }
+            });
         });
         $('.remove-button').click(function() {
             var id = $(this).data('product-id');
@@ -199,7 +211,6 @@
                 data: JSON.stringify(Object.fromEntries(updateForm.entries())),
 
                 success: function(response) {
-
                     updateTotal();
                 }
             });
@@ -251,7 +262,7 @@
                     var itemTotal = price;
                 }
                 if (discount > 0) {
-                    total += itemTotal * amount - (itemTotal * amount * discount / 100);
+                    total += itemTotal * amount * (1 - discount / 100);
                 } else {
                     total += itemTotal * amount;
                 }
@@ -259,7 +270,8 @@
 
             var ship = 9000; // Fixed shipping cost
             var finalTotal = total + ship;
-            $('#total-amount').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
+            $('.total-amount-display').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
+            $('#total-amount').val(finalTotal);
             $('#total').text(total.toLocaleString('de-DE') + ' Đồng');
         }
     });

@@ -13,11 +13,22 @@
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <div class="card-group justify-content-evenly py-3">
                         @foreach ($chunk as $product)
+                            @php
+                                $productDiscount = 0;
+                                foreach ($products as $product) {
+                                    if ($product->discounts && $product->discounts->isNotEmpty()) {
+                                        foreach ($product->discounts as $discount) {
+                                            if ($discount->pivot->is_predefined) {
+                                                $productDiscount += $discount->discount;
+                                            }
+                                        }
+                                    }
+                                }
+                            @endphp
+
                             <x-product-card :product-name="$product->name" :price="$product->price" :image-src="$product->pictures && $product->pictures->isNotEmpty()
                                 ? $product->pictures[0]->link
-                                : ''" :product-discount="$product->discounts && $product->discounts->isNotEmpty()
-                                ? $product->discounts[0]->discount
-                                : 0"
+                                : ''" :product-discount="$product->discounts && $product->discounts->isNotEmpty() ? $productDiscount : 0"
                                 :product-link="route('product', $product->id)" />
                         @endforeach
                     </div>

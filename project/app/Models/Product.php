@@ -28,7 +28,7 @@ class Product extends Model
     public function discounts()
     {
         return $this->belongsToMany(Discount::class, 'product_discounts', 'product_id', 'discount_id')
-            ->withPivot('is_predefined','id')
+            ->withPivot('is_predefined', 'id')
             ->orderBy('is_predefined', 'desc');
     }
     public static function topProducts()

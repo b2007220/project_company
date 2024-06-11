@@ -47,8 +47,16 @@
                 </p>
                 @if ($product->discounts->isNotEmpty())
                     @php
-                        $discount = $product->discounts->first();
-                        $productDiscount = $discount->discount;
+                        $productDiscount = 0;
+
+                        if ($product->discounts && $product->discounts->isNotEmpty()) {
+                            foreach ($product->discounts as $discount) {
+                                if ($discount->pivot->is_predefined) {
+                                    $productDiscount += $discount->discount;
+                                }
+                            }
+                        }
+
                         $priceWithDiscount = $product->price - ($product->price * $productDiscount) / 100;
                     @endphp
                     <span class="text-gray-900 text-lg">Giá tiền:<s> {{ number_format($product->price, 0, ',', '.') }}
@@ -114,11 +122,21 @@
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <div class="card-group justify-content-evenly">
                         @foreach ($chunk as $product)
+                            @php
+                                $productDiscount = 0;
+                                foreach ($products as $product) {
+                                    if ($product->discounts && $product->discounts->isNotEmpty()) {
+                                        foreach ($product->discounts as $discount) {
+                                            if ($discount->pivot->is_predefined) {
+                                                $productDiscount += $discount->discount;
+                                            }
+                                        }
+                                    }
+                                }
+                            @endphp
                             <x-product-card :product-name="$product->name" :price="$product->price" :image-src="$product->pictures && $product->pictures->isNotEmpty()
                                 ? $product->pictures[0]->link
-                                : ''" :product-discount="$product->discounts && $product->discounts->isNotEmpty()
-                                ? $product->discounts[0]->discount
-                                : 0"
+                                : ''" :product-discount="$product->discounts && $product->discounts->isNotEmpty() ? $productDiscount : 0"
                                 :product-link="route('product', $product->id)" />
                         @endforeach
                     </div>

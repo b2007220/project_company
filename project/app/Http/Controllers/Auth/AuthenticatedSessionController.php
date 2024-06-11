@@ -26,12 +26,19 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        if ($request->user()->is_active) {
+            $request->session()->regenerate();
 
-        if ($request->user()->role === 'ADMIN') {
-            return redirect('admin/');
-        };
-        return redirect()->intended(route('home'));
+            if ($request->user()->role === 'ADMIN') {
+                return redirect()->intended(route('admin.order.index'));
+            }
+
+            return redirect()->intended(route('home'));
+        }
+
+        Auth::logout();
+        toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị khóa');
+        return redirect()->route('login');
     }
 
     /**
@@ -45,6 +52,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->intended(route('home'))->with('success', 'Logged out successfully.');
     }
 }

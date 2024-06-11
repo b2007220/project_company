@@ -63,6 +63,7 @@
                 cache: false,
                 processData: false,
                 success: function(result) {
+                    console.log(result.account);
                     $('#addAccountModal').modal('hide');
                     content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
@@ -94,16 +95,11 @@
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
-                    ${result.account.is_active ? `<div
+                        <div
                             class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
                             <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang hoạt
                                 động</span>
-                        </div>` : ` <div
-                            class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
-                            <span class="bg-red-700 text-white p-2 fw-bolder border rounded">Vô hiệu
-                                hóa</span>
-                        </div>`}
-
+                        </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">

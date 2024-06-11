@@ -11,6 +11,10 @@
             </th>
             <th
                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                Tên người nhận
+            </th>
+            <th
+                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                 Trạng thái đơn hàng
             </th>
             <th
@@ -23,12 +27,19 @@
             </th>
             <th
                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
+                Mã giảm giá đã sử dụng
+            </th>
+            <th
+                class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                 Thao tác
             </th>
         </tr>
     </thead>
 
     <tbody class="bg-white">
+        @php
+            echo $orders[1]->discounts[0]->discount;
+        @endphp
         @foreach ($orders as $order)
             <tr data-bs-toggle="collapse" data-bs-target=".detail-{{ $order->id }}"
                 data-order-id="{{ $order->id }}">
@@ -44,6 +55,12 @@
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ $order->address }}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                    <div
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        {{ $order->receiver_name }}
                     </div>
                 </td>
                 @switch($order->status)
@@ -91,7 +108,7 @@
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ number_format($order->total, 0, ',', '.') }} đ
+                        {{ number_format($order->total_price, 0, ',', '.') }} đ
                     </div>
                 </td>
 
@@ -105,11 +122,21 @@
                         @endif
                     </div>
                 </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                    <div
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        @if ($order->discounts->count() > 0)
+                            {{ $order->discounts[0]->code }}
+                        @else
+                            Không sử dụng mã giảm giá
+                        @endif
+                    </div>
+                </td>
                 <td
                     class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
 
                     <button
-                        class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1"
+                        class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1 fw-bolder"
                         data-bs-toggle="modal" data-bs-target="#updateOrderModal"
                         data-order="{{ json_encode($order) }}">
                         Điều chỉnh
@@ -122,17 +149,17 @@
                 </td>
             </tr>
             <tr class="detail-{{ $order->id }} collapse">
-                <td colspan="7">
+                <td colspan="8">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th
                                     class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                    ID sản phẩm
+                                    Tên sản phẩm
                                 </th>
                                 <th
                                     class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
-                                    sản phẩm
+                                    Mô tả sản phẩm
                                 </th>
                                 <th
                                     class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
@@ -147,7 +174,6 @@
                         <tbody>
                             @foreach ($order->products as $product)
                                 <tr>
-
                                     <td
                                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
@@ -168,9 +194,8 @@
                                         class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
-                                            {{ number_format($product->pivot->quantity, 0, ',', '.') }}
+                                            {{ number_format($product->pivot->amount, 0, ',', '.') }}
                                         </div>
-
                                     </td>
                                     <td
                                         class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">

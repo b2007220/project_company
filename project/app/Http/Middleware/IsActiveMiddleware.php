@@ -16,7 +16,8 @@ class IsActiveMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->is_active === false) {
+        if (Auth::check() && Auth::user()->is_active === false) {
+            Auth::logout();
             toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị khóa');
             return redirect('/login');
         }

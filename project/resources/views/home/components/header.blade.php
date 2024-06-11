@@ -47,7 +47,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->role == 'ADMIN')
                                 <div class="border-bottom px-4 py-3">
                                     <a href="{{ route('admin.home') }}"
                                         class="d-block small text-body-secondary text-truncate text-decoration-none fs-6">Admin</a>

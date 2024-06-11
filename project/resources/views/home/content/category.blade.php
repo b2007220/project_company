@@ -93,12 +93,16 @@
                     <div class="collapse" id="productType">
 
                         <div class="list-group">
-                            @foreach ($categories as $category)
-                                <button value="{{ $category->id }}" id="category-{{ $category->id }}"
-                                    class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
-                                    {{ $category->name }}
-                                </button>
-                            @endforeach
+                            <div id="category-pagination" class="d-flex justify-content-center mt-3">
+                                @foreach ($categories as $category)
+                                    <button value="{{ $category->id }}" id="category-{{ $category->id }}"
+                                        class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                                        {{ $category->name }}
+                                    </button>
+                                @endforeach
+                                {!! $categories->links() !!}
+                            </div>
+
                         </div>
 
                     </div>

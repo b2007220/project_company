@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamp('delivery_date')->default(now()->addWeek());
             $table->string('receiver_name')->nullable();
             $table->integer('ship')->default(0);
-            $table->foreignId('bank_id')->constrained('bank_accounts')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('bank_id')->constrained('bank_accounts')->onUpdate('cascade')->onDelete('cascade')->nullable();
         });
     }
 
