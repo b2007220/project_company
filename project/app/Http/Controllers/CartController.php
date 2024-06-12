@@ -16,9 +16,16 @@ class CartController extends Controller
         $amount = $request->input('amount', 1);
 
         $cart = session()->get('cart', []);
+        if ($product->amount < $amount) {
+            return response()->json(['message' => 'The amount of product is not enough']);
+        }
         $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
         if (isset($cart[$product['id']])) {
-            $cart[$product['id']]['amount'] += $amount;
+            if ($product->amount < $cart[$product['id']]['amount'] + $amount) {
+                return response()->json(['message' => 'The amount of product is not enough']);
+            } else {
+                $cart[$product['id']]['amount'] += $amount;
+            }
         } else {
             $cart[$product['id']] = [
                 "name" => $product->name,
@@ -28,7 +35,6 @@ class CartController extends Controller
                 'predifined' =>   $total_discount,
             ];
         }
-
         session()->put('cart', $cart);
         return response()->json(['cart' => $cart]);
     }
@@ -49,10 +55,14 @@ class CartController extends Controller
     public function update(Request $request)
     {
         $productId = $request->id;
+        $product = Product::findOrFail($productId);
         $amount = (int) $request->amount;
         $cart = session()->get('cart', []);
 
         if (isset($cart[$productId])) {
+            if ($product->amount < $amount) {
+                return response()->json(['message' => 'The amount of product is not enough']);
+            }
             $cart[$productId]['amount'] = $amount;
             session()->put('cart', $cart);
         }

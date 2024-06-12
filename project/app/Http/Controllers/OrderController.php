@@ -144,6 +144,10 @@ class OrderController extends Controller
         }
         $order->bank_id = $bank->id;
         $order->save();
+        foreach ($order->products as $product) {
+            $product->amount -= $product->pivot->amount;
+            $product->save();
+        }
         $request->session()->flush();
         if ($request->ajax()) {
             return response()->json([
@@ -185,6 +189,9 @@ class OrderController extends Controller
         foreach ($order->products as $product) {
             if (isset($cart[$product->id])) {
                 $cart[$product->id]['amount'] += $product->pivot->amount;
+                if ($product->amount < $cart[$product->id]['amount'] + $product->pivot->amount) {
+                    return response()->json(['message' => 'The amount of product is not enough']);
+                }
             } else {
                 $cart[$product->id] = [
                     'name' => $product->name,

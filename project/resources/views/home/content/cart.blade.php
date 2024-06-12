@@ -213,6 +213,21 @@
                 success: function(response) {
                     updateTotal();
                 }
+                error: function(xhr) {
+                    const errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        for (const [key, value] of Object.entries(errors)) {
+                            console.log(key, value);
+                        }
+                        swal({
+                            title: 'Lỗi!',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            icon: 'error',
+                            button: 'OK',
+                            timer: 1000
+                        });
+                    }
+                }
             });
         });
 
