@@ -19,11 +19,14 @@ class OrderController extends Controller
         $availableProducts = Product::where('amount', '>', 0)->count();
         $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'desc')->paginate(5);
 
-        $countOrderPerDay = Order::selectRaw('DATE(created_at) as date, count(*) as count')
+        $countOrderPerDay = Order::where('status', ['CANCELLED', 'UNACCEPTED'])
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
             ->orderBy('date', 'desc')
             ->get();
-        $incomePerDay = Order::selectRaw('DATE(created_at) as date, sum(total_price) as total')
+
+        $incomePerDay = Order::whereNotIn('status', ['CANCELLED', 'UNACCEPTED', 'PENDING'])
+            ->selectRaw('DATE(created_at) as date, sum(total_price) as total')
             ->groupBy('date')
             ->orderBy('date', 'desc')
             ->get();

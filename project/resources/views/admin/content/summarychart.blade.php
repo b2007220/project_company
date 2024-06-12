@@ -55,6 +55,10 @@
         const dateObj = new Date(countOrderPerDay[i].date);
         const day = dateObj.getDate();
         ordersByDay[day] = countOrderPerDay[i].count;
+    }
+    for (let i = 0; i < incomePerDay.length; i++) {
+        const dateObj = new Date(incomePerDay[i].date);
+        const day = dateObj.getDate();
         incomeByDay[day] = incomePerDay[i].total;
     }
 
@@ -77,7 +81,7 @@
             curve: "smooth",
         },
         series: [{
-            name: "series1",
+            name: "Doanh thu",
             data: incomePerDayArray,
         }, ],
         xaxis: {
@@ -102,7 +106,7 @@
         },
 
         series: [{
-            name: "sales",
+            name: "Số đơn hàng",
             data: orderPerDay,
         }, ],
         xaxis: {
