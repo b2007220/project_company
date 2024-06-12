@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         @foreach ($orders as $order)
-            <tr class="bg-white border hover:bg-gray-50">
+            <tr class="bg-white border bg-gray-50-hover" data-order-id="{{ $order->id }}">
                 <td class="fw-bolder px-6 py-4"> {{ date('d-m-Y', strtotime($order->created_at)) }}
                 </td>
 
@@ -26,7 +26,7 @@
                     {{ date('d-m-Y', strtotime($order->delivery_date)) }}
                 </td>
 
-                <td class="px-6 py-4">
+                <td class="px-6 py-4" id="order-status-{{ $order->id }}">
                     @switch($order->status)
                         @case('DELIVERING')
                             <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang

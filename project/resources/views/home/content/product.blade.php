@@ -7,7 +7,7 @@
             <div class="carousel-inner overflow-hidden h-md-96 position-relative ">
                 @foreach ($product->pictures as $picture)
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }} overflow-hidden h-md-96 ">
-                        <img src="{{ asset('product/' . $picture->link) }}" class="d-block img-fluid rounded w-full"
+                        <img src="{{ asset('product/' . $picture->link) }}" class="d-block img-fluid rounded w-768"
                             alt="" />
                     </div>
                 @endforeach
@@ -98,7 +98,7 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <button type="submit" form="addToCart"
-                            class="text-dark text-uppercase bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 fw-bold rounded-pill fs-5 px-5 py-25 me-2 mb-2">
+                            class="text-dark text-uppercase bg-gray-800 bg-gray-900 fw-bold rounded-pill fs-5 px-5 py-25 me-2 mb-2">
                             thêm vào giỏ hàng
                         </button>
                     </div>

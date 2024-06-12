@@ -280,7 +280,7 @@
         const paymentForm = event.target;
         const formData = new FormData(paymentForm);
         console.log(Object.fromEntries(formData.entries()));
-        const url = 'checkout';
+        const url = 'order/checkout';
         const method = 'POST';
         $.ajaxSetup({
             headers: {
@@ -302,7 +302,7 @@
                     button: 'OK',
                     timer: 1000
                 });
-                window.location.href = 'checkout';
+                window.location.href = 'order/checkout';
             },
             error: function(xhr) {
                 const errors = xhr.responseJSON.errors;

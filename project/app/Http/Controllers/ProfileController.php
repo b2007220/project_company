@@ -24,7 +24,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
         $request->user()->fill($request->validated());
 
@@ -34,7 +34,45 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+    public function updateAvatar(Request $request)
+    {
+        $validated = $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $user = $request->user();
+
+        if ($request->file('avatar')) {
+            $avatar = $request->file('avatar');
+            $destinationPath = 'avatar/';
+            if ($user->avatar && file_exists($destinationPath . $user->avatar)) {
+                unlink($destinationPath . $user->avatar);
+            }
+            $profileImage = date('YmdHis') . "_" . uniqid() . "." . $avatar->getClientOriginalExtension();
+            $avatar->move($destinationPath, $profileImage);
+            $request->user()->update(['avatar' => $profileImage]);
+        } else {
+            error_log('No files found in the request');
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'avatar' => $user->avatar,
+            ]);
+        }
+
+
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
     /**

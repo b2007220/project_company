@@ -120,11 +120,20 @@ tr.show {
 .bg-gray-50 {
     background-color: #f9fafb;
 }
+.bg-gray-50-hover:hover {
+    background-color: #f9fafb;
+}
 .end-25 {
     inset-inline-end: 0.625rem;
 }
 .bg-blue-700 {
     background-color: #2563eb !important;
+}
+.text-gray-600 {
+    color: #4b5563;
+}
+.bg-blue-700:hover {
+    background-color: #233876 !important;
 }
 .bg-blue-300 {
     background-color: rgb(34 211 238);
@@ -440,7 +449,10 @@ ul {
 .tracking-tight {
     letter-spacing: -0.025em;
 }
-.text-gray-900:hover {
+.w-768 {
+    width: 48rem;
+}
+.text-gray-900-hover:hover {
     color: #343a40;
 }
 .bg-red-700 {
@@ -513,6 +525,15 @@ ul {
 .w-180 {
     width: 45rem;
 }
+.cursor-pointer {
+    cursor: pointer;
+}
+.w-320 {
+    width: 20rem;
+}
+nt-medium .h-320 {
+    height: 20rem;
+}
 .h-92 {
     height: 23rem;
 }
@@ -567,6 +588,13 @@ ul {
 .text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+}
+input::file-selector-button {
+    font-weight: bold;
+    color: white;
+    padding: 0.5em;
+    background-color: black;
+    cursor: pointer;
 }
 .space-x-4 {
     margin-left: 1rem;
@@ -705,7 +733,7 @@ ul {
     .mt-0-md {
         margin-top: 0 !important;
     }
-    .w-32-md{
+    .w-32-md {
         width: 8rem !important;
     }
 }

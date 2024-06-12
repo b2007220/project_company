@@ -44,6 +44,11 @@
     </div>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("addAccountModal").addEventListener("show.bs.modal", function(event) {
+            document.getElementById("addAccountForm").reset();
+        });
+    });
     document.getElementById("addAccountForm").addEventListener("submit", function(event) {
         event.preventDefault();
         const addAccountForm = event.target;

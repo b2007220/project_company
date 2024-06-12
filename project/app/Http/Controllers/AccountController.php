@@ -61,9 +61,24 @@ class AccountController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
             'password' => Hash::make($request->password),
         ]);
-
+        if ($request->phone) {
+            $user->phone = $request->phone;
+        }
+        if ($request->address) {
+            $user->address = $request->address;
+        }
+        if ($request->gender) {
+            $user->gender = $request->gender;
+        }
+        if ($request->hasFile('avatar')) {
+            $user->avatar = $request->file('avatar')->store('avatars');
+        } else {
+            $user->avatar = 'cat.png';
+        }
+        $user->save();
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,

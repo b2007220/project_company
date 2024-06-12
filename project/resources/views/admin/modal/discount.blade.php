@@ -45,6 +45,11 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("addDiscountModal").addEventListener("show.bs.modal", function(event) {
+            document.getElementById("addDiscountModal").reset();
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
         const addDiscountModal = document.getElementById("addDiscountModal");
         addDiscountModal.addEventListener("show.bs.modal", function(event) {
             const button = event.relatedTarget;

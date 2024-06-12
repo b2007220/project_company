@@ -70,7 +70,7 @@
                     Hủy bỏ đơn hàng
                 </button>
                 <button type="button" class="btn btn-primary" id="reorder-button">
-                    Đặt lại đơn hàng
+                    Thêm vào giỏ hàng
                 </button>
             </div>
         </div>
@@ -78,11 +78,16 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json'
+            }
+        });
         const orderModal = document.getElementById("orderModal");
         orderModal.addEventListener("show.bs.modal", function(event) {
             const button = event.relatedTarget;
             const order = JSON.parse(button.getAttribute("data-order"));
-            console.log(order);
             const orderProductsBody = document.getElementById("order-products-body");
             orderProductsBody.innerHTML = '';
             var total = 0;
@@ -117,19 +122,68 @@
             document.getElementById('total-price').innerText =
                 `${Number(order.total_price).toLocaleString('de-DE')} đồng`;
             document.getElementById('delivery-address').innerText = order.address;
-
             const cancelOrderButton = document.getElementById('cancel-order-button');
             cancelOrderButton.onclick = function() {
+                event.preventDefault();
+                $.ajax({
+                    url: 'order/cancle/' + order.id,
+                    type: 'PUT',
+                    success: function(result) {
+                        const row = document.getElementById("order-status-" + result
+                            .order.id);
+                        if (row) {
+                            row.innerHTML =
+                                ` <span class="bg-red-400 text-white p-2 fw-bolder border rounded ">Hủy đơn</span>`;
+                        }
+                        $('#orderModal').modal('hide');
+                        swal({
+                            title: 'Thành công!',
+                            text: result.message,
+                            icon: 'success',
+                            button: 'OK',
+                            timer: 1000
+                        });
+                    },
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            for (const [key, value] of Object.entries(errors)) {
+                                console.log(key, value);
+                            }
+                        }
+                    }
+                });
 
-                alert('Hủy đơn hàng');
             };
-
-            // Thêm sự kiện cho nút đặt lại đơn hàng
             const reorderButton = document.getElementById('reorder-button');
             reorderButton.onclick = function() {
-
-                alert('Đặt lại đơn hàng');
+                event.preventDefault();
+                $.ajax({
+                    url: 'order/reorder/' + order.id,
+                    type: 'POST',
+                    success: function(result) {
+                        $('#orderModal').modal('hide');
+                        swal({
+                            title: 'Thành công!',
+                            text: result.message,
+                            icon: 'success',
+                            button: 'OK',
+                            timer: 1000
+                        });
+                    },
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            for (const [key, value] of Object.entries(errors)) {
+                                console.log(key, value);
+                            }
+                        }
+                    }
+                });
             };
+
         });
+
+
     });
 </script>

@@ -76,7 +76,6 @@
                 $.ajax({
                     url: url,
                     type: 'DELETE',
-
                     success: function(result) {
                         console.log(result);
                         swal("Dữ liệu đã được xóa!", {

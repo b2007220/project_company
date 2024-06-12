@@ -116,8 +116,6 @@
         formData.append('categories', selectedCategories);
         const url = this.action;
         var method = this.querySelector('input[name="_method"]') ? 'PUT' : 'POST';
-
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

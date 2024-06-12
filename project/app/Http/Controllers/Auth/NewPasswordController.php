@@ -19,7 +19,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('home.layout.password', ['request' => $request]);
     }
 
     /**
@@ -31,7 +31,6 @@ class NewPasswordController extends Controller
     {
         $request->validate([
             'token' => ['required'],
-            'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -39,7 +38,7 @@ class NewPasswordController extends Controller
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $request->only( 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($request->password),
@@ -54,8 +53,8 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withInput($request->only('email'))
+            ->withErrors(['email' => __($status)]);
     }
 }

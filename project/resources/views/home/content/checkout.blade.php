@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="address">Address</label>
+                    <label for="address">Địa chỉ nhận hàng</label>
                     <input type="text" class="form-control" aria-label="address" id="address"
                         value="{{ Auth::user()->address ?? '' }}" name="address" />
                 </div>

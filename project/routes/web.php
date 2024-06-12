@@ -26,13 +26,23 @@ Route::get('/load-more', [HomeController::class, 'loadMore'])->name('load-more')
 Route::middleware(
     ['auth', 'is_active']
 )->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('/checkout', [OrderController::class, 'store'])->name('order.store');
-    Route::get('/checkout', [OrderController::class, 'checkOut'])->name('order.checkout')->middleware('order');
-    Route::post('/order', [OrderController::class, 'confirm'])->name('order.confirm');
-    Route::get('/order', [HomeController::class, 'order'])->name('order');
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('', [HomeController::class, 'profile'])->name('show');
+        Route::post('', [ProfileController::class, 'edit'])->name('edit');
+        Route::post('avatar', [ProfileController::class, 'updateAvatar'])->name('avatar');
+        Route::patch('', [ProfileController::class, 'update'])->name('update');
+        Route::delete('', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('checkout')->name('order.')->group(function () {
+    });
+    Route::prefix('order')->name('order.')->group(function () {
+        Route::get('', [HomeController::class, 'order'])->name('index');
+        Route::post('', [OrderController::class, 'confirm'])->name('confirm');
+        Route::put('cancle/{id}', [OrderController::class, 'cancle'])->name('cancle');
+        Route::post('reorder/{id}', [OrderController::class, 'reorder'])->name('reorder');
+        Route::post('checkout', [OrderController::class, 'store'])->name('store');
+        Route::get('checkout', [OrderController::class, 'checkOut'])->name('checkout')->middleware('order');
+    });
 
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('', [HomeController::class, 'cart'])->name('index');

@@ -11,7 +11,8 @@
                     @auth
                         <button class="d-flex bg-white small rounded-circle border-primary me-md-0 p-0" type="button"
                             id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="http://www.w3.org/2000/svg" alt="" class="w-8 h-8 border rounded-circle" />
+                            <img src="avatar/{{ Auth::user()->avatar }}" alt="Avatar" id="avatar-image-header"
+                                class="w-8 h-8 border rounded-circle" />
                         </button>
                         <div class="dropdown-menu z-3 position-absolute text-base bg-white border rounded shadow"
                             aria-labelledby="userMenu">
@@ -24,16 +25,17 @@
                                 <ul class="pt-2 pl-0">
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
                                         <a class="dropdown-item d-block px-3 py-2 small text-dark"
-                                            href="{{ route('profile.edit') }}">Thông tin</a>
+                                            href="{{ route('profile.show') }}">Thông tin</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
                                         <a class="dropdown-item d-block px-3 py-2 small text-dark"
-                                            href="{{ route('order') }}">Lịch sử
+                                            href="{{ route('order.index') }}">Lịch sử
                                             mua
                                             hàng</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
-                                        <a class="dropdown-item d-block px-3 py-2 small text-dark" href="">Đổi mật
+                                        <a class="dropdown-item d-block px-3 py-2 small text-dark"
+                                            href="{{ route('password.reset', ['token' => $token]) }}">Đổi mật
                                             khẩu</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
@@ -67,13 +69,13 @@
                     @else
                         <a href="{{ route('login') }}"
                             class="rounded border px-3 py-2 text-black text-decoration-none fw-bolder">
-                            Log in
+                            Đăng nhập
                         </a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}"
                                 class="rounded border px-3 py-2 text-black text-decoration-none fw-bolder">
-                                Register
+                                Đăng ký
                             </a>
                         @endif
                     @endauth

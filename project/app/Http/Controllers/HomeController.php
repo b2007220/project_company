@@ -9,7 +9,10 @@ use App\Models\Order;
 
 class HomeController extends Controller
 {
-
+    public function profile()
+    {
+        return view('home.layout.profile');
+    }
     public function home()
     {
         $topProducts = Product::topProducts();

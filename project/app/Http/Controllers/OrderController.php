@@ -141,5 +141,55 @@ class OrderController extends Controller
         }
         return redirect()->back();
     }
-    
+    public function cancle(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+        if ($order->status == 'DELIVERED' || $order->status == 'DELIVERING') {
+            return response()->json(['message' => 'Không thể hủy đơn hàng đã giao hoặc đang giao'], 400);
+        }
+        if ($order->status == 'CANCELLED') {
+            return response()->json(['message' => 'Đơn hàng đã bị hủy'], 400);
+        }
+        $order->status = 'CANCELLED';
+        $order->save();
+        if ($request->ajax()) {
+            return response()->json([
+                'order' => $order,
+                'success' => 'Hủy đơn hàng thành công',
+            ]);
+        }
+        return redirect()->back();
+    }
+    public function reorder(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+        $cart = session()->get('cart', []);
+        foreach ($order->products as $product) {
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['amount'] += $product->pivot->amount;
+            } else {
+                $cart[$product->id] = [
+                    'name' => $product->name,
+                    'amount' => $product->pivot->amount,
+                    'price' => $product->price,
+                    'image' => $product->pictures()->first()->link,
+                    'predifined' => $product->discounts()->where('is_predefined', true)->sum('discount'),
+                ];
+            }
+        }
+        session()->put('cart', $cart);
+        if ($request->ajax()) {
+            return response()->json([
+                'order' => $order,
+                'success' => 'Đặt hàng thành công',
+            ]);
+        }
+        return redirect()->back();
+    }
 }
