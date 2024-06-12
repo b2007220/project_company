@@ -18,10 +18,19 @@ class OrderController extends Controller
         $totalOrders = Order::count();
         $availableProducts = Product::where('amount', '>', 0)->count();
         $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'desc')->paginate(5);
+
+        $countOrderPerDay = Order::selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->get();
+        $incomePerDay = Order::selectRaw('DATE(created_at) as date, sum(total_price) as total')
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->get();
         if ($request->ajax()) {
             return view("admin.content.order-data", ['orders' => $orders])->render();
         }
-        return view('admin.layout.index', ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts]);
+        return view('admin.layout.index', ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts, 'countOrderPerDay' => $countOrderPerDay, 'incomePerDay' => $incomePerDay]);
     }
 
     public function store(Request $request)

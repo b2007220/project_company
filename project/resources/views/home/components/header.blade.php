@@ -35,7 +35,7 @@
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
                                         <a class="dropdown-item d-block px-3 py-2 small text-dark"
-                                            href="{{ route('password.reset', ['token' => $token]) }}">Đổi mật
+                                            href="">Đổi mật
                                             khẩu</a>
                                     </li>
                                     <li class="d-block py-2 px-3 text-dark rounded p-md-0">
