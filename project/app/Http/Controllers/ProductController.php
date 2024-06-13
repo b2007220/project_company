@@ -123,7 +123,6 @@ class ProductController extends Controller
                 'product' => $product,
                 'categories' => $product->categories,
                 'discounts' => $product->discounts,
-
             ]);
         }
         return redirect()->back()->with('success', 'Product updated successfully');
@@ -161,7 +160,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($productId);
         foreach ($request->selected_pictures as $pictureId) {
             $picture = ProductPicture::find($pictureId);
-            if ($picture && $picture->product_id == $product->id) {
+            if ($picture && $picture->product_id === $product->id) {
                 File::delete(public_path('product/' . $picture->link));
                 $picture->delete();
             }
@@ -170,7 +169,7 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'product' => $product
+                'pictures' => $product->pictures
             ]);
         }
         return redirect()->back()->with('success', 'Images deleted successfully');

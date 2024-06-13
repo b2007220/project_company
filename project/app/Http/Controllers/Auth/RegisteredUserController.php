@@ -39,13 +39,15 @@ class RegisteredUserController extends Controller
             'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
             'avatar' => ['nullable', 'image'],
         ]);
+        $defaultAvatar = 'cat.png';
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'avatar' => $defaultAvatar,
         ]);
-
         event(new Registered($user));
 
         Auth::login($user);

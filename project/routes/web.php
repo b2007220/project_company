@@ -22,7 +22,7 @@ Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/sort/{sort}', [HomeController::class, 'sort'])->name('sort');
 Route::get('/load-more', [HomeController::class, 'loadMore'])->name('load-more');
-
+    
 Route::middleware(
     ['auth', 'is_active']
 )->group(function () {

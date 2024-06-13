@@ -74,9 +74,11 @@ class AccountController extends Controller
             $user->gender = $request->gender;
         }
         if ($request->hasFile('avatar')) {
-            $user->avatar = $request->file('avatar')->store('avatars');
+            $user->avatar = $request->file('avatar')->store('avatar');
         } else {
-            $user->avatar = 'cat.png';
+            if ($user->avatar == null) {
+                $user->avatar = 'cat.png';
+            }
         }
         $user->save();
         if ($request->ajax()) {

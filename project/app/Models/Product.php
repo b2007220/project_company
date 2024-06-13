@@ -65,7 +65,7 @@ class Product extends Model
             ->with(['discounts' => function ($query) {
                 $query->where('discounts.is_active', true)
                     ->where('product_discounts.is_predefined', true);
-            }])
+            }])->distinct()
             ->get();
     }
     public static function sameCategories($product)

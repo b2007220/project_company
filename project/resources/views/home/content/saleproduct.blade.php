@@ -15,12 +15,10 @@
                         @foreach ($chunk as $product)
                             @php
                                 $productDiscount = 0;
-                                foreach ($products as $product) {
-                                    if ($product->discounts && $product->discounts->isNotEmpty()) {
-                                        foreach ($product->discounts as $discount) {
-                                            if ($discount->pivot->is_predefined) {
-                                                $productDiscount += $discount->discount;
-                                            }
+                                if ($product->discounts && $product->discounts->isNotEmpty()) {
+                                    foreach ($product->discounts as $discount) {
+                                        if ($discount->pivot->is_predefined) {
+                                            $productDiscount += $discount->discount;
                                         }
                                     }
                                 }

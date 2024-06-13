@@ -29,16 +29,15 @@
 
         function loadMoreData(page) {
             $.ajax({
-                    url: '/load-more?page=' + page,
-                    type: 'GET',
-                })
-                .success(function(data) {
-                    console.log(data);
+                url: '/load-more' + '?page=' + page,
+                type: 'GET',
+                success: function(data) {
                     $('#product-container').append(data);
-                })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                },
+                fail: function(jqXHR, ajaxOptions, thrownError) {
                     console.log('Server error occured');
-                });
-        }
+                }
+            })
+        };
     });
 </script>

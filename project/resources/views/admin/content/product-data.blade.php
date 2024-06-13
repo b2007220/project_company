@@ -1,6 +1,6 @@
 <table class="min-w-100">
-    <thead>
-        <tr>
+    <thead class="w-100">
+        <tr class="w-100">
             <th
                 class="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
                 Tên sản phẩm
@@ -32,7 +32,7 @@
         </tr>
     </thead>
 
-    <tbody class="bg-white">
+    <tbody class="bg-white w-100">
         @foreach ($products as $product)
             <tr data-bs-toggle="collapse" data-bs-target=".detail-{{ $product->id }}"
                 data-product-id="{{ $product->id }}">
@@ -130,8 +130,8 @@
                     </div>
                 </td>
             </tr>
-            <tr class="detail-{{ $product->id }} collapse">
-                <td colspan="7">
+            <tr class="detail-{{ $product->id }} collapse w-100">
+                <td colspan="7" class="w-100">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="p-3">Hình ảnh của sản phẩm</h5>
                         <button type="submit" form="deletePictureForm"
@@ -145,19 +145,19 @@
                             </svg>
                         </button>
                     </div>
-                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
-                        onsubmit="deleteImages(event,{{ $product->id }})">
+                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm" data-select-product="{{ $product->id }}">
                         <input type="hidden" name="selected_pictures" id="selected_pictures">
-                        <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg" id="pictures-container">
+                        <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg w-100"
+                            id="pictures-container">
                             @php
                                 $chunkedProducts = $product->pictures->chunk(4);
                             @endphp
-                            <div id="similarProduct-{{ $product->id }}"
-                                class="carousel carousel-dark slide w-100 max-w-1516" data-bs-ride="false">
+                            <div id="similarProduct-{{ $product->id }}" class="carousel carousel-dark slide w-100"
+                                data-bs-ride="false" >
                                 <div class="carousel-inner">
                                     @foreach ($chunkedProducts as $index => $chunk)
-                                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                            <div class="card-group justify-content-evenly">
+                                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }} w-100">
+                                            <div class="card-group justify-content-evenly w-100">
                                                 @foreach ($chunk as $picture)
                                                     <div class="border rounded border-gray-300 picture-item"
                                                         data-id="{{ $picture->id }}">
@@ -171,7 +171,8 @@
                                     @endforeach
                                     @if ($chunkedProducts->count() > 1)
                                         <button class="carousel-control-prev z-2 justify-content-start" type="button"
-                                            data-bs-target="#similarProduct-{{ $product->id }}" data-bs-slide="prev">
+                                            data-bs-target="#similarProduct-{{ $product->id }}"
+                                            data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         </button>
                                         <button class="carousel-control-next z-2 justify-content-end" type="button"
@@ -341,28 +342,4 @@
     </tbody>
 </table>
 {!! $products->links() !!}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectedPictures = new Set();
-
-        document.querySelectorAll('.picture-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const pictureId = this.getAttribute('data-id');
-                if (selectedPictures.has(pictureId)) {
-                    selectedPictures.delete(pictureId);
-                    this.classList.remove('selected');
-                } else {
-                    selectedPictures.add(pictureId);
-                    this.classList.add('selected');
-                }
-                console.log(Array.from(selectedPictures));
-            });
-        });
-
-        document.querySelector('#deletePictureForm').addEventListener('submit', function(event) {
-            const inputHidden = document.getElementById('selected_pictures');
-            inputHidden.value = JSON.stringify(Array.from(selectedPictures));
-            console.log(inputHidden.value);
-        });
-    });
-</script>
+<script></script>

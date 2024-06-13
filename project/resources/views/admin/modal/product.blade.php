@@ -142,8 +142,9 @@
                             total_discount += discount.discount;
                         }
                     });
-                    $price = product.price - (product.price * total_discount) / 100;
+                    price = product.price - (product.price * total_discount) / 100;
                 }
+
                 $('#addProductModal').modal('hide');
                 content = `
                                     <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
@@ -170,11 +171,7 @@
                                     </td>
                                     <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
                                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
-                                            ${result.discounts && result.discounts.length > 0 ?
-                                                result.discounts.map(discount => discount.is_predefined ?
-                                                `<span>
-                                                    ${Number(price).toLocaleString('de-DE')} đ
-                                                </span>` :'').join('') :
+                                            ${result.discounts && result.discounts.length > 0 ?  `<span> ${Number(price).toLocaleString('de-DE')} đ`:
                                                 `<span>  ${Number(result.product.price).toLocaleString('de-DE')} đ
                                                 </span>`
                                             }
@@ -240,9 +237,9 @@
                         .id);
                     newRow.setAttribute('data-bs-toggle', 'collapse');
                     newRow.setAttribute('data-bs-target', `.detail-${result.product.id} `);
+                    newRow.classList.add('w-100');
                     newRow.innerHTML = content;
                     document.querySelector('tbody').appendChild(newRow);
-                    console.log(newRow);
                 }
                 const images = document.getElementById("images").files;
                 const imageFormData = new FormData();
@@ -256,8 +253,9 @@
                     processData: false,
                     enctype: 'multipart/form-data',
                     contentType: false,
+                    cache: false,
                     success: function(fileResponse) {
-                        pictureContent = `<td colspan = "7">
+                        pictureContent = `<td colspan = "7" class='w-100'>
                                             <div class = "d-flex justify-content-between align-items-center">
                                                 <h5 class = "p-3"> Hình ảnh của sản phẩm </h5>
                                                 <button type = "submit"
@@ -277,22 +275,13 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                            <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
-                        onsubmit="deleteImages(event, ${ result.product.id })">
+                                            <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm" data-select-product="${result.product.id }">
                                                 <input type = "hidden"
                                                 name = "selected_pictures"
                                                 id = "selected_pictures">
                                                 <div class="d-flex align-items-center px-6 gap-4 flex-column-max-lg" id="pictures-container">
-                                                    <div id="similarProduct-${result.product.id}" class="carousel carousel-dark slide w-100 max-w-1516" data-bs-ride="false">
-                                                        <div class="carousel-inner">
-                                                            ${fileResponse.pictures && fileResponse.pictures.length > 0 ? `
-                                                                <button class="carousel-control-prev z-2 justify-content-start" type="button" data-bs-target="#similarProduct-${result.product.id}" data-bs-slide="prev">
-                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                </button>
-                                                                <button class="carousel-control-next z-2 justify-content-end" type="button" data-bs-target="#similarProduct-${result.product.id}" data-bs-slide="next">
-                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                </button>
-                                                            ` : ''}
+                                                    <div id="similarProduct-${result.product.id}" class="carousel carousel-dark slide w-100 " data-bs-ride="false"  >
+                                                        <div class="carousel-inner w-100">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -316,14 +305,13 @@
                                                     </svg>
                                                 </button>
                                             </div>`
-                        console.log('File uploaded:', fileResponse);
                         if (method === 'PUT') {
                             const detailRow = document.querySelector(
                                 `tr.detail-${result.product.id}.collapse`);
                             detailRow.innerHTML = pictureContent + `
                                         <table class = "w-100"  id="discount-table">
                                             <thead>
-                                                <tr data-pivot-id="${result.pivot.id}">
+                                                <tr >
                                                     <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center">
                                                         Code giảm giá
                                                     </th>
@@ -346,7 +334,7 @@
                                             "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Thao tác
                                                 </th>
 
-                                                </tr> <thead> <tbody>    ${result.discounts ? result.discounts.map(discount => `<tr>
+                                                </tr> <thead> <tbody>    ${result.discounts ? result.discounts.map(discount => `<tr data-pivot-id="${result.discount.pivot.id}">
                                                     <td
                                                         class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                                         <div
@@ -454,14 +442,14 @@
                         );
                         if (fileResponse.pictures && fileResponse.pictures.length >
                             0) {
-                            carouselInner.innerHTML = fileResponse.pictures.reduce((
+                            const carouselInnerHTML = fileResponse.pictures.reduce((
                                 acc, picture, index) => {
-                                if (index % 3 === 0) acc.push([]);
+                                if (index % 4 === 0) acc.push([]);
                                 acc[acc.length - 1].push(picture);
                                 return acc;
                             }, []).map((chunk, chunkIndex) =>
-                                `<div class="carousel-item ${chunkIndex === 0 ? 'active' : ''}">
-                                                <div class="card-group justify-content-evenly">
+                                `<div class="carousel-item ${chunkIndex === 0 ? 'active' : ''} w-100">
+                                                <div class="card-group justify-content-evenly w-100">
                                                     ${chunk.map(picture => `
                                                         <div class="border rounded border-gray-300 picture-item" data-id="${picture.id}">
                                                             <img class="img-fluid custom-img rounded" src="/product/${picture.link}" alt="">
@@ -469,6 +457,14 @@
                                                     `).join('')}
                                                 </div>
                                         </div>`).join('');
+                            carouselInner.innerHTML = carouselInnerHTML + ` ${fileResponse.pictures && fileResponse.pictures.length > 0 ? `
+                                <button class="carousel-control-prev z-2 justify-content-start" type="button" data-bs-target="#similarProduct-${result.product.id}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                </button>
+                                <button class="carousel-control-next z-2 justify-content-end" type="button" data-bs-target="#similarProduct-${result.product.id}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                </button>
+                            ` : ''}`
                         }
                     },
                     error: function(fileError) {
@@ -480,6 +476,7 @@
                         }
                     }
                 });
+                setupPictureItemEvents();
                 swal({
                     title: 'Thành công!',
                     text: result.message,
@@ -497,5 +494,6 @@
                 }
             }
         });
+
     });
 </script>

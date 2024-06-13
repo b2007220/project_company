@@ -101,7 +101,7 @@
                                         {{ $category->name }}
                                     </button>
                                 @endforeach
-                                {{-- {!! $categories->links() !!} --}}
+
                             </div>
                         </div>
                     </div>
@@ -197,19 +197,19 @@
                 });
         }
 
-        // $(document).on('click', '.list-group-item-action', function(event) {
-        //     event.preventDefault();
-        //     let categoryId = $(this).val();
-        //     $.ajax({
-        //         url: "{{ route('category') }}",
-        //         type: "GET",
-        //         data: {
-        //             category: categoryId
-        //         },
-        //         success: function(data) {
-        //             $('#item-lists').html(data);
-        //         }
-        //     });
-        // });
+        $(document).on('click', '.list-group-item-action', function(event) {
+            event.preventDefault();
+            let categoryId = $(this).val();
+            $.ajax({
+                url: "{{ route('category') }}",
+                type: "GET",
+                data: {
+                    category: categoryId
+                },
+                success: function(data) {
+                    $('#item-lists').html(data);
+                }
+            });
+        });
     });
 </script>

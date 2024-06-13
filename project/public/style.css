@@ -5,6 +5,9 @@
     box-sizing: border-box;
     font-family: "Montserrat";
 }
+html {
+    scroll-behavior: smooth;
+}
 body {
     width: 100%;
 }

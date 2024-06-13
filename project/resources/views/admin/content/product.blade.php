@@ -106,56 +106,7 @@
         });
     }
 
-    function deleteImages(event, id) {
-        event.preventDefault();
-        const url = `product/${id}/pictures/delete`;
-        const form = document.getElementById('deletePictureForm');
 
-        if (!(form instanceof HTMLFormElement)) {
-            console.error('The form element is not a valid HTMLFormElement.');
-            return;
-        }
-
-        const formData = new FormData(form);
-        console.log(Object.fromEntries(formData.entries()));
-
-        swal({
-            title: "Bạn có chắc chắn muốn xóa?",
-            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
-                    }
-                });
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    data: JSON.stringify(Object.fromEntries(formData.entries())),
-                    success: function(result) {
-                        console.log(result);
-                        swal("Dữ liệu đã được xóa!", {
-                            icon: "success",
-                            timer: 1000,
-                        });
-                        const selectedPictures = Array.from(formData.getAll('selected_pictures[]'));
-                        selectedPictures.forEach(pictureId => {
-                            const pictureElement = document.querySelector(
-                                '.picture-item[data-id="' + pictureId + '"]');
-                            if (pictureElement) {
-                                pictureElement.parentElement.removeChild(pictureElement);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    }
 
     function updateProductPrice(productId) {
         const url = `product/${productId}/discounted-price`;
@@ -164,7 +115,7 @@
             type: 'GET',
             success: function(result) {
                 const priceDiv = document.querySelector(
-                `tr[data-product-id="${productId}"] .product-price`);
+                    `tr[data-product-id="${productId}"] .product-price`);
                 if (priceDiv) {
                     priceDiv.innerHTML = `${result.discounted_price.toLocaleString('en-US')} đ`;
                 }
@@ -336,5 +287,80 @@
                 }
             }
         })
+    }
+    const selectedPictures = new Set();
+
+    function setupPictureItemEvents() {
+        document.querySelectorAll('.picture-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const pictureId = this.getAttribute('data-id');
+                if (selectedPictures.has(pictureId)) {
+                    selectedPictures.delete(pictureId);
+                    this.classList.remove('selected');
+                } else {
+                    selectedPictures.add(pictureId);
+                    this.classList.add('selected');
+                }
+                console.log(Array.from(selectedPictures));
+            });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        setupPictureItemEvents();
+        document.querySelector('#deletePictureForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const productId = document.querySelector('#deletePictureForm').getAttribute(
+                'data-select-product');
+            console.log(productId);
+            const inputHidden = document.getElementById('selected_pictures');
+            inputHidden.value = JSON.stringify(Array.from(selectedPictures));
+            deleteImages(event, productId);
+        });
+    });
+
+    function deleteImages(event, id) {
+        event.preventDefault();
+        const url = `product/${id}/pictures/delete`;
+        const form = document.getElementById('deletePictureForm');
+        const formData = new FormData(form);
+        console.log(Object.fromEntries(formData.entries()));
+
+        swal({
+            title: "Bạn có chắc chắn muốn xóa?",
+            text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    data: JSON.stringify(Object.fromEntries(formData.entries())),
+                    success: function(result) {
+                        selectedPictures.clear();
+
+                        const inputHidden = document.getElementById('selected_pictures');
+                        inputHidden.value = JSON.stringify(Array.from(selectedPictures));
+
+                        const pictures = document.querySelectorAll('.picture-item.selected');
+                        pictures.forEach(picture => {
+                            picture.remove();
+                        });
+                        swal("Dữ liệu đã được xóa!", {
+                            icon: "success",
+                            timer: 1000,
+                        });
+
+                    }
+                });
+            }
+        });
     }
 </script>
