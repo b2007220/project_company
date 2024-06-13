@@ -23,73 +23,81 @@ class AccountController extends Controller
 
     public function active(Request $request, $id)
     {
-        $user = User::find($id);
-        if ($user->role !== 'ADMIN') {
-            $user->is_active = !$user->is_active;
+        try {
+            $user = User::find($id);
+            if ($user->role !== 'ADMIN') {
+                $user->is_active = !$user->is_active;
+                $user->save();
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => true,
+                        'account' => $user
+                    ]);
+                }
+            } else {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'account' => $user
+                    ]);
+                }
+                return redirect()->back()->with('error', 'Không thể khóa tài khoản admin');
+            }
+            return redirect()->back()->with('success', 'Chỉnh sửa trạng thái tài khoản thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Lỗi chỉnh sửa trạng thái tài khoản');
+        }
+    }
+    public function store(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'phone' => ['nullable', 'string', 'max:255'],
+                'address' => ['nullable', 'string', 'max:255'],
+                'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
+                'avatar' => ['nullable', 'image'],
+            ]);
+            if ($request->password !== $request->password_confirmation) {
+                return redirect()->back()->with('error', 'Mật khẩu không khớp');
+            }
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => $request->role,
+                'password' => Hash::make($request->password),
+            ]);
+            if ($request->phone) {
+                $user->phone = $request->phone;
+            }
+            if ($request->address) {
+                $user->address = $request->address;
+            }
+            if ($request->gender) {
+                $user->gender = $request->gender;
+            }
+            if ($request->hasFile('avatar')) {
+                $user->avatar = $request->file('avatar')->store('avatar');
+            } else {
+                if ($user->avatar == null) {
+                    $user->avatar = 'cat.png';
+                }
+            }
             $user->save();
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'account' => $user
                 ]);
+            } else {
+                return redirect()->back()->with('error', 'Lỗi trong quá trình tạo tài khoản');
             }
-        } else {
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'account' => $user
-                ]);
-            }
-            return redirect()->back()->with('error', 'Failed to activate/deactivate admin account');
+            return redirect()->back()->with('success', 'Tạo tài khoản thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Lỗi trong quá trình tạo tài khoản');
         }
-        return redirect()->back()->with('success', 'Account activated/deactivated successfully');
-    }
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
-            'avatar' => ['nullable', 'image'],
-        ]);
-        if ($request->password !== $request->password_confirmation) {
-            return redirect()->back()->with('error', 'Password confirmation does not match');
-        }
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => Hash::make($request->password),
-        ]);
-        if ($request->phone) {
-            $user->phone = $request->phone;
-        }
-        if ($request->address) {
-            $user->address = $request->address;
-        }
-        if ($request->gender) {
-            $user->gender = $request->gender;
-        }
-        if ($request->hasFile('avatar')) {
-            $user->avatar = $request->file('avatar')->store('avatar');
-        } else {
-            if ($user->avatar == null) {
-                $user->avatar = 'cat.png';
-            }
-        }
-        $user->save();
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'account' => $user
-            ]);
-        } else {
-            return redirect()->back()->with('error', 'Account created falied');
-        }
-        return redirect()->back()->with('success', 'Account created successfully');
     }
     public function updateRole(Request $request)
     {
@@ -107,8 +115,8 @@ class AccountController extends Controller
                 ]);
             }
         } else {
-            return redirect()->back()->with('error', 'Account role update falied');
+            return redirect()->back()->with('error', 'Cập nhật vai trò tài khoản thất bại');
         }
-        return redirect()->back()->with('success', 'Account role update successfully');
+        return redirect()->back()->with('success', 'Cập nhật vai trò tài khoản thành công');
     }
 }

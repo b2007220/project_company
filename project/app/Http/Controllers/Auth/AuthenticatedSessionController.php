@@ -24,25 +24,30 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        if ($request->authenticate()) {
-            if ($request->user()) {
-                if ($request->user()->is_active) {
-                    $request->session()->regenerate();
+        try {
+            if ($request->authenticate()) {
+                if ($request->user()) {
+                    if ($request->user()->is_active) {
+                        $request->session()->regenerate();
 
-                    if ($request->user()->role === 'ADMIN') {
+                        if ($request->user()->role === 'ADMIN') {
+                            toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
+                            return redirect()->intended(route('admin.order.index'));
+                        }
                         toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
-                        return redirect()->intended(route('admin.order.index'));
+                        return redirect()->intended(route('home'));
                     }
-                    toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
-                    return redirect()->intended(route('home'));
-                }
 
-                Auth::logout();
-                toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị khóa');
+                    Auth::logout();
+                    toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị khóa');
+                    return redirect()->route('login');
+                }
+            } else {
+                toastr()->timeOut(5000)->closeButton()->error('Tài khoản hoặc mật khẩu không đúng');
                 return redirect()->route('login');
             }
-        } else {
-            toastr()->timeOut(5000)->closeButton()->error('Tài khoản hoặc mật khẩu không đúng');
+        } catch (\Exception $e) {
+            toastr()->timeOut(5000)->closeButton()->error('Đăng nhập thất bại');
             return redirect()->route('login');
         }
     }
@@ -52,12 +57,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        try {
+            Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
-        toastr()->timeOut(0)->closeButton()->success('Đăng xuất thành công');
-        return redirect()->intended(route('home'));
+            $request->session()->regenerateToken();
+            toastr()->timeOut(0)->closeButton()->success('Đăng xuất thành công');
+            return redirect()->intended(route('home'));
+        } catch (\Exception $e) {
+            toastr()->timeOut(5000)->closeButton()->error('Đăng xuất thất bại');
+            return redirect()->route('home');
+        }
     }
 }

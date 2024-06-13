@@ -21,63 +21,75 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-        ]);
-
-        $category = Category::create($data);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Category added successfully',
-                'category' => $category
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
             ]);
-        }
 
-        return redirect()->back()->with('success', 'Category added successfully');
+            $category = Category::create($data);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Thêm loại sản phẩm thành công',
+                    'category' => $category
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Thêm loại sản phẩm thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Thêm loại sản phẩm thất bại');
+        }
     }
 
 
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-        ]);
-
-        $category = Category::findOrFail($id);
-        $category->update($data);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Category updated successfully',
-                'category' => $category
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
             ]);
-        }
 
-        return redirect()->back()->with('success', 'Category updated successfully');
+            $category = Category::findOrFail($id);
+            $category->update($data);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cập nhật loại sản phẩm thành công',
+                    'category' => $category
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Cập nhật loại sản phẩm thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Cập nhật loại sản phẩm thất bại');
+        }
     }
 
 
     public function destroy(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
+        try {
+            $category = Category::findOrFail($id);
 
-        if ($category->delete()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'category' => $category
-                ]);
+            if ($category->delete()) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => true,
+                        'category' => $category
+                    ]);
+                }
+                return redirect()->back()->with('success', 'Xóa loại sản phẩm thành công');
+            } else {
+                if ($request->ajax()) {
+                    return response()->json(['success' => false]);
+                }
+                return redirect()->back()->with('error', 'Xóa loại sản phẩm thất bại');
             }
-            return redirect()->back()->with('success', 'Category deleted successfully');
-        } else {
-            if ($request->ajax()) {
-                return response()->json(['success' => false]);
-            }
-            return redirect()->back()->with('error', 'Failed to delete category');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Xóa loại sản phẩm thất bại');
         }
     }
     public function showCategoryProducts(Category $category)

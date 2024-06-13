@@ -26,6 +26,9 @@ body {
 .picture-item {
     cursor: pointer;
 }
+.mt-24 {
+    margin-top: 1.5rem;
+}
 .active > .page-link,
 .page-link.active {
     color: #2563eb !important;
@@ -278,6 +281,20 @@ tr.show {
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
+.mr-1 {
+    margin-right: 0.25rem;
+}
+.mt-1 {
+    margin-top: 0.25rem;
+}
+.flex-shrink-0 {
+    flex-shrink: 0;
+}
+.banner {
+    object-fit: cover;
+    object-position: center;
+    transition: all 50ms;
+}
 .py-3 {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -507,8 +524,14 @@ ul {
 .w-full {
     width: 100%;
 }
+.max-w-2xl {
+    max-width: 42rem;
+}
 .me-2 {
     margin-inline-end: 0.5rem;
+}
+.w-100 {
+    width: 100%;
 }
 .w-100-rem {
     width: 25rem !important;
@@ -533,6 +556,12 @@ ul {
 }
 .w-320 {
     width: 20rem;
+}
+.w-32 {
+    width: 8rem;
+}
+.h-32 {
+    height: 8rem;
 }
 nt-medium .h-320 {
     height: 20rem;

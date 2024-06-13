@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductDiscountController;
@@ -99,6 +100,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
             Route::put('active/{id}', [AccountController::class, 'active'])->name('active');
             Route::put('update-role', [AccountController::class, 'updateRole'])->name('update-role');
+        });
+        Route::prefix('banner')->name('banner.')->group(function(){
+            Route::get('',[BannerController::class,'index'])->name('index');
         });
     });
 });

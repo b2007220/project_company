@@ -30,28 +30,34 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
-            'avatar' => ['nullable', 'image'],
-        ]);
-        $defaultAvatar = 'cat.png';
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'phone' => ['nullable', 'string', 'max:255'],
+                'address' => ['nullable', 'string', 'max:255'],
+                'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
+                'avatar' => ['nullable', 'image'],
+            ]);
+
+            $defaultAvatar = 'cat.png';
 
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'avatar' => $defaultAvatar,
-        ]);
-        event(new Registered($user));
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'avatar' => $defaultAvatar,
+            ]);
+            event(new Registered($user));
 
-        Auth::login($user);
-        toastr()->timeOut(5000)->closeButton()->success('Đăng ký thành công');
-        return redirect(route('home', absolute: false));
+            Auth::login($user);
+            toastr()->timeOut(5000)->closeButton()->success('Đăng ký thành công');
+            return redirect(route('home', absolute: false));
+        } catch (\Exception $e) {
+            toastr()->timeOut(5000)->closeButton()->error('Đăng ký thất bại');
+            return redirect(route('register', absolute: false));
+        }
     }
 }

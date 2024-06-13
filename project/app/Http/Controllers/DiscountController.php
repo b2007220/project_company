@@ -23,75 +23,95 @@ class DiscountController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'discount' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
-        ]);
-        $data['expired_at'] = request('expire');
-        $data['code'] = strtoupper(uniqid());
-        unset($data['expire']);
-        $discount = Discount::create($data);
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Discount added successfully',
-                'discount' => $discount
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
+                'discount' => 'required|numeric',
+                'amount' => 'required|numeric',
+                'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
             ]);
+            $data['expired_at'] = request('expire');
+            $data['code'] = strtoupper(uniqid());
+            unset($data['expire']);
+            $discount = Discount::create($data);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Thêm mã giảm giá thành công',
+                    'discount' => $discount
+                ]);
+            }
+            return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false]);
+            }
+            return redirect()->back()->with('error', 'Thêm mã giảm giá thất bại');
         }
-
-        return redirect()->back()->with('success', 'Discount added successfully');
     }
 
 
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'discount' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
-        ]);
-        if ($request->expire) {
-            $data['expired_at'] = $request->expire;
-        } else {
-            $data['expired_at'] =  Carbon::now()->addWeeks(2);
-        }
-
-        unset($data['expire']);
-        $discount = Discount::find($id);
-
-        $discount->update($data);
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Discount updated successfully',
-                'discount' => $discount
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
+                'discount' => 'required|numeric',
+                'amount' => 'required|numeric',
+                'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])]
             ]);
-        }
+            if ($request->expire) {
+                $data['expired_at'] = $request->expire;
+            } else {
+                $data['expired_at'] =  Carbon::now()->addWeeks(2);
+            }
 
-        return redirect()->back()->with('success', 'Discount updated successfully');
+            unset($data['expire']);
+            $discount = Discount::find($id);
+
+            $discount->update($data);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cập nhật mã giảm giá thành công',
+                    'discount' => $discount
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Cập nhật mã giảm giá thành công');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false]);
+            }
+            return redirect()->back()->with('error', 'Cập nhật mã giảm giá thất bại');
+        }
     }
 
     public function destroy(Request $request, $id)
     {
-        $discount = Discount::findOrFail($id);
+        try {
+            $discount = Discount::findOrFail($id);
 
-        if ($discount->delete()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'discount' => $discount
-                ]);
+            if ($discount->delete()) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => true,
+                        'discount' => $discount
+                    ]);
+                }
+                return redirect()->back()->with('success', 'Xóa mã giảm giá thành công');
+            } else {
+                if ($request->ajax()) {
+                    return response()->json(['success' => false]);
+                }
+                return redirect()->back()->with('error', 'Xóa mã giảm giá thất bại');
             }
-            return redirect()->back()->with('success', 'Discount deleted successfully');
-        } else {
+        } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json(['success' => false]);
             }
-            return redirect()->back()->with('error', 'Failed to delete discount');
+            return redirect()->back()->with('error', 'Xóa mã giảm giá thất bại');
         }
     }
 }

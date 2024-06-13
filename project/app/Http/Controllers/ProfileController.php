@@ -37,10 +37,10 @@ class ProfileController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Profile updated successfully'
+                'message' => 'Cập nhật thông tin thành công'
             ]);
         }
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
     public function updateAvatar(Request $request)
     {
@@ -65,14 +65,14 @@ class ProfileController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Profile updated successfully',
+                'message' => 'Cập nhật thông tin thành công',
                 'avatar' => $user->avatar,
             ]);
         }
 
 
 
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
 
     /**
