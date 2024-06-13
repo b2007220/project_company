@@ -37,7 +37,7 @@
 
 
                 <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-blue-800 fw-bold fs-6 rounded text-sm w-100 px-5 py-25 text-center">
+                    class="text-white bg-blue-700 hover:bg-blue-800 fw-bold fs-6 rounded-pill border text-sm w-100 px-5 py-25 text-center">
                     Đăng nhập
                 </button>
             </form>

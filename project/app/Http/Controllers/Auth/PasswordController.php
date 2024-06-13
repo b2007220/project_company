@@ -10,6 +10,10 @@ use Illuminate\Validation\Rules\Password;
 
 class PasswordController extends Controller
 {
+    public function index(Request $request)
+    {
+        return view('home.layout.password');
+    }
     /**
      * Update the user's password.
      */
@@ -23,7 +27,7 @@ class PasswordController extends Controller
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
-
+        toastr()->timeOut(5000)->closeButton()->success('Thay đổi mật khẩu thành công');
         return back()->with('status', 'password-updated');
     }
 }

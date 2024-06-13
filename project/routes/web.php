@@ -22,7 +22,7 @@ Route::get('/product/{id}', [HomeController::class, 'show'])->name('product');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/sort/{sort}', [HomeController::class, 'sort'])->name('sort');
 Route::get('/load-more', [HomeController::class, 'loadMore'])->name('load-more');
-    
+
 Route::middleware(
     ['auth', 'is_active']
 )->group(function () {
@@ -96,8 +96,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::prefix('account')->name('account.')->group(function () {
             Route::get('', [AccountController::class, 'index'])->name('index');
             Route::post('add', [AccountController::class, 'store'])->name('add');
-            // Route::post('update/{id}', [AccountController::class, 'update'])->name('update');
-            // Route::delete('delete/{user}', [AccountController::class, 'destroy'])->name('delete');
+
             Route::put('active/{id}', [AccountController::class, 'active'])->name('active');
             Route::put('update-role', [AccountController::class, 'updateRole'])->name('update-role');
         });

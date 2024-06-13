@@ -29,6 +29,6 @@ class UpdateExpiredDiscounts extends Command
             }
         }
 
-        $this->info('Expired discounts updated successfully.');
+        $this->info('Mã giảm giá đã cập nhật trạng thái.');
     }
 }

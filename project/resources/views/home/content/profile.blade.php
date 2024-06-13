@@ -11,7 +11,7 @@
             <div class="mb-4">
                 <label for="email">Email tài khoản </label>
                 <input type="email" class="form-control" aria-label="email" value="{{ Auth::user()->email ?? '' }}"
-                    disabled name="email" />
+                    readonly="readonly" name="email" />
             </div>
 
             <div class="mb-4">

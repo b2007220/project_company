@@ -28,7 +28,8 @@
                         required />
                 </div>
                 <div class="mb-3">
-                    <label for="password_confirmation" class="d-block mb-2 text-sm font-medium text-gray-900 fw-bolder">Nhập lại mật
+                    <label for="password_confirmation"
+                        class="d-block mb-2 text-sm font-medium text-gray-900 fw-bolder">Nhập lại mật
                         khẩu</label>
                     <input type="password" id="password_confirmation" name="password_confirmation"
                         class="bg-gray-50 border border-gray-500 text-gray-900 text-sm rounded d-block w-100 p-25"
@@ -41,7 +42,7 @@
                     </a>
 
                     <button type="submit"
-                        class="text-white bg-blue-700 hover:bg-blue-800 fw-bold fs-6 rounded text-sm  px-5 py-25 text-center">
+                        class="text-white bg-blue-700 hover:bg-blue-800 fw-bold fs-6 rounded-pill border text-sm  px-5 py-25 text-center">
                         Đăng nhập
                     </button>
                 </div>
