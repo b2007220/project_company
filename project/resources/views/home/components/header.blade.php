@@ -73,13 +73,13 @@
                         </button>
                     @else
                         <a href="{{ route('login') }}"
-                            class="rounded border px-3 py-2 text-black text-decoration-none fw-bolder">
+                            class="rounded border px-3 py-2 text-black text-decoration-none fw-bolder border-gray-800-hover">
                             Đăng nhập
                         </a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}"
-                                class="rounded border px-3 py-2 text-black text-decoration-none fw-bolder">
+                                class="rounded border px-3 py-2 text-black text-decoration-none fw-bolder border-gray-800-hover">
                                 Đăng ký
                             </a>
                         @endif

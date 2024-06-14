@@ -9,7 +9,8 @@
             @include('home.content.extraproduct-data')
         </div>
         <div class="d-flex justify-content-center align-items-center">
-            <button id="load-more" class="border border-primary btn rounded-pill">Xem thêm</button>
+            <button id="load-more" class="border  btn rounded-pill border-blue-300 border-blue-700-hover fw-bold">Xem
+                thêm</button>
         </div>
     </div>
 </div>
