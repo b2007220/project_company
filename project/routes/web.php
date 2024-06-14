@@ -101,8 +101,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::put('active/{id}', [AccountController::class, 'active'])->name('active');
             Route::put('update-role', [AccountController::class, 'updateRole'])->name('update-role');
         });
-        Route::prefix('banner')->name('banner.')->group(function(){
-            Route::get('',[BannerController::class,'index'])->name('index');
+        Route::prefix('banner')->name('banner.')->group(function () {
+            Route::get('', [BannerController::class, 'index'])->name('index');
+            Route::put('active/{id}', [BannerController::class, 'active'])->name('active');
+            Route::put('update/{id}', [BannerController::class, 'update'])->name('update');
+            Route::delete('delete/{id}', [BannerController::class, 'destroy'])->name('delete');
+            Route::post('add', [BannerController::class, 'store'])->name('add');
+            Route::post('{id}/upload-image', [BannerController::class, 'storeImage'])->name('store-image');
         });
     });
 });

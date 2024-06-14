@@ -69,7 +69,7 @@
                 processData: false,
                 success: function(result) {
                     $('#addAccountModal').modal('hide');
-                    content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    var content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 

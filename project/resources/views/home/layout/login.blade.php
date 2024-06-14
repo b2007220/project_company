@@ -8,7 +8,7 @@
 <body>
     @include('home.components.header')
     @include('home.components.navigation')
-    <main class="pb-8 container">
+    <main class="pb-8 container pt-3">
 
         @include('home.content.login')
     </main>

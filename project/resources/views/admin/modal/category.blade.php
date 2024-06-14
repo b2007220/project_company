@@ -96,12 +96,7 @@
                     if (row) {
                         row.querySelector('td div').textContent = result.category.name;
                     }
-                    swal({
-                        title: 'Thành công!',
-                        text: result.message,
-                        icon: 'success',
-                        button: 'OK'
-                    });
+
                 } else if (method === 'POST') {
                     const newRow = document.createElement('tr');
                     newRow.setAttribute('data-category-id', result.category.id);
@@ -128,15 +123,14 @@
                         </button>
                     </td>`;
                     document.querySelector('tbody').appendChild(newRow);
-                    swal({
-                        title: 'Thành công!',
-                        text: result.message,
-                        icon: 'success',
-                        button: 'OK',
-                        timer: 1000
-                    });
                 }
-
+                swal({
+                    title: 'Thành công!',
+                    text: result.message,
+                    icon: 'success',
+                    button: 'OK',
+                    timer: 1000
+                });
             },
             error: function(xhr) {
                 const errors = xhr.responseJSON.errors;

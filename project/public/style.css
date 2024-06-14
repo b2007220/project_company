@@ -192,6 +192,9 @@ tr.show {
 .bottom-25 {
     bottom: 1rem;
 }
+.fw-bold-hover:hover {
+    font-weight: 700 !important;
+}
 .end-0 {
     inset-inline-end: 0;
 }

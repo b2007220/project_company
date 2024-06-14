@@ -6,14 +6,13 @@
 </head>
 
 <body>
-
-
-    <main class="container-fluid">
+    <div class="container-fluid">
         <div class="row flex-nowrap">
             @include('admin.components.sidebar')
             @include('admin.content.banner')
         </div>
-    </main>
+    </div>
+    @include('admin.modal.banner')
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"

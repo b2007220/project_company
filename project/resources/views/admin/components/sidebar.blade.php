@@ -74,7 +74,7 @@
 
                     <span class=" d-none d-sm-inline text-uppercase pl-4">Quản lý tài khoản</span></a>
             </li>
-            {{-- <li>
+            <li>
                 <a href=" {{ route('admin.banner.index') }}" class="nav-link px-0 align-items-middle text-white">
                     <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@
                     </svg>
 
                     <span class=" d-none d-sm-inline text-uppercase pl-4">Quản lý banner</span></a>
-            </li> --}}
+            </li>
             <li>
                 <a href=" {{ route('home') }}" class="nav-link px-0 align-items-middle text-white">
                     <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"

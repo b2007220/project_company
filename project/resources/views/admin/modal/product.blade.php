@@ -255,7 +255,7 @@
                     contentType: false,
                     cache: false,
                     success: function(fileResponse) {
-                        pictureContent = `<td colspan = "7" class='w-100'>
+                        var pictureContent = `<td colspan = "7" class='w-100'>
                                             <div class = "d-flex justify-content-between align-items-center">
                                                 <h5 class = "p-3"> Hình ảnh của sản phẩm </h5>
                                                 <button type = "submit"
