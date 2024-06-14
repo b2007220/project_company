@@ -60,4 +60,5 @@ class RegisteredUserController extends Controller
             return redirect(route('register', absolute: false));
         }
     }
+    
 }

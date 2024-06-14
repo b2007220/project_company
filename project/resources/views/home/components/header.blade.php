@@ -11,8 +11,13 @@
                     @auth
                         <button class="d-flex bg-white small rounded-circle border-primary me-md-0 p-0" type="button"
                             id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="avatar/{{ Auth::user()->avatar }}" alt="Avatar" id="avatar-image-header"
-                                class="w-8 h-8 border rounded-circle" />
+                            @if (!Auth::user()->isValidAvatarUrl())
+                                <img src="avatar/{{ Auth::user()->avatar }}" alt="Avatar" id="avatar-image-header"
+                                    class="w-8 h-8 border rounded-circle" />
+                            @else
+                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" id="avatar-image-header"
+                                    class="w-8 h-8 border rounded-circle" />
+                            @endif
                         </button>
                         <div class="dropdown-menu z-3 position-absolute text-base bg-white border rounded shadow"
                             aria-labelledby="userMenu">

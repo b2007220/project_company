@@ -70,7 +70,13 @@ return [
         //     'table' => 'users',
         // ],
     ],
-
+    'socialite' => [
+        'driver' => [
+            '
+            github',
+            'google',
+        ]
+    ],
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

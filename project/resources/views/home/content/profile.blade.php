@@ -55,8 +55,13 @@
     </div>
     <div
         class="position-relative d-flex overflow-hidden justify-content-center bg-gray-100 gap-4 py-4 rounded flex-column align-items-center max-w-3xl">
-        <img src="avatar/{{ Auth::user()->avatar }}" class="rounded-circle w-320 h-320" alt="Avatar"
-            id="avatar-image" />
+
+        @if (isvalidUrl(Auth::user()->avatar) == false)
+            <img src="avatar/{{ Auth::user()->avatar }}" class="rounded-circle w-320 h-320" alt="Avatar"
+                id="avatar-image" />
+        @else
+            <img src="{{ Auth::user()->avatar }}" class="rounded-circle w-320 h-320" alt="Avatar" id="avatar-image" />
+        @endif
         <span class="d-block mb-2 text-sm fw-bolder text-gray-900">Ảnh đại diện</span>
 
     </div>
