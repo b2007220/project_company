@@ -72,8 +72,7 @@ return [
     ],
     'socialite' => [
         'driver' => [
-            '
-            github',
+            'github',
             'google',
         ]
     ],

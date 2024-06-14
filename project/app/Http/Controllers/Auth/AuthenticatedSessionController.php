@@ -85,10 +85,9 @@ class AuthenticatedSessionController extends Controller
             $account = SocialAccount::whereProvider($provider)
                 ->whereProviderUserId($providerUser->id)
                 ->first();
-
             if (!$account) {
                 $account = new SocialAccount([
-                    'provider_user_id' => $providerUser->getId(),
+                    'provider_user_id' => $providerUser->id,
                     'provider' => $provider,
                 ]);
 
@@ -108,15 +107,17 @@ class AuthenticatedSessionController extends Controller
                 $user = $account->user;
             }
             Auth::login($user);
-            if ($user->is_active) {
+            if ($user->is_active === 1 && $user->role !== null) {
                 $request->session()->regenerate();
-
-                if ($user->role === 'ADMIN') {
+                if ($user->role === 'ADMIN' && $user->role !== null) {
                     toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
                     return redirect()->intended(route('admin.order.index'));
                 }
                 toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
                 return redirect()->intended(route('home'));
+            } else {
+                toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị vô hiệu hóa');
+                return redirect()->intended(route('login'));
             }
         } catch (\Exception $e) {
             toastr()->timeOut(5000)->closeButton()->error('Đăng nhập thất bại');

@@ -55,8 +55,7 @@
     </div>
     <div
         class="position-relative d-flex overflow-hidden justify-content-center bg-gray-100 gap-4 py-4 rounded flex-column align-items-center max-w-3xl">
-
-        @if (isvalidUrl(Auth::user()->avatar) == false)
+        @if (!Auth::user()->isValidAvatarUrl())
             <img src="avatar/{{ Auth::user()->avatar }}" class="rounded-circle w-320 h-320" alt="Avatar"
                 id="avatar-image" />
         @else

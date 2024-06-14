@@ -37,7 +37,6 @@ Route::middleware('guest')->group(function () {
     Route::get('auth/callback/{provider}', [AuthenticatedSessionController::class, 'handleProviderCallback'])
         ->name('auth.callback');
 });
-
 Route::middleware(['auth', 'is_active'])->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
