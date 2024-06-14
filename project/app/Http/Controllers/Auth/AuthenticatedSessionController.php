@@ -106,19 +106,19 @@ class AuthenticatedSessionController extends Controller
             } else {
                 $user = $account->user;
             }
-            Auth::login($user);
             if ($user->is_active === 1 && $user->role !== null) {
                 $request->session()->regenerate();
+                Auth::login($user);
                 if ($user->role === 'ADMIN' && $user->role !== null) {
                     toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
                     return redirect()->intended(route('admin.order.index'));
+                } else {
+                    toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
                 }
-                toastr()->timeOut(5000)->closeButton()->success('Đăng nhập thành công');
-                return redirect()->intended(route('home'));
             } else {
                 toastr()->timeOut(5000)->closeButton()->error('Tài khoản của bạn đã bị vô hiệu hóa');
-                return redirect()->intended(route('login'));
             }
+            return redirect()->intended(route('login'));
         } catch (\Exception $e) {
             toastr()->timeOut(5000)->closeButton()->error('Đăng nhập thất bại');
             return redirect()->intended(route('login'));
