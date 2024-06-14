@@ -3,8 +3,8 @@
         <div
             class="d-inline-block min-w-100 overflow-hidden align-items-middle  border-gray-200 shadow  bg-white border rounded">
             <h4 class="p-3"> Banner trang web</h4>
-            <div class="item-lists">
-                {{-- @include('admin.content.banner-data') --}}
+            <div class="item-list w-100">
+                @include('admin.content.banner-data')
             </div>
         </div>
     </div>

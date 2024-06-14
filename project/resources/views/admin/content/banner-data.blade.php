@@ -1,22 +1,49 @@
-<div class="max-w-2xl mx-auto mt-24">
+<div class="d-flex flex-lg-row flex-column justify-content-center align-items-center">
     <div
-        class="d-flex gap-3 bg-white border border-gray-300 rounded overflow-hidden align-items-center justify-contents-start max-h-92">
-        <div class="position-relative h-100 flex-shrink-0 w-80">
-            <img class="position-absolute left-0 top-0 w-100 h-100 banner"
-                src="https://i.pinimg.com/736x/72/db/6b/72db6bb11a1553d416ea79f7b0f9990d.jpg">
-        </div>
-        <div class="d-flex flex-column gap-2 py-2">
-            <h4 class="text-lg font-semibold">Banner trang web</h4>
+        class="col-8 position-relative d-flex overflow-hidden justify-content-center bg-gray-100 gap-4 py-4 rounded flex-column align-items-center max-w-3xl">
+        <div id="carouselExampleIndicators" class="carousel slide d-lg-block d-none w-100" data-bs-ride="carousel">
+            <div class="carousel-inner overflow-hidden h-md-96 w-100  rounded">
+                <div class="carousel-item overflow-hidden active w-100 h-100 ">
+                    <img src="https://i.pinimg.com/1200x/ed/cd/32/edcd32b829a5c6e614a6d6383c562742.jpg"
+                        class="d-block rounded w-100 h-100  object-fit-cover banner" alt="" />
+                </div>
+                <div class="carousel-item overflow-hidden w-100 h-100 ">
+                    <img src="https://i.pinimg.com/736x/72/db/6b/72db6bb11a1553d416ea79f7b0f9990d.jpg"
+                        class="d-block w-100 h-100 rounded banner" alt="" />
+                </div>
+                <div class="carousel-item overflow-hidden w-100 h-100 ">
+                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/d7dfad107187879.5fa16aecd773f.jpg"
+                        class="d-block  w-100 h-100 rounded banner" alt="" />
+                </div>
+            </div>
 
-            <span class="d-flex align-items-center justify-contents-start text-gray-500">
-                <svg class="w-4 h-4 mr-1 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <a href="amitpachange.com" target="_blank">amitpachange.com</a>
-            </span>
-
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
         </div>
+    </div>
+    <div id="carouselExampleIndicators" class="carousel slide relative max-w-3xl" data-bs-ride="carousel">
+        <ol class="carousel-indicators flex-column">
+            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active w-100-rem h-30 m-0"
+                aria-current="true" aria-label="Slide 1">
+                <img src="https://i.pinimg.com/1200x/ed/cd/32/edcd32b829a5c6e614a6d6383c562742.jpg" alt=""
+                    class="border rounded banner" />
+            </li>
+            <li class="active w-100-rem h-30 m-0" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2">
+                <img src="https://i.pinimg.com/736x/72/db/6b/72db6bb11a1553d416ea79f7b0f9990d.jpg" alt=""
+                    class="border rounded banner" />
+            </li>
+            <li data-bs-target="#carouselExampleIndicators" class="active w-100-rem h-30 m-0" data-bs-slide-to="2"
+                aria-label="Slide 3">
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/d7dfad107187879.5fa16aecd773f.jpg"
+                    alt="" class="border rounded banner" />
+            </li>
+        </ol>
     </div>
 </div>
