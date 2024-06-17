@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -26,29 +27,14 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật thông tin thành công'
-            ]);
-        }
-        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
-    }
-    public function updateAvatar(Request $request)
-    {
         $validated = $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'gender' => 'nullable', Rule::in(['MAN', 'WOMAN', 'OTHER']),
         ]);
         $user = $request->user();
-
         if ($request->file('avatar')) {
             $avatar = $request->file('avatar');
             $destinationPath = 'avatar/';
@@ -62,6 +48,14 @@ class ProfileController extends Controller
             error_log('No files found in the request');
         }
 
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+        $user->address = $validated['address'];
+        $user->gender = $validated['gender'];
+        $user->phone = $validated['phone'];
+        $user->save();
+
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -69,9 +63,9 @@ class ProfileController extends Controller
                 'avatar' => $user->avatar,
             ]);
         }
-
         return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
+
 
     /**
      * Delete the user's account.

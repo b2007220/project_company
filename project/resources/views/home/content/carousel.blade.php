@@ -3,18 +3,20 @@
         class="col-8 position-relative d-flex overflow-hidden justify-content-center bg-gray-100 gap-4 py-4 rounded flex-column align-items-center max-w-3xl">
         <div id="carouselExampleIndicators" class="carousel slide d-lg-block d-none w-100" data-bs-ride="carousel">
             <div class="carousel-inner overflow-hidden h-md-96 w-100  rounded">
-                <div class="carousel-item overflow-hidden active w-100 h-100 ">
+                <div class="carousel-item overflow-hidden active w-100 h-100">
                     <img src="https://i.pinimg.com/1200x/ed/cd/32/edcd32b829a5c6e614a6d6383c562742.jpg"
                         class="d-block rounded w-100 h-100  object-fit-cover banner" alt="" />
+                    <button class="position-absolute z-5 bottom-5 right-0 h-80 w-80 btn bg-blue-950 border border-3">
+                        123</button>
                 </div>
-                <div class="carousel-item overflow-hidden w-100 h-100 ">
+                {{-- <div class="carousel-item overflow-hidden w-100 h-100 ">
                     <img src="https://i.pinimg.com/736x/72/db/6b/72db6bb11a1553d416ea79f7b0f9990d.jpg"
                         class="d-block w-100 h-100 rounded  banner" alt="" />
                 </div>
                 <div class="carousel-item overflow-hidden w-100 h-100 ">
                     <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/d7dfad107187879.5fa16aecd773f.jpg"
                         class="d-block  w-100 h-100 rounded banner" alt="" />
-                </div>
+                </div> --}}
             </div>
 
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"

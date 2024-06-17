@@ -107,7 +107,7 @@
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                        ${result.banner.link ? `<a href="${result.banner.link}" target="_blank"
                             class="text-decoration-none">${result.banner.link }</a>` : `<a href="#" target="_blank"
-                            class="text-decoration-none">Chưa cập nhật</a>`}
+                            class="text-decoration-none">Không có link</a>`}
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">

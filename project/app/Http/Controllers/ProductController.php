@@ -25,12 +25,15 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
+            dd($request->all());
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric',
                 'amount' => 'required|numeric',
                 'categories.*' => 'exists:categories,id , nullable',
+                'images' => 'nullable|array',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
             ]);
             $product = Product::create([
                 'name' => $validated['name'],
@@ -38,7 +41,14 @@ class ProductController extends Controller
                 'price' => $validated['price'],
                 'amount' => $validated['amount'],
             ]);
-
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $destinationPath = 'product/';
+                    $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
+                    $file->move($destinationPath, $profileImage);
+                    $product->pictures()->create(['link' => $profileImage]);
+                }
+            }
             if ($request->categories) {
                 $categories = explode(',', $request->categories);
                 $product->categories()->sync($categories);
@@ -49,6 +59,7 @@ class ProductController extends Controller
                     'success' => true,
                     'message' => 'Thêm sản phẩm thành công',
                     'product' => $product,
+                    'pictures' => $product->pictures,
                     'categories' => $product->categories,
                     'discounts' => $product->discounts,
                 ]);
@@ -58,21 +69,22 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Thêm sản phẩm thất bại');
         }
     }
-    public function storeImages(Request $request, $id)
+
+
+    public function update(Request $request, $id)
     {
+
         try {
-            $request->validate([
-                'images' => 'required|array',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'price' => 'required|numeric',
+                'amount' => 'required|numeric',
+                'categories.*' => 'exists:categories,id|nullable',
+                'images' => 'nullable|array',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
             ]);
             $product = Product::findOrFail($id);
-            if (!$product) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Product not found'
-                ], 404);
-            }
-
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $file) {
                     $destinationPath = 'product/';
@@ -80,64 +92,35 @@ class ProductController extends Controller
                     $file->move($destinationPath, $profileImage);
                     $product->pictures()->create(['link' => $profileImage]);
                 }
-            } else {
-                error_log('Không tìm thấy file trong thông tin cung cấp');
             }
-
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Thêm ảnh sản phẩm thành công',
-                    'pictures' => $product->pictures
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'Thêm ảnh sản phẩm thành công');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Thêm ảnh sản phẩm thất bại');
-        }
-    }
-
-
-    public function update(Request $request, $id)
-    {
-
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'price' => 'required|numeric|min:0',
-                'amount' => 'required|numeric|min:0',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'categories.*' => 'exists:categories,id',
-            ]);
-
-            $product = Product::findOrFail($id);
-
-            $product->name = $validatedData['name'];
-            $product->description = $validatedData['description'];
-            $product->price = $validatedData['price'];
-            $product->amount = $validatedData['amount'];
-
+            $product->name = $validated['name'];
+            $product->description = $validated['description'];
+            $product->price = $validated['price'];
+            $product->amount = $validated['amount'];
             $product->save();
-            $categories = explode(',', $request->categories);
 
-            $product->categories()->sync($categories);
+            if ($request->categories) {
+                $categories = explode(',', $request->categories);
+                $product->categories()->sync($categories);
+            }
 
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Cập nhật sản phẩm thành công',
                     'product' => $product,
+                    'pictures' => $product->pictures,
                     'categories' => $product->categories,
                     'discounts' => $product->discounts,
                 ]);
             }
+
             return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Cập nhật sản phẩm thất bại');
         }
     }
+
 
     public function showProductCategories(Product $product)
     {

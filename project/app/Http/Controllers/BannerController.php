@@ -63,8 +63,23 @@ class BannerController extends Controller
         try {
             $data = $request->validate([
                 'link' => 'nullable|string',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $banner = Banner::create($data);
+            $banner = new Banner();
+            $banner->link = $data['link'];
+            if ($request->file('image')) {
+                $image = $request->file('image');
+                $destinationPath = 'banner/';
+                if ($banner->image && file_exists($destinationPath . $banner->image)) {
+                    unlink($destinationPath . $banner->image);
+                }
+                $profileImage = date('YmdHis') . "_" . uniqid() . "." . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $profileImage);
+                $banner->image = $profileImage;
+                $banner->save();
+            } else {
+                error_log('No files found in the request');
+            }
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -80,33 +95,39 @@ class BannerController extends Controller
             return redirect()->back()->with('error', 'Thêm banner thất bại');
         }
     }
-    public function storeImage(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $banner = Banner::findOrFail($id);
-        if ($request->file('image')) {
-            $image = $request->file('image');
-            $destinationPath = 'banner/';
-            if ($banner->image && file_exists($destinationPath . $banner->image)) {
-                unlink($destinationPath . $banner->image);
-            }
-            $profileImage = date('YmdHis') . "_" . uniqid() . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $banner->image = $profileImage;
-            $banner->save();
-        } else {
-            error_log('No files found in the request');
-        }
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật thông tin thành công',
-                'image' => $banner->image,
+        try {
+            $banner = Banner::findOrFail($id);
+            $data = $request->validate([
+                'link' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
+            $banner->link = $data['link'];
+            if ($request->file('image')) {
+                $image = $request->file('image');
+                $destinationPath = 'banner/';
+                if ($banner->image && file_exists($destinationPath . $banner->image)) {
+                    unlink($destinationPath . $banner->image);
+                }
+                $profileImage = date('YmdHis') . "_" . uniqid() . "." . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $profileImage);
+                $banner->image = $profileImage;
+            }
+            $banner->save();
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cập nhật banner thành công',
+                    'banner' => $banner,
+                ]);
+            }
+            return redirect()->back()->with('success', 'Cập nhật banner thành công');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false]);
+            }
+            return redirect()->back()->with('error', 'Cập nhật banner thất bại');
         }
-        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
 }
