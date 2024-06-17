@@ -18,8 +18,8 @@ class BannerController extends Controller
     public function active(Request $request, $id)
     {
         try {
-            $banner = Banner::find($id);
-            $banner->is_active = !$banner->is_active;
+            $banner = Banner::findOrFail($id);
+            $banner->status = !$banner->status;
             $banner->save();
             if ($request->ajax()) {
                 return response()->json([
@@ -61,18 +61,15 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         try {
-
-            if ($request->link !== '#') {
-                $data = $request->validate([
-                    'link' => 'nullable|url',
-                ]);
-                $banner = Banner::create($data);
-            }
+            $data = $request->validate([
+                'link' => 'nullable|string',
+            ]);
+            $banner = Banner::create($data);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Thêm banner thành công',
-                    'banner' => $banner
+                    'banner' => $banner,
                 ]);
             }
             return redirect()->back()->with('success', 'Thêm banner thành công');
@@ -86,10 +83,10 @@ class BannerController extends Controller
     public function storeImage(Request $request, $id)
     {
         $validated = $request->validate([
-            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $banner = Banner::findOrFail($id);
 
+        $banner = Banner::findOrFail($id);
         if ($request->file('image')) {
             $image = $request->file('image');
             $destinationPath = 'banner/';
@@ -98,11 +95,11 @@ class BannerController extends Controller
             }
             $profileImage = date('YmdHis') . "_" . uniqid() . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
-            $request->banner()->update(['image' => $profileImage]);
+            $banner->image = $profileImage;
+            $banner->save();
         } else {
             error_log('No files found in the request');
         }
-
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -110,9 +107,6 @@ class BannerController extends Controller
                 'image' => $banner->image,
             ]);
         }
-
-
-
         return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
 }

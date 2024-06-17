@@ -70,8 +70,6 @@ class ProfileController extends Controller
             ]);
         }
 
-
-
         return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
 

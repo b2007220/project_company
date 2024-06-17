@@ -79,6 +79,7 @@
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
+                console.log(url);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -94,12 +95,11 @@
                     cache: false,
                     processData: false,
                     success: function(result) {
-
                         $('#adjustBannerModal').modal('hide');
                         content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
-                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        <img src="banner/${result.banner.image}" alt="">
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center border rounded">
+                        <img src="/banner/${result.banner.image}" alt="" class="w-100 h-120">
                     </div>
                 </td>
                  <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
@@ -113,7 +113,7 @@
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                       ${result.banner.is_active ? `<div
+                       ${result.banner.status ? `<div
                             class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
                             <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang hoạt
                                 động</span>
@@ -125,21 +125,11 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
 
                     <div class="  d-flex justify-content-center align-items-center gap-2">
                         <form onsubmit="disableBanner(${ result.banner.id })">
- ${result.account.is_active ? `
-                        <button type="submit"
-                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
-                            Kích hoạt
-                            <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                        </button>` : `
+ ${result.banner.status ? `
                         <button type="submit"
                             class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                             Vô hiệu hóa
@@ -149,10 +139,20 @@
                                     stroke-width="2"
                                     d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
+                        </button>`:  `
+                        <button type="submit"
+                            class="text-decoration-none p-2 border rounded-pill fw-bolder bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
+                            Kích hoạt
+                            <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
                         </button>`}
                         </form>
-                         <form action="javascript:void(0)" enctype="multipart/form-data"
-                            onsubmit="confirmation(event,  ${result.banner.id})">
+                        <form action="javascript:void(0)" enctype="multipart/form-data"
+                            onsubmit="confirmation(event, ${result.banner.id})">
                             <button type="submit"
                                 class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                 Xóa
@@ -232,7 +232,7 @@
                             icon: "success",
                             timer: 1000,
                         });
-                        $('tr[data-category-id="' + id + '"]').remove();
+                        $('tr[data-banner-id="' + id + '"]').remove();
 
                     }
                 })

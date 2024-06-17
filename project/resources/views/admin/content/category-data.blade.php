@@ -22,7 +22,7 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
 
                     <div class="  d-flex justify-content-center align-items-center gap-2">
                         <form action="javascript:void(0)" enctype="multipart/form-data"

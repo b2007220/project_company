@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
@@ -15,10 +16,11 @@ class HomeController extends Controller
     }
     public function home()
     {
+        $banners = Banner::where('status', true)->inRandomOrder()->limit(3)->get();;
         $topProducts = Product::topProducts();
         $salesProducts = Product::topDiscountedProducts();
         $products = Product::paginate(3);
-        return view('home.layout.index', ['topProducts' => $topProducts, 'salesProducts' => $salesProducts, 'products' => $products]);
+        return view('home.layout.index', ['topProducts' => $topProducts, 'salesProducts' => $salesProducts, 'products' => $products, 'banners' => $banners]);
     }
     public function about()
     {

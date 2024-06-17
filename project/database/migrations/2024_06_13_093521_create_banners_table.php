@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('link')->nullable();
-            $table->string('image');
-            $table->boolean('status')->default(true);
+            $table->string('image')->nullable();
+            $table->boolean('status')->default(false);
         });
     }
 

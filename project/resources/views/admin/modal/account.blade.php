@@ -137,8 +137,9 @@
 
                 </td>
                 <td
-                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
-                    <form onsubmit="disableAccount(${result.account.id })">
+                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                    <div class=" d-flex justify-content-center align-items-center gap-2">
+                        <form onsubmit="disableAccount(${result.account.id })">
                         ${result.account.is_active ? `
                         <button type="submit"
                             class="text-decoration-none p-2 border rounded-pill fw-bolder bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
@@ -172,6 +173,8 @@
                                 d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
                     </button>
+                        </div>
+
 
                 </td>`;
                 const row = document.querySelector(

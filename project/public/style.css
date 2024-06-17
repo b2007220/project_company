@@ -462,7 +462,7 @@ ul {
     margin-left: -1.5rem;
     margin-right: -1.5rem;
 }
-.max-h-5xl {
+.h-120 .max-h-5xl {
     max-height: 64rem;
 }
 .max-h-100 {
@@ -473,6 +473,13 @@ ul {
 }
 .max-h-92 {
     max-height: 23rem;
+}
+.max-w-150 {
+    max-width: 9.375rem;
+}
+.max-w-400{
+    max-width: 25rem !important;
+
 }
 .px-8 {
     padding-left: 2rem;

@@ -30,7 +30,7 @@ class ProductController extends Controller
                 'description' => 'required|string',
                 'price' => 'required|numeric',
                 'amount' => 'required|numeric',
-                'categories.*' => 'exists:categories,id',
+                'categories.*' => 'exists:categories,id , nullable',
             ]);
             $product = Product::create([
                 'name' => $validated['name'],
@@ -39,11 +39,10 @@ class ProductController extends Controller
                 'amount' => $validated['amount'],
             ]);
 
-
-            $categories = explode(',', $request->categories);
-
-            $product->categories()->sync($categories);
-
+            if ($request->categories) {
+                $categories = explode(',', $request->categories);
+                $product->categories()->sync($categories);
+            }
 
             if ($request->ajax()) {
                 return response()->json([

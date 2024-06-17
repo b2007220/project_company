@@ -22,10 +22,10 @@
     <tbody class="bg-white">
         @foreach ($banners as $banner)
             <tr data-banner-id="{{ $banner->id }}">
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
-                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        <img src="banner/{{ $banner->image }}" alt="">
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center border rounded">
+                        <img src="/banner/{{ $banner->image }}" alt="" class="w-100 h-120">
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
@@ -42,7 +42,7 @@
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        @if ($banner->is_active)
+                        @if ($banner->status)
                             <div
                                 class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
                                 <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang hoạt
@@ -58,12 +58,10 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
-
-                    <div class="  d-flex justify-content-center align-items-center gap-2">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                    <div class="  d-flex justify-content-center align-items-center gap-2 ">
                         <form onsubmit="disableBanner({{ $banner->id }})">
-
-                            @if ($banner->is_active)
+                            @if ($banner->status)
                                 <button type="submit"
                                     class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                     Vô hiệu hóa
