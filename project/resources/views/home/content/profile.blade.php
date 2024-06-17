@@ -36,7 +36,6 @@
                         <option value="OTHER" @selected(Auth::user()->gender == 'OTHER')>Khác</option>
                     </select>
                 </div>
-
             </div>
             <div class="mb-4">
                 <label class="d-block mb-2 text-sm fw-bolder text-gray-900" for="avatar">Ảnh đại diện

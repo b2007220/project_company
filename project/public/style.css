@@ -345,6 +345,32 @@ tr.show {
 .mb-10 {
     margin-bottom: 2.5rem;
 }
+.button-carousel {
+    right: 40px !important;
+    width: 15% !important;
+    height: 10% !important;
+    top: 15px !important;
+    background-color: transparent !important;
+    border: 1px solid #000 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    color: #000 !important;
+}
+.button-carousel:hover {
+    color: #22d3ee !important;
+    border: 1px solid #22d3ee !important;
+}
+.indicator-button {
+    background-color: transparent !important;
+    bottom: 40% !important;
+    right: 10px !important;
+    border: none !important;
+}
+
+.indicator-icon:hover {
+    color: #22d3ee !important;
+}
 .text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -477,9 +503,8 @@ ul {
 .max-w-150 {
     max-width: 9.375rem;
 }
-.max-w-400{
+.max-w-400 {
     max-width: 25rem !important;
-
 }
 .px-8 {
     padding-left: 2rem;
