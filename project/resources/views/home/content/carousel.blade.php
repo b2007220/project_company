@@ -23,7 +23,8 @@
                 </div> --}}
                 @foreach ($banners as $banner)
                     <div class="carousel-item overflow-hidden w-100 h-100 {{ $loop->first ? 'active' : '' }}">
-                        <img src="{{ $banner->image }}" class="d-block w-100 h-100 rounded banner" alt="" />
+                        <img src="banner/{{ $banner->image }}" class="d-block w-100 h-100 rounded banner"
+                            alt="{{ $banner->link }}" />
                         <a href="{{ $banner->link }}"
                             class="position-absolute z-3 rounded button-carousel fw-bold  fs-5 text-decoration-none">
                             Xem thêm</a>
@@ -46,20 +47,8 @@
 
             @foreach ($banners as $banner)
                 <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $loop->index }}"
-                    class="active w-100-rem h-30 m-0"
-                    aria-label="Slide {{ $loop->index + 1 }}">
-                    <img src="{{ $banner->image }}" alt="" class="border rounded banner" />
-                    <button class="z-3 position-absolute indicator-button">
-                        <a href="{{ $banner->link }}" class="text-decoration-none">
-                            <svg class="w-6 h-6 text-dark indicator-icon" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M8.891 15.107 15.11 8.89m-5.183-.52h.01m3.089 7.254h.01M14.08 3.902a2.849 2.849 0 0 0 2.176.902 2.845 2.845 0 0 1 2.94 2.94 2.849 2.849 0 0 0 .901 2.176 2.847 2.847 0 0 1 0 4.16 2.848 2.848 0 0 0-.901 2.175 2.843 2.843 0 0 1-2.94 2.94 2.848 2.848 0 0 0-2.176.902 2.847 2.847 0 0 1-4.16 0 2.85 2.85 0 0 0-2.176-.902 2.845 2.845 0 0 1-2.94-2.94 2.848 2.848 0 0 0-.901-2.176 2.848 2.848 0 0 1 0-4.16 2.849 2.849 0 0 0 .901-2.176 2.845 2.845 0 0 1 2.941-2.94 2.849 2.849 0 0 0 2.176-.901 2.847 2.847 0 0 1 4.159 0Z" />
-                            </svg>
-                        </a>
-                    </button>
+                    class="active w-100-rem h-30 m-0" aria-label="Slide {{ $loop->index + 1 }}">
+                    <img src="banner/{{ $banner->image }}" alt="{{ $banner->link }}" class="border rounded banner" />
                 </li>
             @endforeach
             {{-- <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active w-100-rem h-30 m-0"

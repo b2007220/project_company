@@ -4,7 +4,7 @@
     </h2>
     <hr class="h-px my-3 bg-gray-200" />
     <div class="mx-auto container-fluid row gap-3">
-        <div class="col-md-2 p-0 overflow-auto max-h-xl">
+        <div class="col-md-2 p-0 overflow-auto ">
             <ul class="list-group rounded border shadow-md ">
                 <li class="list-group-item border-0 border-bottom border-dark border-2 rounded-0">
                     <nav class="navbar navbar-dark">
@@ -56,22 +56,22 @@
                         </div>
                     </nav>
                     <div class="collapse" id="productSort">
-                        <a href="#" id="sort-new"
+                        <button id="sort-new"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Sản phẩm mới
-                        </a>
-                        <a href="#" id="sort-discount"
+                        </button>
+                        <button id="sort-discount"
                             class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
                             Giảm giá
-                        </a>
-                        <a href="#" id="sort-priceAsc"
-                            class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
-                            Tăng dần
-                        </a>
-                        <a href="#" id="sort-priceDesc"
-                            class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
-                            Giảm dần
-                        </a>
+                            </a>
+                            <button id="sort-priceAsc"
+                                class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                                Tăng dần
+                            </button>
+                            <button id="sort-priceDesc"
+                                class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover">
+                                Giảm dần
+                            </button>
                     </div>
                 </li>
                 <li
@@ -138,22 +138,20 @@
                 }
             });
         });
+        let currentSort = '';
+
+        let currentCategory = '';
 
         $("#sort-new, #sort-discount, #sort-priceAsc, #sort-priceDesc").click(function(event) {
             event.preventDefault();
-            let sortType = $(this).attr('id').split('-')[1];
-            $.ajax({
-                url: "{{ route('category') }}",
-                type: "GET",
-                data: {
-                    sort: sortType
-                },
-                success: function(data) {
-                    $("#item-lists").html(data);
-                }
-            });
+            currentSort = $(this).attr('id').split('-')[1];
+            fetchProducts();
         });
-
+        $(document).on('click', '.list-group-item-action', function(event) {
+            event.preventDefault();
+            currentCategory = $(this).val();
+            fetchProducts();
+        });
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -197,19 +195,20 @@
                 });
         }
 
-        $(document).on('click', '.list-group-item-action', function(event) {
-            event.preventDefault();
-            let categoryId = $(this).val();
+        function fetchProducts() {
+            console.log(currentSort);
+            console.log(currentCategory);
             $.ajax({
                 url: "{{ route('category') }}",
                 type: "GET",
                 data: {
-                    category: categoryId
+                    sort: currentSort,
+                    category: currentCategory
                 },
                 success: function(data) {
                     $('#item-lists').html(data);
                 }
             });
-        });
+        }
     });
 </script>

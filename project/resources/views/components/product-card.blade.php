@@ -4,7 +4,7 @@
     <a href="{{ $productLink }}" class="z-2 position-absolute h-100 w-100 top-0 left-0 text-decoration-none">&nbsp;</a>
     <div class="h-auto overflow-hidden">
         <div class="h-44 overflow-hidden position-relative">
-            <img src="{{ asset('product/' . $imageSrc) }}" alt="{{ $productName }}" class="max-w-full h-auto d-block" />
+            <img src="product/{{ $imageSrc }}" alt="{{ $productName }}" class="max-w-full h-auto d-block" />
         </div>
     </div>
     <div class="bg-white py-2 px-3">
