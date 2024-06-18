@@ -79,7 +79,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('add', [ProductController::class, 'store'])->name('add');
             Route::post('{id}/upload-images', [ProductController::class, 'storeImages'])->name('store-images');
             Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
-            // Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
 
             Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
             Route::post('add-discount', [ProductDiscountController::class, 'store'])->name('discount-add');

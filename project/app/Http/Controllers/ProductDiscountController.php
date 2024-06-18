@@ -45,7 +45,7 @@ class ProductDiscountController extends Controller
             if (!empty($discounts)) {
                 foreach ($discounts as $discountId) {
                     $discount = Discount::findOrFail($discountId);
-                    if (!$product->discounts->contains($discount)) {
+                    if (!$product->discounts->contains($discount) && $discount->is_active) {
                         $product->discounts()->attach($discount->id);
                         $product->load('discounts');
                         $attachedDiscount = $product->discounts->find($discount->id);
