@@ -19,7 +19,7 @@ class BannerFactory extends Factory
         return [
             'link' => $this->faker->url(),
             'status' => $this->faker->boolean(),
-            'image' => $this->faker->image(),
+            'image' => 'temp.jpg',
         ];
     }
 }
