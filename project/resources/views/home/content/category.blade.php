@@ -91,17 +91,9 @@
                         </div>
                     </nav>
                     <div class="collapse" id="productType">
-
                         <div class="list-group">
-                            <div id="category-pagination"
-                                class="d-flex justify-content-center mt-3 align-items-center overflow-auto">
-                                @foreach ($categories as $category)
-                                    <button value="{{ $category->id }}" id="category-{{ $category->id }}"
-                                        class="list-group-item list-group-item-action border-0 rounded p-2 mb-2 fs-5 text-uppercase bg-primary-hover text-center">
-                                        {{ $category->name }}
-                                    </button>
-                                @endforeach
-
+                            <div id="category-pagination">
+                                @include('home.content.category-pagination')
                             </div>
                         </div>
                     </div>
@@ -147,11 +139,12 @@
             currentSort = $(this).attr('id').split('-')[1];
             fetchProducts();
         });
-        $(document).on('click', '.list-group-item-action', function(event) {
+        $(document).on('click', '.carousel-button', function(event) {
             event.preventDefault();
             currentCategory = $(this).val();
             fetchProducts();
         });
+
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -173,6 +166,8 @@
 
             getData(page);
         });
+
+
 
         function getData(page) {
             $.ajax({
@@ -196,8 +191,6 @@
         }
 
         function fetchProducts() {
-            console.log(currentSort);
-            console.log(currentCategory);
             $.ajax({
                 url: "{{ route('category') }}",
                 type: "GET",
@@ -210,5 +203,29 @@
                 }
             });
         }
+
+        // function fetchCategories(categoryPage = 1) {
+        //     $.ajax({
+        //         url: "{{ route('categories') }}",
+        //         type: "GET",
+        //         data: {
+        //             page: categoryPage
+        //         },
+        //         success: function(data) {
+        //             $('#category-pagination').html(data);
+        //         },
+        //         error: function() {
+        //             swal({
+        //                 title: 'Lỗi!',
+        //                 text: 'Có lỗi xảy ra. Vui lòng thử lại.',
+        //                 icon: 'error',
+        //                 button: 'Đã hiểu',
+        //                 timer: 1000
+        //             });
+        //         }
+        //     });
+        // }
+
+        // fetchCategories();
     });
 </script>

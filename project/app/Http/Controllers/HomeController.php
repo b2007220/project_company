@@ -39,7 +39,7 @@ class HomeController extends Controller
 
     public function category(Request $request)
     {
-        $categories = Category::paginate(6);
+        $categories = Category::all();
         $productsQuery = Product::with(['discounts' => function ($query) {
             $query->orderBy('is_active')->orderBy('is_predefined');
         }, 'pictures']);
@@ -80,11 +80,7 @@ class HomeController extends Controller
         $products = $productsQuery->paginate(12);
         return view('home.layout.category', ['products' => $products, 'categories' => $categories]);
     }
-    public function getCategories(Request $request)
-    {
-        $categories = Category::paginate(6);
-        return view('home.content.category-pagination', ['categories' => $categories])->render();
-    }
+
     public function loadMore(Request $request)
     {
         if ($request->ajax()) {

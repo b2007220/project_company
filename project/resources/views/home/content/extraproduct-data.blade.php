@@ -9,9 +9,5 @@
             }
         }
     @endphp
-    <x-product-card :product-name="$product->name"
-                    :price="$product->price"
-                    :image-src="$product->pictures && $product->pictures->isNotEmpty() ? $product->pictures[0]->link : ''"
-                    :product-discount="$product->discounts && $product->discounts->isNotEmpty() ? $productDiscount : 0"
-                    :product-link="route('product', $product->id)" />
+    <x-product-card :product-name="$product->name" :price="$product->price" :image-src="$product->pictures && $product->pictures->isNotEmpty() ? $product->pictures->first()->link : 'temp.jpg'" :product-discount="$product->discounts && $product->discounts->isNotEmpty() ? $productDiscount : 0" :product-link="route('product', $product->id)" />
 @endforeach
