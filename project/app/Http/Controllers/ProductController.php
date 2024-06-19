@@ -139,6 +139,12 @@ class ProductController extends Controller
                     'product' => $product
                 ]);
             }
+            if ($product->pictures) {
+                foreach ($product->pictures as $picture) {
+                    File::delete(public_path('product/' . $picture->link));
+                    $picture->delete();
+                }
+            }
             return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa sản phẩm thất bại');
