@@ -56,10 +56,11 @@
     <div
         class="position-relative d-flex overflow-hidden justify-content-center bg-gray-100 gap-4 py-4 rounded flex-column align-items-center max-w-3xl">
         @if (!Auth::user()->isValidAvatarUrl())
-            <img src="avatar/{{ Auth::user()->avatar }}" class="rounded-circle w-320 h-320" alt="Avatar"
+            <img src="{{ asset('avatar/' . Auth::user()->avatar) }}" class="rounded-circle w-320 h-320" alt="Avatar"
                 id="avatar-image" />
         @else
-            <img src="{{ Auth::user()->avatar }}" class="rounded-circle w-320 h-320" alt="Avatar" id="avatar-image" />
+            <img src="{{ asset(Auth::user()->avatar) }}" class="rounded-circle w-320 h-320" alt="Avatar"
+                id="avatar-image" />
         @endif
         <span class="d-block mb-2 text-sm fw-bolder text-gray-900">Ảnh đại diện</span>
 
@@ -108,12 +109,12 @@
                     }
                 }
                 swal({
-                        title: 'Thất bại!',
-                        text: xhr.responseJSON.message,
-                        icon: 'error',
-                        button: 'OK',
-                        timer: 1000
-                    });
+                    title: 'Thất bại!',
+                    text: xhr.responseJSON.message,
+                    icon: 'error',
+                    button: 'OK',
+                    timer: 1000
+                });
             }
         });
     });

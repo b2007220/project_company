@@ -116,7 +116,7 @@
                         <div class="">
                             <p class="mb-1 fs-6 fw-bold total-amount-display">{{ number_format($total + $ship) }} Đồng
                             </p>
-                            <input type="hidden" value="" name="total" id='total-amount'>
+                            <input type="hidden" value="{{ $total + $ship }}" name="total" id='total-amount'>
                             <p class="small text-gray-700">Đã bao gồm VAT</p>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
 
                 success: function(response) {
                     updateTotal();
-                }
+                },
                 error: function(xhr) {
                     const errors = xhr.responseJSON.errors;
                     if (errors) {
@@ -290,7 +290,7 @@
                 }
             });
 
-            var ship = 9000; // Fixed shipping cost
+            var ship = 9000;
             var finalTotal = total + ship;
             $('.total-amount-display').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
             $('#total-amount').val(finalTotal);
@@ -332,14 +332,15 @@
                     for (const [key, value] of Object.entries(errors)) {
                         console.log(key, value);
                     }
-                }
-                swal({
+                    swal({
                         title: 'Thất bại!',
                         text: xhr.responseJSON.message,
                         icon: 'error',
                         button: 'OK',
                         timer: 1000
                     });
+                }
+
             }
         });
     });

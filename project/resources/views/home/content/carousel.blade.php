@@ -5,7 +5,7 @@
             <div class="carousel-inner overflow-hidden h-md-96 w-100 rounded">
                 @foreach ($banners as $banner)
                     <div class="carousel-item overflow-hidden w-100 h-100 {{ $loop->first ? 'active' : '' }}">
-                        <img src="banner/{{ $banner->image }}" class="d-block w-100 h-100 rounded banner"
+                        <img src="{{ asset('banner/' . $banner->image) }}" class="d-block w-100 h-100 rounded banner"
                             alt="{{ $banner->link }}" />
                         <a href="{{ $banner->link }}"
                             class="position-absolute z-3 rounded button-carousel fw-bold  fs-5 text-decoration-none">
@@ -28,7 +28,8 @@
             @foreach ($banners as $banner)
                 <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $loop->index }}"
                     class="active w-100-rem h-30 m-0" aria-label="Slide {{ $loop->index + 1 }}">
-                    <img src="banner/{{ $banner->image }}" alt="{{ $banner->link }}" class="border rounded banner" />
+                    <img src="{{ asset('banner/' . $banner->image) }}" alt="{{ $banner->link }}"
+                        class="border rounded banner" />
                 </li>
             @endforeach
         </ol>

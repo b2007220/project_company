@@ -25,7 +25,7 @@
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center border rounded">
-                        <img src="banner/{{ $banner->image }}" alt="" class="w-100 h-120">
+                        <img src="{{ asset('banner/' . $banner->image) }}" alt="" class="w-100 h-120">
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">

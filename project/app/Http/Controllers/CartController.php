@@ -15,25 +15,30 @@ class CartController extends Controller
         try {
             $product = Product::findOrFail($request->product_id);
             $amount = $request->input('amount', 1);
-
             $cart = session()->get('cart', []);
-            if ($product->amount < $amount) {
+            if ($product->amount < (int) $amount) {
                 return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
             }
             $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
+
             if (isset($cart[$product['id']])) {
-                if ($product->amount < $cart[$product['id']]['amount'] + $amount) {
+                if ($product->amount < $cart[$product['id']]['amount'] +  (int)$amount) {
                     return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
                 } else {
                     $cart[$product['id']]['amount'] += $amount;
                 }
             } else {
+                if ($product->pictures()->first()) {
+                    $image = $product->pictures()->first()->link;
+                } else {
+                    $image = 'temp.jpg';
+                }
                 $cart[$product['id']] = [
                     "name" => $product->name,
                     "amount" => $amount,
                     "price" => $product->price,
-                    "image" => $product->pictures()->first()->link,
-                    'predifined' =>   $total_discount,
+                    "image" => $image,
+                    'predifined' =>  $total_discount,
                 ];
             }
             session()->put('cart', $cart);

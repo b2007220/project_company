@@ -39,21 +39,25 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
+
             $validated = $request->validate([
                 'total' => 'required|numeric',
                 'code' => 'nullable|exists:discounts,code',
                 'price' => 'required|numeric',
                 'ship' => 'required|numeric',
             ]);
-            $total = (int)$request->total;
+            $total = (int)$validated['total'];
             $price = (int)$validated['price'];
             $ship = (int)$validated['ship'];
             $cart = session()->get('cart', []);
+
             $order = Order::create([
-                'total_price' =>  $total,
                 'user_id' => $request->user()->id,
+                'total_price' => $total,
                 'ship' => $ship,
             ]);
+
+
             if ($validated['code']) {
                 $code = $validated['code'];
                 $discountCode = Discount::where('code', $code)->first();
@@ -78,7 +82,7 @@ class OrderController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc tạo đơn hàng']);
+            return response()->json(['message' => 'Lỗi trong việc tạo đơn hàng'], 400);
         }
     }
 
@@ -103,7 +107,7 @@ class OrderController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc cập nhật trạng thái đơn hàng']);
+            return response()->json(['message' => 'Lỗi trong việc cập nhật trạng thái đơn hàng'], 400);
         }
     }
 
@@ -132,6 +136,7 @@ class OrderController extends Controller
     public function confirm(Request $request)
     {
         try {
+            dd($request->all());
             $validated = $request->validate([
                 'receiver_name' => 'required|string',
                 'address' => 'required|string',
@@ -140,7 +145,6 @@ class OrderController extends Controller
                 'bankNumber' => 'required_if:payment-type,TRANSFER',
             ]);
             $order = Order::find($request->id);
-
             if (!$order) {
                 return response()->json(['message' => 'Order not found'], 404);
             }
@@ -171,7 +175,7 @@ class OrderController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc đặt hàng']);
+            return response()->json(['message' => 'Lỗi trong việc đặt hàng'], 400);
         }
     }
     public function cancle(Request $request, $id)
@@ -197,7 +201,7 @@ class OrderController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc hủy đơn hàng']);
+            return response()->json(['message' => 'Lỗi trong việc hủy đơn hàng'], 400);
         }
     }
     public function reorder(Request $request, $id)
@@ -212,7 +216,7 @@ class OrderController extends Controller
                 if (isset($cart[$product->id])) {
                     $cart[$product->id]['amount'] += $product->pivot->amount;
                     if ($product->amount < $cart[$product->id]['amount'] + $product->pivot->amount) {
-                        return response()->json(['message' => 'The amount of product is not enough']);
+                        return response()->json(['message' => 'The amount of product is not enough'], 400);
                     }
                 } else {
                     $cart[$product->id] = [
@@ -233,7 +237,7 @@ class OrderController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc đặt hàng']);
+            return response()->json(['message' => 'Lỗi trong việc đặt hàng'], 400);
         }
     }
 }

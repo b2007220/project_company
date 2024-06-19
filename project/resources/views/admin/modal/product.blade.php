@@ -443,7 +443,7 @@
                                                                                 <div class="card-group justify-content-evenly w-100">
                                                                                     ${chunk.map(picture => `
                                                                                         <div class="border rounded border-gray-300 picture-item" data-id="${picture.id}">
-                                                                                            <img class="img-fluid custom-img rounded" src="/product/${picture.link}" alt="">
+                                                                                            <img class="img-fluid custom-img rounded" src="{{asset('product/'.${picture.link})}}" alt="">
                                                                                         </div>
                                                                                     `).join('')}
                                                                                 </div>

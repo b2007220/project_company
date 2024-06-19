@@ -112,8 +112,9 @@
         const confirmForm = event.target;
         const formData = new FormData(confirmForm);
         console.log(Object.fromEntries(formData.entries()));
-        const url = 'order';
+        const url = '';
         const method = 'POST';
+        console.log(url, method);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -144,12 +145,12 @@
                     }
                 }
                 swal({
-                        title: 'Thất bại!',
-                        text: xhr.responseJSON.message,
-                        icon: 'error',
-                        button: 'OK',
-                        timer: 1000
-                    });
+                    title: 'Thất bại!',
+                    text: xhr.responseJSON.message,
+                    icon: 'error',
+                    button: 'OK',
+                    timer: 1000
+                });
             }
         });
     });

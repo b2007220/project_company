@@ -12,10 +12,10 @@
                         <button class="d-flex bg-white small rounded-circle border-primary me-md-0 p-0" type="button"
                             id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             @if (!Auth::user()->isValidAvatarUrl())
-                                <img src="avatar/{{ Auth::user()->avatar }}" alt="Avatar" id="avatar-image-header"
-                                    class="w-8 h-8 border rounded-circle" />
+                                <img src="{{ asset('avatar/' . Auth::user()->avatar) }}" alt="Avatar"
+                                    id="avatar-image-header" class="w-8 h-8 border rounded-circle" />
                             @else
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" id="avatar-image-header"
+                                <img src="{{ asset(Auth::user()->avatar) }}" alt="Avatar" id="avatar-image-header"
                                     class="w-8 h-8 border rounded-circle" />
                             @endif
                         </button>
