@@ -120,6 +120,13 @@
             },
             error: function(xhr) {
                 console.error("Error updating product price", xhr);
+                swal({
+                    title: 'Thất bại!',
+                    text: "Có lỗi xảy ra khi cập nhật giá sản phẩm",
+                    icon: 'error',
+                    button: 'OK',
+                    timer: 1000
+                });
             }
         });
     }
@@ -167,6 +174,13 @@
                                 console.log(key, value);
                             }
                         }
+                        swal({
+                            title: 'Thất bại!',
+                            text: xhr.responseJSON.message,
+                            icon: 'error',
+                            button: 'OK',
+                            timer: 1000
+                        });
                     }
                 })
             }
@@ -281,6 +295,13 @@
                     for (const [key, value] of Object.entries(errors)) {
                         console.log(key, value);
                     }
+                    swal({
+                        title: 'Thất bại!',
+                        text: xhr.responseJSON.message,
+                        icon: 'error',
+                        button: 'OK',
+                        timer: 1000
+                    });
                 }
             }
         })
@@ -353,6 +374,21 @@
                             timer: 1000,
                         });
 
+                    },
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            for (const [key, value] of Object.entries(errors)) {
+                                console.log(key, value);
+                            }
+                        }
+                        swal({
+                            title: 'Thất bại!',
+                            text: xhr.responseJSON.message,
+                            icon: 'error',
+                            button: 'OK',
+                            timer: 1000
+                        });
                     }
                 });
             }

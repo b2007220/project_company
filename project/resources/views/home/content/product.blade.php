@@ -70,7 +70,8 @@
                 @endif
                 <div class="d-flex gap-6 mb-6 flex-column">
                     <div class="w-full">
-                        <label for="number-input" class="block mb-2 text-xl font-medium text-gray-900">Số lượng:</label>
+                        <span for="number-input" class="block mb-2 text-xl font-medium text-gray-900">Số lượng còn lại:
+                            {{ number_format($product->amount, 0, ',', '.') }}</span>
                         <div class="position-relative d-flex align-items-center max-w-50">
                             <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input"
                                 class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-start p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none d-flex align-items-center justify-content-center">
@@ -203,10 +204,15 @@
                                 console.log(key, value);
                             }
                         }
+                        swal({
+                            title: 'Thất bại!',
+                            text: xhr.responseJSON.message,
+                            icon: 'error',
+                            button: 'OK',
+                            timer: 1000
+                        });
                     }
                 });
             })
-
-
         })
     </script>

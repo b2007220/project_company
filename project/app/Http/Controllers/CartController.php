@@ -18,12 +18,12 @@ class CartController extends Controller
 
             $cart = session()->get('cart', []);
             if ($product->amount < $amount) {
-                return response()->json(['message' => 'Số lượng sản phẩm không đủ']);
+                return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
             }
             $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
             if (isset($cart[$product['id']])) {
                 if ($product->amount < $cart[$product['id']]['amount'] + $amount) {
-                    return response()->json(['message' => 'Số lượng sản phẩm không đủ']);
+                    return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
                 } else {
                     $cart[$product['id']]['amount'] += $amount;
                 }
@@ -39,7 +39,7 @@ class CartController extends Controller
             session()->put('cart', $cart);
             return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Số lượng sản phẩm không đủ']);
+            return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
         }
     }
 
@@ -56,7 +56,7 @@ class CartController extends Controller
 
             return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc xóa sản phẩm khỏi giỏ hàng']);
+            return response()->json(['message' => 'Lỗi trong việc xóa sản phẩm khỏi giỏ hàng'], 400);
         }
     }
 
@@ -70,7 +70,7 @@ class CartController extends Controller
 
             if (isset($cart[$productId])) {
                 if ($product->amount < $amount) {
-                    return response()->json(['message' => 'Số lượng sản phẩm không đủ']);
+                    return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
                 }
                 $cart[$productId]['amount'] = $amount;
                 session()->put('cart', $cart);
@@ -78,7 +78,7 @@ class CartController extends Controller
 
             return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc cập nhật giỏ hàng']);
+            return response()->json(['message' => 'Lỗi trong việc cập nhật giỏ hàng'], 400);
         }
     }
     public function clear(Request $request)
@@ -96,13 +96,13 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
             $discount = Discount::where('code', $request->code)->first();
             if ($discount->amount === 0 || $discount->expired_at < now()) {
-                return response()->json(['message' => 'Mã giảm giá không hợp lệ']);
+                return response()->json(['message' => 'Mã giảm giá không hợp lệ'], 400);
             } else {
                 $cart['discount'] = $discount;
             }
             return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc áp dụng mã giảm giá']);
+            return response()->json(['message' => 'Lỗi trong việc áp dụng mã giảm giá'], 400);
         }
     }
 }

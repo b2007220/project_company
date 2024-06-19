@@ -227,6 +227,13 @@
                             timer: 1000
                         });
                     }
+                    swal({
+                        title: 'Thất bại!',
+                        text: xhr.responseJSON.message,
+                        icon: 'error',
+                        button: 'OK',
+                        timer: 1000
+                    });
                 }
             });
         });
@@ -326,6 +333,13 @@
                         console.log(key, value);
                     }
                 }
+                swal({
+                        title: 'Thất bại!',
+                        text: xhr.responseJSON.message,
+                        icon: 'error',
+                        button: 'OK',
+                        timer: 1000
+                    });
             }
         });
     });
