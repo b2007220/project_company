@@ -67,7 +67,7 @@
         event.preventDefault();
         const updateOrderForm = event.target;
         const formData = new FormData(updateOrderForm);
-        const url = 'admin/order/update-type';
+        const url = 'order/update-type';
         const method = 'POST';
         $.ajaxSetup({
             headers: {

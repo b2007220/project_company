@@ -70,7 +70,6 @@
     });
 
     function confirmation(event, id) {
-        console.log(id);
         event.preventDefault();
         const url = 'product/delete/' + id;
 
@@ -86,14 +85,13 @@
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
                     }
                 });
                 $.ajax({
                     url: url,
                     type: 'DELETE',
+                    contentType: 'application/json',
                     success: function(result) {
-                        console.log(result);
                         swal("Dữ liệu đã được xóa!", {
                             icon: "success",
                             timer: 1000,
@@ -129,7 +127,6 @@
     function removeDiscount(event, productId, discountId, pivotId) {
         event.preventDefault();
         const url = `product/remove-discount/product/${productId}/discount/${discountId}`;
-        console.log(url);
         swal({
             title: "Bạn có chắc chắn muốn xóa?",
             text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu!",
@@ -301,7 +298,6 @@
                     selectedPictures.add(pictureId);
                     this.classList.add('selected');
                 }
-                console.log(Array.from(selectedPictures));
             });
         });
     }
@@ -311,7 +307,6 @@
             event.preventDefault();
             const productId = document.querySelector('#deletePictureForm').getAttribute(
                 'data-select-product');
-            console.log(productId);
             const inputHidden = document.getElementById('selected_pictures');
             inputHidden.value = JSON.stringify(Array.from(selectedPictures));
             deleteImages(event, productId);

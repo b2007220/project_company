@@ -167,7 +167,7 @@
                         <button type="button"
                             class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
                             data-bs-toggle="modal" data-bs-target="#addBannerModal" data-mode="edit"
-                            data-banner="${JSON.stringify(result.banner)}">
+                            data-banner='${JSON.stringify(result.banner)}'>
                             Chỉnh sửa
                             <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -219,13 +219,12 @@
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
                     }
                 });
                 $.ajax({
                     url: url,
                     type: 'DELETE',
-
+                    contentType: 'application/json',
                     success: function(result) {
                         console.log(result);
                         swal("Dữ liệu đã được xóa!", {

@@ -47,7 +47,6 @@
     const daysInCurrentMonth = getDaysInCurrentMonth();
     const countOrderPerDay = @json($countOrderPerDay);
     const incomePerDay = @json($incomePerDay);
-    console.log(incomePerDay);
 
     const ordersByDay = {};
     const incomeByDay = {};

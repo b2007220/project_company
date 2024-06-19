@@ -125,10 +125,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             }
         });
-        console.log(method);
-        for (let key of formData.keys()) {
-            console.log(key, formData.getAll(key));
-        }
+
         $.ajax({
             url: url,
             type: 'POST',
@@ -136,9 +133,10 @@
             processData: false,
             contentType: false,
             success: function(result) {
+                console.log(result);
                 const product = result.product;
                 const discounts = result.discounts;
-
+                let discountedPrice = 0;
                 let total_discount = 0;
                 if (discounts && discounts.length > 0 && discounts.some(discount => discount.pivot
                         .is_predefined)) {
@@ -147,89 +145,89 @@
                             total_discount += discount.discount;
                         }
                     });
-                    price = product.price - (product.price * total_discount) / 100;
+                    discountedPrice = product.price - (product.price * total_discount) / 100;
                 }
 
                 $('#addProductModal').modal('hide');
                 var content = `
-                                                    <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
-                                                            <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                                                ${result.product.name}
-                                                            </div>
-                                                    </td>
+                    <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                            <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                                ${result.product.name}
+                            </div>
+                    </td>
 
-                                                    <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
-                                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                                            ${result.product.description}
-                                                        </div>
-                                                    </td>
-                                                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
-                                                            ${result.categories ? result.categories.map(category =>
-                                                            ` <span> ${category.name} </span>`).join('') : ''}
-                                                        </div>
-                                                    </td>
-                                                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                                            ${Number(result.product.price).toLocaleString('de-DE')} đ
-                                                        </div>
-                                                    </td>
-                                                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
-                                                            ${result.discounts && result.discounts.length > 0 ?  `<span> ${Number(price).toLocaleString('de-DE')} đ`:
-                                                                `<span>  ${Number(result.product.price).toLocaleString('de-DE')} đ
-                                                                </span>`
-                                                            }
-                                                        </div>
-                                                    </td>
-                                                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
-                                                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                                                            ${Number(result.product.amount).toLocaleString('de-DE')}
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
-                                                        <div class="d-flex justify-content-center align-items-center gap-2">
-                                                        <form action = "javascript:void(0)"
-                                                        enctype = "multipart/form-data"
-                                                        onsubmit = "confirmation(event, ${result.product.id})">
-                                                            <button type = "submit" class ="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">Xóa
-                                                                <svg class = "w-6 h-6 text-white"
-                                                                    aria-hidden = "true"
-                                                                    xmlns = "http://www.w3.org/2000/svg"
-                                                                    width = "24"
-                                                                    height = "24"
-                                                                    fill = "none"
-                                                                    viewBox = "0 0 24 24">    <path stroke = "currentColor"
-                                                                    stroke-linecap = "round"
-                                                                    stroke-linejoin = "round"
-                                                                    stroke-width = "2"
-                                                                    d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                                </svg>
-                                                            </button>
-                                                        </form>
-                                                        <button type = "button"
-                                                            class ="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
-                                                            data-bs-toggle = "modal"
-                                                            data-bs-target = "#addProductModal"
-                                                            data-mode = "edit"
-                                                            data-product = '${JSON.stringify(result.product)}'>
-                                                                Chỉnh sửa
-                                                                <svg class = "w-6 h-6 text-white"
-                                                                aria-hidden = "true"
-                                                                xmlns = "http://www.w3.org/2000/svg"
-                                                                width = "24"
-                                                                height = "24"
-                                                                fill = "none"
-                                                                viewBox = "0 0 24 24">    <path stroke = "currentColor"
-                                                                stroke-linecap = "round"
-                                                                stroke-linejoin = "round"
-                                                                stroke-width = "2"
-                                                                d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                                                </svg>
-                                                        </button>
-                                                            </div>
+                    <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${result.product.description}
+                        </div>
+                    </td>
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
+                            ${result.categories ? result.categories.map(category =>
+                            ` <span> ${category.name} </span>`).join('') : ''}
+                        </div>
+                    </td>
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${Number(result.product.price).toLocaleString('de-DE')} đ
+                        </div>
+                    </td>
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
+                            ${result.discounts && result.discounts.length > 0 ?  `<span> ${Number(discountedPrice).toLocaleString('de-DE')} đ`:
+                                `<span>  ${Number(result.product.price).toLocaleString('de-DE')} đ
+                                </span>`
+                            }
+                        </div>
+                    </td>
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                        <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                            ${Number(result.product.amount).toLocaleString('de-DE')}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                        <form action = "javascript:void(0)"
+                        enctype = "multipart/form-data"
+                        onsubmit = "confirmation(event, ${result.product.id})">
+                            <button type = "submit" class ="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">Xóa
+                                <svg class = "w-6 h-6 text-white"
+                                    aria-hidden = "true"
+                                    xmlns = "http://www.w3.org/2000/svg"
+                                    width = "24"
+                                    height = "24"
+                                    fill = "none"
+                                    viewBox = "0 0 24 24">    <path stroke = "currentColor"
+                                    stroke-linecap = "round"
+                                    stroke-linejoin = "round"
+                                    stroke-width = "2"
+                                    d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                        </form>
+                        <button type = "button"
+                            class ="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"
+                            data-bs-toggle = "modal"
+                            data-bs-target = "#addProductModal"
+                            data-mode = "edit"
+                            data-product = '${JSON.stringify(result.product)}'>
+                                Chỉnh sửa
+                                <svg class = "w-6 h-6 text-white"
+                                aria-hidden = "true"
+                                xmlns = "http://www.w3.org/2000/svg"
+                                width = "24"
+                                height = "24"
+                                fill = "none"
+                                viewBox = "0 0 24 24">    <path stroke = "currentColor"
+                                stroke-linecap = "round"
+                                stroke-linejoin = "round"
+                                stroke-width = "2"
+                                d = "M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                        </button>
+                            </div>
 
-                                                    </td>`;
+                    </td>`;
                 if (method === 'PUT') {
                     const row = document.querySelector(
                         `tr[data-product-id="${result.product.id}"]`);
@@ -283,7 +281,7 @@
                                         <button class ="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1"
                                             data-bs-toggle = "modal"
                                             data-bs-target = "#addProductDiscountModal"
-                                            data-product = "${JSON.stringify(result.product)}">Thêm mới
+                                            data-product = '${JSON.stringify(result.product)}'>Thêm mới
                                             <svg class = "w-6 h-6  text-white"
                                             aria-hidden = "true"
                                             xmlns = "http://www.w3.org/2000/svg"
@@ -459,7 +457,6 @@
                                                                 </button>
                                                             ` : ''}`
                 }
-
                 setupPictureItemEvents();
                 swal({
                     title: 'Thành công!',
