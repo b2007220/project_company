@@ -204,28 +204,6 @@
             });
         }
 
-        // function fetchCategories(categoryPage = 1) {
-        //     $.ajax({
-        //         url: "{{ route('categories') }}",
-        //         type: "GET",
-        //         data: {
-        //             page: categoryPage
-        //         },
-        //         success: function(data) {
-        //             $('#category-pagination').html(data);
-        //         },
-        //         error: function() {
-        //             swal({
-        //                 title: 'Lỗi!',
-        //                 text: 'Có lỗi xảy ra. Vui lòng thử lại.',
-        //                 icon: 'error',
-        //                 button: 'Đã hiểu',
-        //                 timer: 1000
-        //             });
-        //         }
-        //     });
-        // }
 
-        // fetchCategories();
     });
 </script>
