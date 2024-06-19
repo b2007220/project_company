@@ -16,7 +16,7 @@ class AccountController extends Controller
     {
         $accounts = User::orderBy('role', 'desc')->paginate(10);
         if ($request->ajax()) {
-            return view('admin.layout.account', ['accounts' => $accounts])->render();
+            return view('admin.content.account-data', ['accounts' => $accounts])->render();
         }
         return view('admin.layout.account', ['accounts' => $accounts]);
     }

@@ -22,13 +22,13 @@
     <tbody class="bg-white">
         @foreach ($banners as $banner)
             <tr data-banner-id="{{ $banner->id }}">
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center border rounded">
                         <img src="{{ asset('banner/' . $banner->image) }}" alt="" class="w-100 h-120">
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($banner->link)
@@ -39,7 +39,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($banner->status)
@@ -58,7 +58,7 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
                     <div class="  d-flex justify-content-center align-items-center gap-2 ">
                         <form onsubmit="disableBanner({{ $banner->id }})">
                             @if ($banner->status)

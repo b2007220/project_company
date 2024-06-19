@@ -81,7 +81,7 @@
             success: function(result) {
                 console.log(result.account);
                 $('#adjustAccountModal').modal('hide');
-                var content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                var content = `<td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -89,7 +89,7 @@
 
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -97,20 +97,20 @@
 
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         ${result.account.phone ? result.account.phone : 'Chưa cập nhật'}
                     </div>
                 </td>
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         ${result.account.address ? result.account.address : 'Chưa cập nhật'}
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     ${result.account.is_active ? `<div
                             class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
                             <span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang hoạt
@@ -123,7 +123,7 @@
 
                 </td>
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
 
                     ${result.account.role==='ADMIN' ? `<div
                             class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
@@ -137,7 +137,7 @@
 
                 </td>
                 <td
-                    class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                    class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                     <div class=" d-flex justify-content-center align-items-center gap-2">
                         <form onsubmit="disableAccount(${result.account.id })">
                         ${result.account.is_active ? `
@@ -195,14 +195,14 @@
                     for (const [key, value] of Object.entries(errors)) {
                         console.log(key, value);
                     }
-                }
+                };
                 swal({
-                        title: 'Thất bại!',
-                        text: xhr.responseJSON.message,
-                        icon: 'error',
-                        button: 'OK',
-                        timer: 1000
-                    });
+                    title: 'Thất bại!',
+                    text: xhr.responseJSON.message,
+                    icon: 'error',
+                    button: 'OK',
+                    timer: 1000
+                });
             }
         });
     });

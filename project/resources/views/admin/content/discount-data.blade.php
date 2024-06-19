@@ -36,13 +36,13 @@
     <tbody class="bg-white">
         @foreach ($discounts as $discount)
             <tr data-discount-id="{{ $discount->id }}">
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ $discount->code }}
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ $discount->name }}
@@ -50,7 +50,7 @@
                 </td>
 
                 <td
-                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ $discount->discount }} %</div>
@@ -58,7 +58,7 @@
                 </td>
 
                 <td
-                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ number_format($discount->amount, 0, ',', '.') }}</div>
@@ -66,7 +66,7 @@
                 </td>
 
                 <td
-                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ date('d-m-Y', strtotime($discount->expired_at)) }}</div>
@@ -74,7 +74,7 @@
 
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($discount->type === 'PRODUCT')
@@ -85,7 +85,7 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         <form action="javascript:void(0)" enctype="multipart/form-data"
                             onsubmit="confirmation(event, {{ $discount->id }})">

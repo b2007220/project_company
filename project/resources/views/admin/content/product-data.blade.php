@@ -36,14 +36,14 @@
         @foreach ($products as $product)
             <tr data-bs-toggle="collapse" data-bs-target=".detail-{{ $product->id }}"
                 data-product-id="{{ $product->id }}">
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ $product->name }}
                     </div>
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                    class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
 
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
@@ -51,7 +51,7 @@
                     </div>
                 </td>
 
-                <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                <td class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
 
@@ -62,7 +62,7 @@
 
                 </td>
                 <td
-                    class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                    class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -71,7 +71,7 @@
 
                 </td>
                 <td
-                    class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                    class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
                         @php
@@ -94,13 +94,13 @@
 
                 </td>
                 <td
-                    class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                    class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ number_format($product->amount, 0, ',', '.') }}
                     </div>
                 </td>
-                <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                <td class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         <form action="javascript:void(0)" enctype="multipart/form-data"
                             onsubmit="confirmation(event, {{ $product->id }})">
@@ -238,7 +238,7 @@
                             @foreach ($product->discounts as $discount)
                                 <tr data-pivot-id="{{ $discount->pivot->id }}">
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -246,7 +246,7 @@
                                         </div>
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -255,7 +255,7 @@
 
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -264,7 +264,7 @@
 
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -274,7 +274,7 @@
 
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                             {{ date('d-m-Y', strtotime($discount->expired_at)) }}
@@ -283,7 +283,7 @@
                                     </td>
 
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                             @if ($discount->pivot->is_predefined)
@@ -295,7 +295,7 @@
 
                                     </td>
                                     <td
-                                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d">
+                                        class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 d">
                                         <div class="d-flex justify-content-center align-items-center gap-2">
                                             <form action="javascript:void(0)" enctype="multipart/form-data"
                                                 id="removeDiscountForm-{{ $discount->pivot->id }}"

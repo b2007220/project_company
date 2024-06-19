@@ -42,7 +42,7 @@
             <tr data-bs-toggle="collapse" data-bs-target=".detail-{{ $order->id }}"
                 data-order-id="{{ $order->id }}">
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($order->user->name)
@@ -53,7 +53,7 @@
                     </div>
                 </td>
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($order->address)
@@ -63,7 +63,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($order->receiver_name)
@@ -75,7 +75,7 @@
                 </td>
 
                 <td id="order-status-{{ $order->id }}"
-                    class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                    class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div class="ml-4 text-sm leading-5 font-medium d-flex justify-content-center align-items-center">
 
                         @switch($order->status)
@@ -100,14 +100,14 @@
                             </div>
                     @endswitch
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ number_format($order->total_price, 0, ',', '.') }} đ
                     </div>
                 </td>
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($order->payment_type === 'CASH')
@@ -117,7 +117,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($order->discounts->count() > 0)
@@ -128,7 +128,7 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
 
                     <button
                         class="p-2 m-3 border rounded-pill bg-blue-300 text-white d-flex align-items-center justify-content-center gap-1 fw-bolder"
@@ -170,7 +170,7 @@
                             @foreach ($order->products as $product)
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                             {{ $product->name }}
@@ -178,7 +178,7 @@
                                     </td>
 
                                     <td
-                                        class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                        class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                             {{ $product->description }}
@@ -186,14 +186,14 @@
                                     </td>
 
                                     <td
-                                        class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                                        class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
                                             {{ number_format($product->pivot->amount, 0, ',', '.') }}
                                         </div>
                                     </td>
                                     <td
-                                        class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-bottom border-gray-200">
+                                        class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                                         <div
                                             class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                             {{ number_format($product->pivot->price, 0, ',', '.') }} đ

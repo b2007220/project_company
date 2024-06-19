@@ -1,7 +1,6 @@
 <table class="min-w-100">
     <thead>
         <tr>
-
             <th
                 class="px-6 py-3 text-xs fw-bolder text-left text-gray-500 text-uppercase border-top border-bottomottom border-gray-200 bg-gray-50">
                 Email tài khoản
@@ -36,7 +35,7 @@
     <tbody class="bg-white">
         @foreach ($accounts as $account)
             <tr data-account-id="{{ $account->id }}">
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($account->email)
@@ -46,7 +45,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($account->name)
@@ -56,7 +55,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         @if ($account->phone)
@@ -67,9 +66,9 @@
                     </div>
                 </td>
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
-                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center pl-2">
                         @if ($account->address)
                             {{ $account->address }}
                         @else
@@ -77,7 +76,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
 
                     @if ($account->is_active)
                         <div
@@ -94,7 +93,7 @@
                     @endif
                 </td>
 
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
 
 
                     @if ($account->role === 'ADMIN')
@@ -111,7 +110,7 @@
                         </div>
                     @endif
                 </td>
-                <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                <td class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                     <div class=" d-flex justify-content-center align-items-center gap-2">
                         <form onsubmit="disableAccount({{ $account->id }})">
 
@@ -154,11 +153,9 @@
                             </svg>
                         </button>
                     </div>
-
-
                 </td>
+            </tr>
         @endforeach
-        </tr>
     </tbody>
 </table>
 {!! $accounts->links() !!}

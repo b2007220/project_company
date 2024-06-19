@@ -150,29 +150,29 @@
 
                 $('#addProductModal').modal('hide');
                 var content = `
-                    <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <td class ="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                             <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                 ${result.product.name}
                             </div>
                     </td>
 
-                    <td class ="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
+                    <td class ="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500">
                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                             ${result.product.description}
                         </div>
                     </td>
-                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center flex-column">
                             ${result.categories ? result.categories.map(category =>
                             ` <span> ${category.name} </span>`).join('') : ''}
                         </div>
                     </td>
-                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                             ${Number(result.product.price).toLocaleString('de-DE')} đ
                         </div>
                     </td>
-                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
                             ${result.discounts && result.discounts.length > 0 ?  `<span> ${Number(discountedPrice).toLocaleString('de-DE')} đ`:
                                 `<span>  ${Number(result.product.price).toLocaleString('de-DE')} đ
@@ -180,12 +180,12 @@
                             }
                         </div>
                     </td>
-                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+                    <td class ="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                         <div class ="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                             ${Number(result.product.amount).toLocaleString('de-DE')}
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                    <td class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
                         <div class="d-flex justify-content-center align-items-center gap-2">
                         <form action = "javascript:void(0)"
                         enctype = "multipart/form-data"
@@ -328,7 +328,7 @@
 
                                     </tr> <thead> <tbody>    ${result.discounts ? result.discounts.map(discount => `<tr data-pivot-id="${result.discount.pivot.id}">
                                         <td
-                                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                            class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
                                                 class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -336,7 +336,7 @@
                                             </div>
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                            class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
                                                 class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -345,7 +345,7 @@
 
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                            class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
                                                 class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -354,7 +354,7 @@
 
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                            class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
                                                 class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -364,7 +364,7 @@
 
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                            class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
                                                 class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                                 ${new Date(discount.expired_at).toLocaleDateString('en-GB')}
@@ -373,7 +373,7 @@
                                         </td>
 
                                         <td
-                                            class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
+                                            class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
                                                 class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                                                 ${discount.pivot.is_predefined ? '<span class="text-success">Áp dụng trực tiếp</span>' : '<span class="text-danger">Chưa áp dụng</span>'}
@@ -381,7 +381,7 @@
 
                                         </td>
                                         <td
-                                            class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                                            class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
                 <div class="d-flex justify-content-center align-items-center gap-2">
                 <form action="javascript:void(0)" enctype="multipart/form-data" id="removeDiscountForm-${result.pivot_id}m"
                 onsubmit="removeDiscount(event, ${productId},${discount.id},${result.pivot.id})>
@@ -443,7 +443,7 @@
                                                                                 <div class="card-group justify-content-evenly w-100">
                                                                                     ${chunk.map(picture => `
                                                                                         <div class="border rounded border-gray-300 picture-item" data-id="${picture.id}">
-                                                                                            <img class="img-fluid custom-img rounded" src="{{asset('product/'.${picture.link})}}" alt="">
+                                                                                            <img class="img-fluid custom-img rounded" src="{{asset('product/${picture.link}')}}" alt="">
                                                                                         </div>
                                                                                     `).join('')}
                                                                                 </div>

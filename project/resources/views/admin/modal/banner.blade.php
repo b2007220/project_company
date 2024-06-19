@@ -102,22 +102,22 @@
                 console.log(result);
                 $('#addBannerModal').modal('hide');
 
-                var content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                var content = `<td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                 <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                    ${result.banner.image ? `<img src="asset('banner/'.${result.banner.image})" alt="" class="w-100 h-120">` : ''}
+                    ${result.banner.image ? `<img src="asset('banner/${result.banner.image}')" alt="" class="w-100 h-120">` : ''}
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+            <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                 <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                     ${result.banner.link ? `<a href="${result.banner.link}" target="_blank" class="text-decoration-none">${result.banner.link}</a>` : `<a href="#" target="_blank" class="text-decoration-none">Không có link</a>`}
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+            <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                 <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                     ${result.banner.status ? `<span class="bg-green-300 text-white p-2 fw-bolder border rounded">Đang hoạt động</span>` : `<span class="bg-red-700 text-white p-2 fw-bolder border rounded">Vô hiệu hóa</span>`}
                 </div>
             </td>
-            <td class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200">
+            <td class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200">
                 <div class="d-flex justify-content-center align-items-center gap-2">
                     <form onsubmit="disableBanner(${result.banner.id})">
                         ${result.banner.status ? `<button type="submit" class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">Vô hiệu hóa  <svg class="w-6 h-6  text-white" aria-hidden="true"

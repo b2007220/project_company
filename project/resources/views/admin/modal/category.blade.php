@@ -101,12 +101,12 @@
                     const newRow = document.createElement('tr');
                     newRow.setAttribute('data-category-id', result.category.id);
                     newRow.innerHTML = `
-                    <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
+                    <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                         <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                             ${result.category.name}
                         </div>
                     </td>
-                    <td class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
+                    <td class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 d-flex justify-content-center align-items-center gap-2">
                         <form action="javascript:void(0)" enctype="multipart/form-data" onsubmit="confirmation(event, ${result.category.id})">
                             <button type="submit" class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                 Xóa

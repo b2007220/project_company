@@ -96,13 +96,13 @@
                     processData: false,
                     success: function(result) {
                         $('#adjustBannerModal').modal('hide');
-                        content = `<td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                        content = `<td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center border rounded">
-                        <img src="/banner/${result.banner.image}" alt="" class="w-100 h-120">
+                        <img src="{{ asset('banner/${result.banner.image}') }}" alt="" class="w-100 h-120">
                     </div>
                 </td>
-                 <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                 <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                        ${result.banner.link ? `<a href="${result.banner.link}" target="_blank"
@@ -110,7 +110,7 @@
                             class="text-decoration-none">Không có link</a>`}
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
+                <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                        ${result.banner.status ? `<div
@@ -125,7 +125,7 @@
                     </div>
                 </td>
                 <td
-                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-bottom border-gray-200 ">
+                    class="text-decoration-none px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
 
                     <div class="  d-flex justify-content-center align-items-center gap-2">
                         <form onsubmit="disableBanner(${ result.banner.id })">
