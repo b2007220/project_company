@@ -201,6 +201,7 @@
                 method: 'DELETE',
                 data: JSON.stringify(Object.fromEntries(removeForm.entries())),
                 contentType: 'application/json',
+                cache: false,
                 success: function(response) {
                     $('#product-' + id).remove();
                     updateTotal();
@@ -234,6 +235,7 @@
                 method: 'PUT',
                 data: JSON.stringify(Object.fromEntries(updateForm.entries())),
                 contentType: 'application/json',
+                cache: false,
                 success: function(response) {
                     updateTotal();
                 },

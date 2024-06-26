@@ -79,6 +79,7 @@
             type: method,
             data: JSON.stringify(Object.fromEntries(formData.entries())),
             contentType: 'application/json',
+            cache: false,
             success: function(result) {
                 $('#updateOrderModal').modal('hide');
                 const row = document.getElementById("order-status-" + result.order.id);

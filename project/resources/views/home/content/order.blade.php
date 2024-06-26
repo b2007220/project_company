@@ -43,6 +43,7 @@
                     url: '?page=' + page,
                     type: "get",
                     datatype: "html",
+                    cache: false,
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);
@@ -75,6 +76,7 @@
                 $.ajax({
                     url: url,
                     type: 'DELETE',
+                    cache: false,
                     contentType: 'application/json',
                     success: function(result) {
                         console.log(result);

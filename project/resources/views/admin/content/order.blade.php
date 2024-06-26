@@ -39,6 +39,7 @@
                     url: '?page=' + page,
                     type: "get",
                     datatype: "html",
+                    cache: false
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);

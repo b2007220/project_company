@@ -22,7 +22,7 @@ class DiscountFactory extends Factory
             'is_active' => true,
             'amount' => $this->faker->numberBetween(1, 100),
             'expired_at' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'code' => $this->faker->unique()->word(),
+            'code' => strtoupper(uniqid()),
             'type' => $this->faker->randomElement(['ORDER', 'PRODUCT']),
         ];
     }

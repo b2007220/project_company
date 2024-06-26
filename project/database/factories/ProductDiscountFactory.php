@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Product;
+use App\Models\Discount;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductDiscount>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<ProductDiscount>
  */
 class ProductDiscountFactory extends Factory
 {
@@ -17,8 +19,8 @@ class ProductDiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => \App\Models\Product::factory(),
-            'discount_id' => \App\Models\Discount::factory(),
+            'product_id' => Product::factory(),
+            'discount_id' => Discount::factory(),
             'is_predefined' => true,
         ];
     }

@@ -126,19 +126,28 @@
             $.ajax({
                 url: "{{ route('category') }}",
                 type: "GET",
+                cache: false,
                 data: {
                     search: value
                 },
                 success: function(data) {
                     $('#item-lists').html(data);
                 },
-                swal({
+                error: function(xhr) {
+                    const errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        for (const [key, value] of Object.entries(errors)) {
+                            console.log(key, value);
+                        }
+                    }
+                    swal({
                         title: 'Thất bại!',
                         text: xhr.responseJSON.message,
                         icon: 'error',
                         button: 'OK',
                         timer: 1000
                     });
+                }
             });
         });
         let currentSort = '';
@@ -194,6 +203,7 @@
                     url: '?page=' + page,
                     type: "get",
                     datatype: "html",
+                    cache: false
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);
@@ -214,6 +224,7 @@
             $.ajax({
                 url: "{{ route('category') }}",
                 type: "GET",
+                cache: false,
                 data: {
                     sort: currentSort,
                     category: currentCategory
@@ -221,13 +232,21 @@
                 success: function(data) {
                     $('#item-lists').html(data);
                 },
-                swal({
+                error: function(xhr) {
+                    const errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        for (const [key, value] of Object.entries(errors)) {
+                            console.log(key, value);
+                        }
+                    }
+                    swal({
                         title: 'Thất bại!',
                         text: xhr.responseJSON.message,
                         icon: 'error',
                         button: 'OK',
                         timer: 1000
                     });
+                }
             });
         }
     });

@@ -45,7 +45,6 @@ class OrderService
             'status' => 'WAIT',
         ]);
         $productsInCart = auth()->user()->productsInCart;
-        $order->products()->attach($productsInCart);
         if (isset($data['code'])) {
             $code = $data['code'];
             $discountCode = Discount::where('code', $code)->first();

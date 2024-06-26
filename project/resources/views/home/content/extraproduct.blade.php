@@ -32,6 +32,7 @@
             $.ajax({
                 url: '/load-more' + '?page=' + page,
                 type: 'GET',
+                cache: false,
                 success: function(data) {
                     $('#product-container').append(data);
                 },

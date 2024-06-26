@@ -40,7 +40,7 @@ Route::middleware(
         Route::post('/confirm', [OrderController::class, 'confirm'])->name('confirm');
         Route::put('cancle/{id}', [OrderController::class, 'cancle'])->name('cancle');
         Route::post('reorder/{id}', [OrderController::class, 'reorder'])->name('reorder');
-        Route::post('checkout{id}', [OrderController::class, 'store'])->name('store');
+        Route::post('checkout', [OrderController::class, 'store'])->name('store');
         Route::get('checkout/{id}', [OrderController::class, 'checkOut'])->name('checkout')->middleware('order');
         Route::get('shipfee/{id}', [OrderController::class, 'getShipFee'])->name('get-shipfee');
     });

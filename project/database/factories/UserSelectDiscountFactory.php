@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +20,9 @@ class UserSelectDiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
-            'discount_id' => \App\Models\Discount::factory(),
-            'order_id' => \App\Models\Order::factory(),
+            'discount_id' => Discount::factory(),
+            'user_id' => User::factory(),
+            'order_id' => Order::factory(),
         ];
     }
 }

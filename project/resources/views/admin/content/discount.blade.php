@@ -53,6 +53,7 @@
                     url: '?page=' + page,
                     type: "get",
                     datatype: "html",
+                    cache: false
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);
@@ -86,12 +87,13 @@
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
                     }
                 });
                 $.ajax({
                     url: url,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    cache: false,
                     success: function(result) {
                         console.log(result);
                         swal("Dữ liệu đã được xóa!", {

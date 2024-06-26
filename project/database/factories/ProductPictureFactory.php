@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Product;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductPicture>
  */
@@ -17,7 +17,7 @@ class ProductPictureFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => \App\Models\Product::factory(),
+            'product_id' => Product::factory(),
             'link' => 'temp.jpg',
         ];
     }

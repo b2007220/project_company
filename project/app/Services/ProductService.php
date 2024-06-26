@@ -32,10 +32,8 @@ class ProductService
                     break;
                 case 'discount':
                     $productsQuery->whereHas('discounts', function ($query) {
-                        $query->where('is_active', true);
-                    })->whereHas('discounts', function ($query) {
-                        $query->where('is_predefined', true);
-                    })->orderBy('discount', 'desc');
+                        $query->where('is_active', true)->where('is_predefined', true);
+                    })->orderBy('created_at', 'desc');
                     break;
                 case 'priceAsc':
                     $productsQuery->orderBy('price', 'asc');

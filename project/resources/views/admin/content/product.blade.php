@@ -52,6 +52,7 @@
                     url: '?page=' + page,
                     type: "get",
                     datatype: "html",
+                    cache: false
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);
@@ -90,6 +91,7 @@
                     url: url,
                     type: 'DELETE',
                     contentType: 'application/json',
+                    cache: false,
                     success: function(result) {
                         swal("Dữ liệu đã được xóa!", {
                             icon: "success",
@@ -110,6 +112,7 @@
         $.ajax({
             url: url,
             type: 'GET',
+            cache: false,
             success: function(result) {
                 const priceDiv = document.querySelector(
                     `tr[data-product-id="${productId}"] .product-price`);
@@ -146,13 +149,14 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                             'content'),
-                        'Content-Type': 'application/json'
+
                     }
                 });
                 $.ajax({
                     url: url,
                     type: 'DELETE',
-
+                    contentType: 'application/json',
+                    cache: false,
                     success: function(result) {
                         updateProductPrice(productId);
                         const row = document.querySelector(
@@ -200,6 +204,7 @@
             url: url,
             type: 'PUT',
             contentType: 'application/json',
+            cache: false,
             success: function(result) {
                 updateProductPrice(productId);
                 const row = document.querySelector(
@@ -356,6 +361,7 @@
                     url: url,
                     type: 'DELETE',
                     contentType: 'application/json',
+                    cache: false,
                     data: JSON.stringify(Object.fromEntries(formData.entries())),
                     success: function(result) {
                         selectedPictures.clear();

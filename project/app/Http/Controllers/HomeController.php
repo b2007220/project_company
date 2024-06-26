@@ -88,6 +88,10 @@ class HomeController extends Controller
 
     {
         $orders = $this->orderService->getAllOrderByUser();
+        foreach ($orders as $order) {
+            $order->products = $order->products()->get();
+            dd($order->products);
+        }
         if ($request->ajax()) {
             return view('home.content.order-data', ['orders' => $orders]);
         }

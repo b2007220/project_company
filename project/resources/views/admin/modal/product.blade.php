@@ -136,6 +136,7 @@
             type: 'POST',
             data: formData,
             processData: false,
+            cache: false,
             contentType: false,
             success: function(result) {
                 console.log(result);

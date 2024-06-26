@@ -16,6 +16,7 @@
                     <label for="parent-category">Loại sản phẩm chính</label>
                     <input type="checkbox" name="is_parent" id="parent-category" value="1">
                     <select class="form-select max-w-100 overflow-auto" multiple name="categories" id="categories">
+                        <option value="" disabled>Chọn loại sản phẩm</option>
                         @foreach ($allCategories as $category)
                             @if ($category->parent_id === null)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>

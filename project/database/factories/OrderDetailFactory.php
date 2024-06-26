@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Order;
+use App\Models\Product;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrderDetail>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<OrderDetail>
  */
 class OrderDetailFactory extends Factory
 {
@@ -17,8 +19,8 @@ class OrderDetailFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => \App\Models\Order::factory(),
-            'product_id' => \App\Models\Product::factory(),
+            'order_id' => Order::factory(),
+            'product_id' => Product::factory(),
             'amount' => $this->faker->randomNumber(),
             'price' => $this->faker->randomFloat(2, 0, 1000000),
         ];

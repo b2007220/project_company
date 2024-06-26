@@ -53,6 +53,7 @@
                     url: '?page=' + page,
                     type: "get",
                     datatype: "html",
+                    cache: false,
                 })
                 .done(function(data) {
                     $("#item-lists").empty().html(data);
@@ -79,7 +80,6 @@
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
                     }
                 });
                 $.ajax({
@@ -89,6 +89,7 @@
                         accountid: accountid
                     }),
                     cache: false,
+                    contentType: 'application/json',
                     processData: false,
                     success: function(result) {
                         $('#adjustAccountModal').modal('hide');
