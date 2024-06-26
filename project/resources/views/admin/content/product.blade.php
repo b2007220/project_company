@@ -81,7 +81,6 @@
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -195,13 +194,12 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                     'content'),
-                'Content-Type': 'application/json'
             }
         });
         $.ajax({
             url: url,
             type: 'PUT',
-
+            contentType: 'application/json',
             success: function(result) {
                 updateProductPrice(productId);
                 const row = document.querySelector(
@@ -284,7 +282,7 @@
                             </div>
                         </td>`;
                 };
-                swal("Dữ liệu đã được xóa!", {
+                swal("Cập nhật trạng thái thành công!", {
                     icon: "success",
                     timer: 1000,
                 });
@@ -352,12 +350,12 @@
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
                     }
                 });
                 $.ajax({
                     url: url,
                     type: 'DELETE',
+                    contentType: 'application/json',
                     data: JSON.stringify(Object.fromEntries(formData.entries())),
                     success: function(result) {
                         selectedPictures.clear();

@@ -6,16 +6,26 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Discount;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use App\Models\ProductPicture;
+use App\Services\ProductService;
+use App\Services\CategoryService;
+use App\Services\DiscountService;
 
 class ProductController extends Controller
 {
+    protected $productService, $categoryService, $discountService;
+
+    public function __construct(ProductService $productService, CategoryService $categoryService, DiscountService $discountService)
+    {
+        $this->productService = $productService;
+        $this->categoryService = $categoryService;
+        $this->discountService = $discountService;
+    }
     public function index(Request $request)
     {
-        $products = Product::with(['categories', 'discounts', 'pictures'])->paginate(5);
-        $categories = Category::all();
-        $discounts = Discount::where('type', 'PRODUCT')->get();
+        $products =   $this->productService->getAllProducts();
+        $categories =   $this->categoryService->getAllCategoriesForSelect();
+        $discounts =    $this->discountService->getAllProductDiscounts();
         if ($request->ajax()) {
             return view("admin.content.product-data", ['products' => $products, 'categories' => $categories, 'discounts' => $discounts,])->render();
         }
@@ -25,34 +35,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
-            $validated = $request->validate([
+            $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric',
                 'amount' => 'required|numeric',
-                'categories.*' => 'exists:categories,id , nullable',
+                'categories' => 'nullable|string',
                 'images' => 'nullable|array',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
             ]);
-            $product = Product::create([
-                'name' => $validated['name'],
-                'description' => $validated['description'],
-                'price' => $validated['price'],
-                'amount' => $validated['amount'],
-            ]);
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $file) {
-                    $destinationPath = 'product/';
-                    $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
-                    $file->move($destinationPath, $profileImage);
-                    $product->pictures()->create(['link' => $profileImage]);
-                }
-            }
-            if ($request->categories) {
-                $categories = explode(',', $request->categories);
-                $product->categories()->sync($categories);
-            }
-
+            $product = $this->productService->createProduct($data);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -74,35 +66,16 @@ class ProductController extends Controller
     {
 
         try {
-            $validated = $request->validate([
+            $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric',
                 'amount' => 'required|numeric',
-                'categories.*' => 'exists:categories,id|nullable',
+                'categories' => 'string|nullable',
                 'images' => 'nullable|array',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
             ]);
-            $product = Product::findOrFail($id);
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $file) {
-                    $destinationPath = 'product/';
-                    $profileImage = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
-                    $file->move($destinationPath, $profileImage);
-                    $product->pictures()->create(['link' => $profileImage]);
-                }
-            }
-            $product->name = $validated['name'];
-            $product->description = $validated['description'];
-            $product->price = $validated['price'];
-            $product->amount = $validated['amount'];
-            $product->save();
-
-            if ($request->categories) {
-                $categories = explode(',', $request->categories);
-                $product->categories()->sync($categories);
-            }
-
+            $product = $this->productService->updateProduct($id, $data);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -123,27 +96,19 @@ class ProductController extends Controller
 
     public function showProductCategories(Product $product)
     {
-        $categories = $product->categories;
+        $categories = $this->productService->showProductCategories($product);
         return view('admin.products.categories', ['categories' => $categories]);
     }
 
     public function destroy(Request $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
-            $product->delete();
+            $this->productService->deleteProduct($id);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Xóa sản phẩm thành công',
-                    'product' => $product
                 ]);
-            }
-            if ($product->pictures) {
-                foreach ($product->pictures as $picture) {
-                    File::delete(public_path('product/' . $picture->link));
-                    $picture->delete();
-                }
             }
             return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
         } catch (\Exception $e) {
@@ -154,26 +119,18 @@ class ProductController extends Controller
     public function deleteImages(Request $request, $productId)
     {
         try {
+
             $selectedPictures = json_decode($request->input('selected_pictures'), true);
 
             $request->merge(['selected_pictures' => $selectedPictures])->validate([
                 'selected_pictures' => 'required|array',
                 'selected_pictures.*' => 'exists:product_pictures,id',
             ]);
-
-            $product = Product::findOrFail($productId);
-            foreach ($request->selected_pictures as $pictureId) {
-                $picture = ProductPicture::find($pictureId);
-                if ($picture && $picture->product_id === $product->id) {
-                    File::delete(public_path('product/' . $picture->link));
-                    $picture->delete();
-                }
-            }
-
+            $this->productService->deleteImages($productId, $selectedPictures);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'pictures' => $product->pictures
+                    'message' => 'Xóa ảnh sản phẩm thành công',
                 ]);
             }
             return redirect()->back()->with('success', 'Xóa ảnh sản phẩm thành công');

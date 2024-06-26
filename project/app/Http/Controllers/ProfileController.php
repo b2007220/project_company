@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use App\Services\AccountService;
 
 class ProfileController extends Controller
 {
+    protected $accountService;
+
+    public function __construct(AccountService $accountService)
+    {
+        $this->accountService = $accountService;
+    }
     /**
      * Display the user's profile form.
      */
@@ -27,35 +34,14 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        $validated = $request->validate([
+        $data = $request->validate([
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'gender' => 'nullable', Rule::in(['MAN', 'WOMAN', 'OTHER']),
         ]);
-        $user = $request->user();
-        if ($request->file('avatar')) {
-            $avatar = $request->file('avatar');
-            $destinationPath = 'avatar/';
-            if ($user->avatar && file_exists($destinationPath . $user->avatar)) {
-                unlink($destinationPath . $user->avatar);
-            }
-            $profileImage = date('YmdHis') . "_" . uniqid() . "." . $avatar->getClientOriginalExtension();
-            $avatar->move($destinationPath, $profileImage);
-            $request->user()->update(['avatar' => $profileImage]);
-        } else {
-            error_log('No files found in the request');
-        }
-
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
-        $user->address = $validated['address'];
-        $user->gender = $validated['gender'];
-        $user->phone = $validated['phone'];
-        $user->save();
-
+        $user = $this->accountService->updateAccount($request->user()->id, $data);
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,

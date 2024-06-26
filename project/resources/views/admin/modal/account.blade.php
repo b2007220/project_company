@@ -69,7 +69,6 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
             }
         });
         $.ajax({
@@ -78,8 +77,8 @@
             data: JSON.stringify(Object.fromEntries(formData.entries())),
             cache: false,
             processData: false,
+            contentType: 'application/json',
             success: function(result) {
-                console.log(result.account);
                 $('#adjustAccountModal').modal('hide');
                 var content = `<td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm">
                     <div
@@ -150,8 +149,9 @@
                                     stroke-width="2"
                                     d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
-                        </button>` : `
-                        <button type="submit"
+                        </button>
+                       ` : `
+                         <button type="submit"
                             class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                             Vô hiệu hóa
                             <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +160,8 @@
                                     stroke-width="2"
                                     d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
-                        </button>`}
+                        </button>
+                        `}
                     </form>
                     <button type="button"
                         class="text-decoration-none p-2 border rounded-pill fw-bolder bg-yellow-400 text-white d-flex align-items-center justify-content-center gap-1"

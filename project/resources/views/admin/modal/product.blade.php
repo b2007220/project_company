@@ -17,8 +17,14 @@
                     <textarea class="form-control" id="productDescription" name="description" placeholder="Nhập mô tả" required></textarea>
                     <label for="categories" class="my-2">Loại sản phẩm</label>
                     <select class="form-select max-w-100 overflow-auto" multiple name="categories" id="categories">
+                        <option value="" disabled>Chọn loại sản phẩm</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @if ($category->parent_id === null)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @else
+                                <option value="{{ $category->id }}">{{ $category->name }} -
+                                    {{ $category->parent->name }}</option>
+                            @endif
                         @endforeach
                     </select>
 
@@ -125,7 +131,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             }
         });
-
         $.ajax({
             url: url,
             type: 'POST',
@@ -301,7 +306,7 @@
                     const detailRow = document.querySelector(
                         `tr.detail-${result.product.id}.collapse`);
                     detailRow.innerHTML = pictureContent + `
-                            <table class = "w-100"  id="discount-table">
+                            <table class = "w-100"  id="discount-table-${result.product.id}">
                                 <thead>
                                     <tr >
                                         <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center">
@@ -416,14 +421,39 @@
                                         </td>
                                     </tr>`).join('') : ''
                                     }
-                                </tbody> <table> </td> <tr> `;
+                                </tbody> </table> </td> <tr> `;
                 } else if (method === 'POST') {
                     const newRowDetail = document.createElement('tr');
                     newRowDetail.classList.add(
                         `detail-${result.product.id}`);
                     newRowDetail.classList.add(`collapse`);
-                    newRowDetail.innerHTML = pictureContent;
+                    newRowDetail.innerHTML = pictureContent + `
+                            <table class = "w-100"  id="discount-table-${result.product.id}">
+                                <thead>
+                                    <tr >
+                                        <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50  text-center">
+                                            Code giảm giá
+                                        </th>
+                                        <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
+                                            Tên giảm giá
+                                        </th>
+                                        <th class = "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">
+                                            Phần trăm giảm giá
+                                        </th>
+                                    <th
+                                class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Số lượng giảm giá
 
+                                </th>
+                                <th class ="px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Ngày hết hạn
+                                    </th> <th
+                                class =
+                                "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Đang áp dụng
+                                    </th> <th
+                                class =
+                                "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Thao tác
+                                    </th>
+
+                                    </tr> <thead> <tbody>`;
                     document.querySelector('tbody').appendChild(
                         newRowDetail);
 
@@ -443,7 +473,7 @@
                                                                                 <div class="card-group justify-content-evenly w-100">
                                                                                     ${chunk.map(picture => `
                                                                                         <div class="border rounded border-gray-300 picture-item" data-id="${picture.id}">
-                                                                                            <img class="img-fluid custom-img rounded" src="{{asset('product/${picture.link}')}}" alt="">
+                                                                                            <img class="img-fluid custom-img rounded" src="{{ asset('product/${picture.link}') }}" alt="">
                                                                                         </div>
                                                                                     `).join('')}
                                                                                 </div>
@@ -474,12 +504,12 @@
                     }
                 }
                 swal({
-                        title: 'Thất bại!',
-                        text: xhr.responseJSON.message,
-                        icon: 'error',
-                        button: 'OK',
-                        timer: 1000
-                    });
+                    title: 'Thất bại!',
+                    text: xhr.responseJSON.message,
+                    icon: 'error',
+                    button: 'OK',
+                    timer: 1000
+                });
             }
         });
     });

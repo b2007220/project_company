@@ -77,7 +77,6 @@
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -89,13 +88,25 @@
                     type: 'DELETE',
 
                     success: function(result) {
-                        console.log(result);
+                        const allCategories = result.allCategories;
+                        const categoriesSelect = document.getElementById('categories');
+                        categoriesSelect.innerHTML = '';
+                        allCategories.forEach(category => {
+                            const option = document.createElement('option');
+                            option.value = category.id;
+                            option.textContent = category.name;
+                            if (category.parent_id !== null) {
+                                option.textContent += ` - ${category.parent.name}`;
+                            }
+                            categoriesSelect.appendChild(option);
+                        });
+
                         swal("Dữ liệu đã được xóa!", {
                             icon: "success",
                             timer: 1000,
                         });
                         $('tr[data-category-id="' + id + '"]').remove();
-
+                        $('tr.detail-' + id).remove();
                     }
                 })
             }

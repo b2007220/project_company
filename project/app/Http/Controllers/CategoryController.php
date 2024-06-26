@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 
 use Illuminate\Http\Request;
 
-
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
     public function index(Request $request)
     {
-        $categories = Category::latest()->paginate(5);
+        $categories = $this->categoryService->getAllCategories();
+        $allCategories = $this->categoryService->getAllCategoriesForSelect();
         if ($request->ajax()) {
-            return view("admin.content.category-data", ["categories" => $categories])->render();
+            return view("admin.content.category-data", ["categories" => $categories, "allCategories" => $allCategories])->render();
         }
-        return view("admin.layout.category", ["categories" => $categories]);
+        return view("admin.layout.category", ["categories" => $categories, "allCategories" => $allCategories]);
     }
 
     public function store(Request $request)
@@ -24,20 +30,23 @@ class CategoryController extends Controller
         try {
             $data = $request->validate([
                 'name' => 'required|string',
+                'is_parent' => 'nullable|boolean',
+                'categories' => 'nullable|string',
             ]);
-
-            $category = Category::create($data);
-
+            $category = $this->categoryService->createCategory($data);
+            $allCategories = $this->categoryService->getAllCategoriesForSelect();
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Thêm loại sản phẩm thành công',
-                    'category' => $category
+                    'newCategory' => $category,
+                    'subCategories' => $category->children ?? '',
+                    'allCategories' => $allCategories
                 ]);
             }
-
             return redirect()->back()->with('success', 'Thêm loại sản phẩm thành công');
         } catch (\Exception $e) {
+           
             return redirect()->back()->with('error', 'Thêm loại sản phẩm thất bại');
         }
     }
@@ -49,21 +58,24 @@ class CategoryController extends Controller
         try {
             $data = $request->validate([
                 'name' => 'required|string',
+                'is_parent' => 'nullable|boolean',
+                'categories' => 'nullable|string',
             ]);
-
-            $category = Category::findOrFail($id);
-            $category->update($data);
-
+            $category = $this->categoryService->updateCategory($id, $data);
+            $allCategories = $this->categoryService->getAllCategoriesForSelect();
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Cập nhật loại sản phẩm thành công',
-                    'category' => $category
+                    'newCategory' => $category,
+                    'subCategories' => $category->children ?? '',
+                    'allCategories' => $allCategories
                 ]);
             }
 
             return redirect()->back()->with('success', 'Cập nhật loại sản phẩm thành công');
         } catch (\Exception $e) {
+
             return redirect()->back()->with('error', 'Cập nhật loại sản phẩm thất bại');
         }
     }
@@ -72,29 +84,19 @@ class CategoryController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-            $category = Category::findOrFail($id);
-
-            if ($category->delete()) {
-                if ($request->ajax()) {
-                    return response()->json([
-                        'success' => true,
-                        'category' => $category
-                    ]);
-                }
-                return redirect()->back()->with('success', 'Xóa loại sản phẩm thành công');
-            } else {
-                if ($request->ajax()) {
-                    return response()->json(['success' => false]);
-                }
-                return redirect()->back()->with('error', 'Xóa loại sản phẩm thất bại');
+            $this->categoryService->deleteCategory($id);
+            $allCategories = $this->categoryService->getAllCategoriesForSelect();
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Xóa loại sản phẩm thành công',
+                    'allCategories' => $allCategories
+                ]);
             }
+            return redirect()->back()->with('success', 'Xóa loại sản phẩm thành công');
         } catch (\Exception $e) {
+
             return redirect()->back()->with('error', 'Xóa loại sản phẩm thất bại');
         }
-    }
-    public function showCategoryProducts(Category $category)
-    {
-        $products = $category->products;
-        return view('categories.products', ['products' => $products]);
     }
 }

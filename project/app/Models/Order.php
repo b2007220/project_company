@@ -15,8 +15,11 @@ class Order extends Model
         'status',
         'address',
         'delivery_date',
-        'total_price',
+        'delivered_at',
+        'total',
+        'grand_total',
         'receiver_name',
+        'receiver_phone',
         'ship',
         'bank_id'
     ];

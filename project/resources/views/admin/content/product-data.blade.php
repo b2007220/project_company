@@ -61,8 +61,7 @@
                     </div>
 
                 </td>
-                <td
-                    class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
+                <td class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
 
@@ -70,8 +69,7 @@
                     </div>
 
                 </td>
-                <td
-                    class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
+                <td class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center product-price">
                         @php
@@ -93,8 +91,7 @@
                     </div>
 
                 </td>
-                <td
-                    class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
+                <td class="px-6 py-4 text-sm font-medium leading-5 text-right  border-bottom border-gray-200">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
                         {{ number_format($product->amount, 0, ',', '.') }}
@@ -145,7 +142,8 @@
                             </svg>
                         </button>
                     </div>
-                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm" data-select-product="{{ $product->id }}">
+                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
+                        data-select-product="{{ $product->id }}">
                         <input type="hidden" name="selected_pictures" id="selected_pictures">
                         <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg w-100"
                             id="pictures-container">
@@ -153,7 +151,7 @@
                                 $chunkedProducts = $product->pictures->chunk(4);
                             @endphp
                             <div id="similarProduct-{{ $product->id }}" class="carousel carousel-dark slide w-100"
-                                data-bs-ride="false" >
+                                data-bs-ride="false">
                                 <div class="carousel-inner">
                                     @foreach ($chunkedProducts as $index => $chunk)
                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }} w-100">
@@ -200,7 +198,7 @@
                             </svg>
                         </button>
                     </div>
-                    <table class="w-100" id="discount-table">
+                    <table class="w-100" id="discount-table-{{ $product->id }}">
                         <thead>
                             <tr>
                                 <th
@@ -342,4 +340,3 @@
     </tbody>
 </table>
 {!! $products->links() !!}
-<script></script>

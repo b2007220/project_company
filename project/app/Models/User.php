@@ -50,7 +50,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function socialAccount(){
+    public function socialAccount()
+    {
         return $this->hasMany(SocialAccount::class);
     }
     public function bankAccounts()
@@ -70,5 +71,13 @@ class User extends Authenticatable
     public function isValidAvatarUrl()
     {
         return filter_var($this->avatar, FILTER_VALIDATE_URL) !== false;
+    }
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+    public function productsInCart()
+    {
+        return $this->hasManyThrough(Product::class, Cart::class, 'user_id', 'id', 'id', 'product_id');
     }
 }

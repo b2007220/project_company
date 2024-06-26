@@ -66,7 +66,6 @@
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Content-Type': 'application/json'
                 }
             });
             $.ajax({
@@ -75,9 +74,11 @@
                 data: JSON.stringify(Object.fromEntries(formData.entries())),
                 cache: false,
                 processData: false,
+                contentType: 'application/json',
                 success: function(result) {
                     $('#addProductDiscountModal').modal('hide');
-                    console.log(result.newDiscounts);
+                    const discountTable = document.getElementById(
+                        `discount-table-${productId}`);
                     result.newDiscounts.forEach(function(discountData) {
                         const discount = discountData.discount;
                         const pivot_id = discountData.pivot_id;
@@ -161,8 +162,7 @@
                                 </form>
                             </div>
                         </td>`;
-                        console.log(newRow);
-                        document.querySelector('#discount-table tbody').appendChild(
+                        discountTable.appendChild(
                             newRow);
                     });
                     swal({

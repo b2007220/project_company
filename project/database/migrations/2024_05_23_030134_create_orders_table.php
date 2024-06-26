@@ -18,12 +18,15 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->enum('payment_type', ['CASH', 'TRANSFER'])->default('CASH');
-            $table->enum('status', ['PENDING', 'DELIVERING', 'DELIVERED', 'CANCELLED', 'UNACCEPTED'])->default('PENDING');
+            $table->enum('status', ['WAIT', 'PENDING', 'DELIVERING', 'DELIVERED', 'CANCELLED', 'UNACCEPTED'])->default('WAIT');
             $table->string('address')->nullable();
-            $table->integer('total_price');
+            $table->integer('total');
             $table->timestamp('delivery_date')->default(now()->addWeek());
+            $table->timestamp('delivered_at')->nullable();
             $table->string('receiver_name')->nullable();
+            $table->string('receiver_phone')->nullable();
             $table->integer('ship')->default(0);
+            $table->integer('grand_total')->default(0);
             $table->foreignId('bank_id')->nullable()->constrained('bank_accounts')->onUpdate('cascade')->onDelete('cascade');
         });
     }

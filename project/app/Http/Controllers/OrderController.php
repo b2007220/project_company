@@ -8,30 +8,39 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Discount;
 use App\Models\BankAccount;
+use App\Services\AccountService;
 use Faker\Core\Number;
+use App\Services\LocationService;
+use App\Services\OrderService;
+use App\Services\ProductService;
+use App\Services\CartService;
 
 class OrderController extends Controller
 {
+    protected $orderService, $userService, $productService, $locationService, $cartService;
+    public function __construct(OrderService $orderService, AccountService $userService, ProductService $productService, LocationService $locationService, CartService $cartService)
+    {
+        $this->orderService = $orderService;
+        $this->userService = $userService;
+        $this->productService = $productService;
+        $this->locationService = $locationService;
+        $this->cartService = $cartService;
+    }
+
+
     public function index(Request $request)
     {
-        $newUsers = User::where('created_at', '>=', now()->subDays(7))->count();
-        $totalOrders = Order::count();
-        $availableProducts = Product::where('amount', '>', 0)->count();
-        $orders = Order::with(['discounts', 'user'])->orderBy('created_at', 'desc')->paginate(5);
+        $newUsers = $this->userService->getNewUsers();
+        $totalOrders = $this->orderService->count();
+        $availableProducts = $this->productService->getAvailableAmountProducts();
+        $orders = $this->orderService->getAllOrders();
 
-        $countOrderPerDay = Order::where('status', ['CANCELLED', 'UNACCEPTED'])
-            ->selectRaw('DATE(created_at) as date, count(*) as count')
-            ->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->get();
+        $countOrderPerDay = $this->orderService->getAmountOrdersPerDay();
 
-        $incomePerDay = Order::whereNotIn('status', ['CANCELLED', 'UNACCEPTED', 'PENDING'])
-            ->selectRaw('DATE(created_at) as date, sum(total_price) as total')
-            ->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->get();
+        $incomePerDay = $this->orderService->getIncomePerDay();
+
         if ($request->ajax()) {
-            return view("admin.content.order-data", ['orders' => $orders])->render();
+            return view("admin.content.order-data",  ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts, 'countOrderPerDay' => $countOrderPerDay, 'incomePerDay' => $incomePerDay])->render();
         }
         return view('admin.layout.index', ['orders' => $orders, 'newUsers' => $newUsers, 'totalOrders' => $totalOrders, 'availableProducts' => $availableProducts, 'countOrderPerDay' => $countOrderPerDay, 'incomePerDay' => $incomePerDay]);
     }
@@ -39,45 +48,18 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-
-            $validated = $request->validate([
+            $data = $request->validate([
                 'total' => 'required|numeric',
                 'code' => 'nullable|exists:discounts,code',
                 'price' => 'required|numeric',
-                'ship' => 'required|numeric',
-            ]);
-            $total = (int)$validated['total'];
-            $price = (int)$validated['price'];
-            $ship = (int)$validated['ship'];
-            $cart = session()->get('cart', []);
-
-            $order = Order::create([
-                'user_id' => $request->user()->id,
-                'total_price' => $total,
-                'ship' => $ship,
             ]);
 
-
-            if ($validated['code']) {
-                $code = $validated['code'];
-                $discountCode = Discount::where('code', $code)->first();
-                $order->discounts()->attach($discountCode, ['user_id' =>  $request->user()->id]);
-            }
-            foreach ($cart as $productId => $item) {
-                $discountProduct = $item['predifined'];
-                $order->products()->attach($productId, [
-                    'amount' => $item['amount'],
-                    'price' => $item['price'] - $discountProduct * $item['price'] / 100,
-                ]);
-            }
-            session()->put('order', $order);
-            session()->put('price', $price);
-            session()->put('ship', $ship);
+            $order = $this->orderService->createOrder($data);
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
-                    'price' => $price,
-                    'ship' => $ship,
+                    'price' => $data['price'],
+                    'message' => 'Tạo đơn hàng thành công',
                 ]);
             }
             return redirect()->back();
@@ -86,19 +68,23 @@ class OrderController extends Controller
         }
     }
 
-    public function checkOut(Request $request)
+    public function checkOut(Request $request, $id)
     {
-        return view('home.layout.checkout', ['order' => session()->get('order'), 'price' => session()->get('price'), 'ship' => session()->get('ship')]);
+        $order = $this->orderService->getOrder($id);
+        if (!$order) {
+            return response()->json(['message' => 'Đơn hàng không được tìm thấy'], 404);
+        }
+        $locations = $this->locationService->getAllLocationForSelect();
+        return view('home.layout.checkout', ['order' => $order, 'locations' => $locations]);
     }
     public function updateType(Request $request)
     {
         try {
-            $validated = $request->validate([
+            $data = $request->validate([
                 'status' => 'required|in:PENDING,UNACCEPTED,DELIVERED,DELIVERING,CANCELLED',
+                'orderId' => 'required|exists:orders,id',
             ]);
-            $order = Order::find($request->orderId);
-            $order->status = $validated['status'];
-            $order->save();
+            $order = $this->orderService->updateType($data);
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
@@ -111,62 +97,22 @@ class OrderController extends Controller
         }
     }
 
-
-    public function update(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'product_id' => 'required|exists:products,id',
-                'quantity' => 'required|numeric',
-                'total' => 'required|numeric',
-            ]);
-
-            $order = Order::find($request->id);
-            $order->product_id = $validated['product_id'];
-            $order->quantity = $validated['quantity'];
-            $order->total = $validated['total'];
-            $order->save();
-            toastr()->timeOut(5000)->closeButton()->success('Cập nhật đơn hàng thành công');
-            return redirect()->back();
-        } catch (\Exception $e) {
-            toastr()->timeOut(5000)->closeButton()->error('Lỗi trong việc cập nhật đơn hàng');
-            return redirect()->back();
-        }
-    }
     public function confirm(Request $request)
     {
         try {
-            dd($request->all());
-            $validated = $request->validate([
+            $data = $request->validate([
                 'receiver_name' => 'required|string',
                 'address' => 'required|string',
                 'payment_type' => 'required|in:CASH,TRANSFER',
                 'bankName' => 'required_if:payment-type,TRANSFER',
                 'bankNumber' => 'required_if:payment-type,TRANSFER',
+                'id' => 'required|exists:orders,id',
+                'location' => 'required|exists:locations,id',
+                'phone' => 'required|string',
             ]);
-            $order = Order::find($request->id);
-            if (!$order) {
-                return response()->json(['message' => 'Order not found'], 404);
-            }
-            $order->receiver_name = $validated['receiver_name'];
-            $order->address = $validated['address'];
-            if ($validated['payment_type'] === 'CASH') {
-                $order->payment_type = 'CASH';
-            } else {
-                $order->payment_type = 'TRANSFER';
-                $user = $request->user();
-                $bank = $user->bankAccounts()->firstOrCreate(
-                    ['account_number' => $validated['bankNumber'], 'bank_name' => $validated['bankName']],
-                    ['user_id' => $user->id]
-                );
-            }
-            $order->bank_id = $bank->id;
-            $order->save();
-            foreach ($order->products as $product) {
-                $product->amount -= $product->pivot->amount;
-                $product->save();
-            }
-            $request->session()->flush();
+            $order = $this->orderService->confirmOrder($data);
+            $this->cartService->clearCart();
+
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
@@ -181,18 +127,7 @@ class OrderController extends Controller
     public function cancle(Request $request, $id)
     {
         try {
-            $order = Order::findOrFail($id);
-            if (!$order) {
-                return response()->json(['message' => 'Order not found'], 404);
-            }
-            if ($order->status == 'DELIVERED' || $order->status == 'DELIVERING') {
-                return response()->json(['message' => 'Không thể hủy đơn hàng đã giao hoặc đang giao'], 400);
-            }
-            if ($order->status == 'CANCELLED') {
-                return response()->json(['message' => 'Đơn hàng đã bị hủy'], 400);
-            }
-            $order->status = 'CANCELLED';
-            $order->save();
+            $order = $this->orderService->cancleOrder($id);
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
@@ -207,31 +142,9 @@ class OrderController extends Controller
     public function reorder(Request $request, $id)
     {
         try {
-            $order = Order::findOrFail($id);
-            if (!$order) {
-                return response()->json(['message' => 'Order not found'], 404);
-            }
-            $cart = session()->get('cart', []);
-            foreach ($order->products as $product) {
-                if (isset($cart[$product->id])) {
-                    $cart[$product->id]['amount'] += $product->pivot->amount;
-                    if ($product->amount < $cart[$product->id]['amount'] + $product->pivot->amount) {
-                        return response()->json(['message' => 'The amount of product is not enough'], 400);
-                    }
-                } else {
-                    $cart[$product->id] = [
-                        'name' => $product->name,
-                        'amount' => $product->pivot->amount,
-                        'price' => $product->price,
-                        'image' => $product->pictures()->first()->link,
-                        'predifined' => $product->discounts()->where('is_predefined', true)->sum('discount'),
-                    ];
-                }
-            }
-            session()->put('cart', $cart);
+            $this->orderService->reOrder($id);
             if ($request->ajax()) {
                 return response()->json([
-                    'order' => $order,
                     'success' => 'Đặt hàng thành công',
                 ]);
             }
@@ -239,5 +152,12 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Lỗi trong việc đặt hàng'], 400);
         }
+    }
+    public function getShipFee(Request $request, $id)
+    {
+        if ($request->ajax()) {
+            $shipFee = $this->locationService->getShipFee($id);
+        }
+        return response()->json(['shipFee' => $shipFee]);
     }
 }

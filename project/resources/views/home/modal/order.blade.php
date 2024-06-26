@@ -81,7 +81,6 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
             }
         });
         const orderModal = document.getElementById("orderModal");
@@ -92,12 +91,13 @@
             orderProductsBody.innerHTML = '';
             var total = 0;
             order.products.forEach(product => {
+                console.log(product);
                 total += product.pivot.price * product.pivot.amount;
                 const row = document.createElement('tr');
                 row.className = 'bg-white border-b hover:bg-gray-50';
                 row.innerHTML = `
                 <td class="fw-bolder p-4">
-                    <img src="product/${product.pictures[0].link}" class="w-16 w-32-md max-w-100 max-h-full" alt="${product.name}" />
+                    <img src="product/${product.pictures[0]?.link || 'temp.jpg'} " class="w-16 w-32-md max-w-100 max-h-full" alt="${product.name}" />
                 </td>
                 <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">${product.name}</td>
                 <td class="fw-bolder px-6 py-4 fw-bolder text-gray-900">${Number(product.pivot.amount).toLocaleString('de-DE')}</td>
@@ -120,7 +120,7 @@
             document.getElementById('discount').innerText =
                 `${Number(discountMoney).toLocaleString('de-DE')} đồng`;
             document.getElementById('total-price').innerText =
-                `${Number(order.total_price).toLocaleString('de-DE')} đồng`;
+                `${Number(order.total).toLocaleString('de-DE')} đồng`;
             document.getElementById('delivery-address').innerText = order.address;
             const cancelOrderButton = document.getElementById('cancel-order-button');
             cancelOrderButton.onclick = function() {
@@ -128,6 +128,8 @@
                 $.ajax({
                     url: 'order/cancle/' + order.id,
                     type: 'PUT',
+                    contentType: 'application/json',
+                    cache: false,
                     success: function(result) {
                         const row = document.getElementById("order-status-" + result
                             .order.id);

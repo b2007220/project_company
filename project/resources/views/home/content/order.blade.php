@@ -70,12 +70,12 @@
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json'
                     }
                 });
                 $.ajax({
                     url: url,
                     type: 'DELETE',
+                    contentType: 'application/json',
                     success: function(result) {
                         console.log(result);
                         swal("Dữ liệu đã được xóa!", {
@@ -83,7 +83,14 @@
                             timer: 1000,
                         });
                         $('tr[data-category-id="' + id + '"]').remove();
-                    }
+                    },
+                    swal({
+                        title: 'Thất bại!',
+                        text: xhr.responseJSON.message,
+                        icon: 'error',
+                        button: 'OK',
+                        timer: 1000
+                    });
                 })
             }
         });

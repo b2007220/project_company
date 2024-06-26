@@ -15,9 +15,8 @@ class OrderMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $order = session()->get('order');
-        if (empty($order)) {
-            return redirect(route('cart.index'));
+        if (auth()->user()->productsInCart->isEmpty()) {
+            return redirect()->route('home');
         }
         return $next($request);
     }

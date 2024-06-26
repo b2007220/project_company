@@ -72,13 +72,13 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
             }
         });
         $.ajax({
             url: url,
             type: method,
             data: JSON.stringify(Object.fromEntries(formData.entries())),
+            contentType: 'application/json',
             success: function(result) {
                 $('#updateOrderModal').modal('hide');
                 const row = document.getElementById("order-status-" + result.order.id);

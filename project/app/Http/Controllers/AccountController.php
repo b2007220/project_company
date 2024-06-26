@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class AccountController extends Controller
 {
+    protected $accountService;
+
+    public function __construct(AccountService $accountService)
+    {
+        $this->accountService = $accountService;
+    }
+
     public function index(Request $request)
     {
-        $accounts = User::orderBy('role', 'desc')->paginate(10);
+        $accounts = $this->accountService->getAllAccounts();
         if ($request->ajax()) {
             return view('admin.content.account-data', ['accounts' => $accounts])->render();
         }
@@ -24,34 +32,37 @@ class AccountController extends Controller
     public function active(Request $request, $id)
     {
         try {
-            $user = User::find($id);
-            if ($user->role !== 'ADMIN') {
-                $user->is_active = !$user->is_active;
-                $user->save();
-                if ($request->ajax()) {
-                    return response()->json([
-                        'success' => true,
-                        'account' => $user
-                    ]);
-                }
-            } else {
-                if ($request->ajax()) {
-                    return response()->json([
-                        'success' => false,
-                        'account' => $user
-                    ]);
-                }
-                return redirect()->back()->with('error', 'Không thể khóa tài khoản admin');
+            $user = $this->accountService->active($id);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'account' => $user
+                ]);
             }
             return redirect()->back()->with('success', 'Chỉnh sửa trạng thái tài khoản thành công');
         } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lỗi chỉnh sửa trạng thái tài khoản'
+                ], 422);
+            }
             return redirect()->back()->with('error', 'Lỗi chỉnh sửa trạng thái tài khoản');
         }
     }
     public function store(Request $request)
     {
         try {
-            $request->validate([
+            if ($request->password !== $request->password_confirmation) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Mật khẩu không khớp'
+                    ], 422);
+                }
+                return redirect()->back()->with('error', 'Mật khẩu không khớp');
+            }
+            $data = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -59,64 +70,48 @@ class AccountController extends Controller
                 'address' => ['nullable', 'string', 'max:255'],
                 'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
                 'avatar' => ['nullable', 'image'],
+                'role' => ['required', Rule::in(['USER', 'ADMIN'])]
             ]);
-            if ($request->password !== $request->password_confirmation) {
-                return redirect()->back()->with('error', 'Mật khẩu không khớp');
-            }
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => $request->role,
-                'password' => Hash::make($request->password),
-            ]);
-            if ($request->phone) {
-                $user->phone = $request->phone;
-            }
-            if ($request->address) {
-                $user->address = $request->address;
-            }
-            if ($request->gender) {
-                $user->gender = $request->gender;
-            }
-            if ($request->hasFile('avatar')) {
-                $user->avatar = $request->file('avatar')->store('avatar');
-            } else {
-                if ($user->avatar == null) {
-                    $user->avatar = 'cat.png';
-                }
-            }
-            $user->save();
+            $user =  $this->accountService->creteAccount($data);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'account' => $user
                 ]);
-            } else {
-                return redirect()->back()->with('error', 'Lỗi trong quá trình tạo tài khoản');
             }
             return redirect()->back()->with('success', 'Tạo tài khoản thành công');
         } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Lỗi trong quá trình tạo tài khoản'
+                ], 422);
+            }
             return redirect()->back()->with('error', 'Lỗi trong quá trình tạo tài khoản');
         }
     }
     public function updateRole(Request $request)
     {
-        $data = $request->validate([
-            'role' => ['required', Rule::in(['USER', 'ADMIN'])],
-        ]);
-        $user = User::find($request->adjustAccountId);
-        if ($user) {
-            $user->role = $data['role'];
-            $user->save();
+        try {
+            $data = $request->validate([
+                'role' => ['required', Rule::in(['USER', 'ADMIN'])],
+                'adjustAccountId' => ['required', 'exists:' . User::class . ',id']
+            ]);
+
+            $user = $this->accountService->updateRole($data);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'account' => $user
                 ]);
             }
-        } else {
-            return redirect()->back()->with('error', 'Cập nhật vai trò tài khoản thất bại');
+            return redirect()->back()->with('success', 'Cập nhật vai trò tài khoản thành công');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Lỗi trong quá trình cập nhật vai trò tài khoản'
+                ], 422);
+            }
+            return redirect()->back()->with('error', 'Lỗi trong quá trình cập nhật vai trò tài khoản');
         }
-        return redirect()->back()->with('success', 'Cập nhật vai trò tài khoản thành công');
     }
 }

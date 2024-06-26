@@ -34,15 +34,15 @@ Route::middleware(
         Route::patch('', [ProfileController::class, 'update'])->name('update');
         Route::delete('', [ProfileController::class, 'destroy'])->name('destroy');
     });
-    Route::prefix('checkout')->name('order.')->group(function () {
-    });
+
     Route::prefix('order')->name('order.')->group(function () {
         Route::get('', [HomeController::class, 'order'])->name('index');
-        Route::post('', [OrderController::class, 'confirm'])->name('confirm');
+        Route::post('/confirm', [OrderController::class, 'confirm'])->name('confirm');
         Route::put('cancle/{id}', [OrderController::class, 'cancle'])->name('cancle');
         Route::post('reorder/{id}', [OrderController::class, 'reorder'])->name('reorder');
-        Route::post('checkout', [OrderController::class, 'store'])->name('store');
-        Route::get('checkout', [OrderController::class, 'checkOut'])->name('checkout')->middleware('order');
+        Route::post('checkout{id}', [OrderController::class, 'store'])->name('store');
+        Route::get('checkout/{id}', [OrderController::class, 'checkOut'])->name('checkout')->middleware('order');
+        Route::get('shipfee/{id}', [OrderController::class, 'getShipFee'])->name('get-shipfee');
     });
 
     Route::prefix('cart')->name('cart.')->group(function () {

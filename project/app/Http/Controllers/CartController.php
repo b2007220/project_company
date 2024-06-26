@@ -5,62 +5,46 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Discount;
+use App\Services\CartService;
 
 class CartController extends Controller
 {
 
+    protected $cartService;
 
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
     public function add(Request $request)
     {
         try {
-            $product = Product::findOrFail($request->product_id);
-            $amount = $request->input('amount', 1);
-            $cart = session()->get('cart', []);
-            if ($product->amount < (int) $amount) {
-                return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
+            $data = $request->validate([
+                'product_id' => 'required|exists:products,id',
+                'amount' => 'required|integer|min:1',
+            ]);
+            $carts = $this->cartService->add($data);
+            if ($request->ajax()) {
+                return response()->json(['carts' => $carts, 'message' => 'Thêm sản phẩm vào giỏ hàng thành công']);
             }
-            $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
-
-            if (isset($cart[$product['id']])) {
-                if ($product->amount < $cart[$product['id']]['amount'] +  (int)$amount) {
-                    return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
-                } else {
-                    $cart[$product['id']]['amount'] += $amount;
-                }
-            } else {
-                if ($product->pictures()->first()) {
-                    $image = $product->pictures()->first()->link;
-                } else {
-                    $image = 'temp.jpg';
-                }
-                $cart[$product['id']] = [
-                    "name" => $product->name,
-                    "amount" => $amount,
-                    "price" => $product->price,
-                    "image" => $image,
-                    'predifined' =>  $total_discount,
-                ];
-            }
-            session()->put('cart', $cart);
-            return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
+
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 
     public function remove(Request $request)
     {
         try {
-            $productId = $request->id;
-            $cart = session()->get('cart', []);
-
-            if (isset($cart[$productId])) {
-                unset($cart[$productId]);
-                session()->put('cart', $cart);
+            $data = $request->validate([
+                'id' => 'required|exists:products,id',
+            ]);
+            $carts = $this->cartService->remove($data);
+            if ($request->ajax()) {
+                return response()->json(['carts' => $carts, 'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công']);
             }
-
-            return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
+
             return response()->json(['message' => 'Lỗi trong việc xóa sản phẩm khỏi giỏ hàng'], 400);
         }
     }
@@ -68,46 +52,46 @@ class CartController extends Controller
     public function update(Request $request)
     {
         try {
-            $productId = $request->id;
-            $product = Product::findOrFail($productId);
-            $amount = (int) $request->amount;
-            $cart = session()->get('cart', []);
+            $data = $request->validate([
+                'id' => 'required|exists:products,id',
+                'amount' => 'required|integer|min:1',
+            ]);
 
-            if (isset($cart[$productId])) {
-                if ($product->amount < $amount) {
-                    return response()->json(['message' => 'Số lượng sản phẩm không đủ'], 400);
-                }
-                $cart[$productId]['amount'] = $amount;
-                session()->put('cart', $cart);
+            if ($request->ajax()) {
+                $carts = $this->cartService->update($data);
+                return response()->json(['carts' => $carts, 'message' => 'Cập nhật giỏ hàng thành công']);
             }
-
-            return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc cập nhật giỏ hàng'], 400);
+
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
     public function clear(Request $request)
     {
         try {
-            session()->forget('cart');
-            return response()->json(['cart' => []]);
+            $this->cartService->clearCart();
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Xóa giỏ hàng thành công']);
+            }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc xóa giỏ hàng']);
+
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
     public function applyDiscount(Request $request)
     {
         try {
-            $cart = session()->get('cart', []);
-            $discount = Discount::where('code', $request->code)->first();
-            if ($discount->amount === 0 || $discount->expired_at < now()) {
-                return response()->json(['message' => 'Mã giảm giá không hợp lệ'], 400);
-            } else {
-                $cart['discount'] = $discount;
+            $data = $request->validate([
+                'code' => 'required|exists:discounts,code',
+            ]);
+            $discount = $this->cartService->applyDiscount($data);
+
+            if ($request->ajax()) {
+                return response()->json(['discount' => $discount, 'message' => 'Áp dụng mã giảm giá thành công']);
             }
-            return response()->json(['cart' => $cart]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc áp dụng mã giảm giá'], 400);
+
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }

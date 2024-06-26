@@ -6,25 +6,24 @@
         <hr class="h-px my-3 bg-gray-200" />
         <div class="mx-auto max-w-6xl max-h-xl px-6 justify-content-center d-flex px-xl-0 pb-5 gap-4 flex-column-max-lg">
             <div class="rounded space-x-6-md w-23-md overflow-y-scroll-custom">
-                @foreach ($cart as $id => $details)
+                @foreach ($carts as $cart)
                     <div class="justify-content-between mb-6 rounded bg-white d-sm-flex justify-content-sm-start p-3 shadow mr-6"
-                        id="product-{{ $id }}" data-product-id="{{ $id }}"
-                        data-price="{{ $details['price'] }}" data-predifined="{{ $details['predifined'] }}">
-                        <img src="{{ 'product/' . $details['image'] }}" alt="product-image"
+                        id="product-{{ $cart->product->id }}" data-product-id="{{ $cart->product->id }}"
+                        data-price="{{ $cart->price }}" data-predifined="{{ $cart->predifined }}">
+                        <img src="{{ 'product/' . $cart->link }}" alt="product-image"
                             class="rounded w-sm-40 img-fluid border" />
                         <div class="ml-sm-4 flex-sm w-sm-100 sm-justify-between">
                             <div class="mt-5 mt-sm-0">
-                                <h2 class="fs-4 fw-bold text-gray-900 text-truncate max-w-72">{{ $details['name'] }}
+                                <h2 class="fs-4 fw-bold text-gray-900 text-truncate max-w-72">{{ $cart->product->name }}
                                 </h2>
                                 <p class="mt-1 text-xs text-gray-700">
-                                    @if ($details['predifined'])
-                                        <span
-                                            class="text-gray-900 text-lg"><s>{{ number_format($details['price']) }}</s>
+                                    @if ($cart->predifined)
+                                        <span class="text-gray-900 text-lg"><s>{{ number_format($cart->price) }}</s>
                                             Đồng<br>
-                                            <strong>{{ number_format($details['price'] - ($details['price'] * $details['predifined']) / 100) }}</strong>
+                                            <strong>{{ number_format($cart->price - ($cart->price * $cart->predifined) / 100) }}</strong>
                                             đồng</span>
                                     @else
-                                        {{ number_format($details['price']) }} đồng
+                                        {{ number_format($cart->price) }} đồng
                                     @endif
                                 </p>
                             </div>
@@ -32,7 +31,7 @@
                                 <div
                                     class="space-y-6-sm space-x-6-sm d-flex align-items-center border-gray-100 max-w-xs">
                                     <button type="button" data-input-counter-decrement="quantity-input"
-                                        data-product-id="{{ $id }}"
+                                        data-product-id="{{ $cart->product->id }}"
                                         class="decrement-button bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-start p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none d-flex align-items-center justify-content-center">
                                         <svg class="w-3 h-3 text-gray-900" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -40,11 +39,11 @@
                                                 stroke-width="2" d="M1 1h16" />
                                         </svg>
                                     </button>
-                                    <input type="text" data-product-id="{{ $id }}" name="amount"
+                                    <input type="text" data-product-id="{{ $cart->product->id }}" name="amount"
                                         data-input-counter aria-describedby="helper-text-explanation"
                                         class="quantity-input bg-gray-50 border-0 border-top border-bottom border-gray-300 h-11 text-center text-gray-900 fs-5 focus:ring-blue-500 focus:border-blue-500 d-block w-100 py-25"
-                                        value="{{ $details['amount'] }}" min="0" required />
-                                    <button type="button" data-product-id="{{ $id }}"
+                                        value="{{ $cart->amount }}" min="0" required />
+                                    <button type="button" data-product-id="{{ $cart->product->id }}"
                                         data-input-counter-increment="quantity-input"
                                         class="increment-button bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-end p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none d-flex align-items-center justify-content-center">
                                         <svg class="w-3 h-3 text-gray-900" aria-hidden="true"
@@ -57,9 +56,9 @@
                                 <div
                                     class="space-y-6-sm space-x-6-sm d-flex align-items-center justify-content-between">
                                     <p class="text-sm space-x-4 text-center mb-0">
-                                        <span class="text-gray-900">{{ number_format($details['price']) }} đồng</span>
+                                        <span class="text-gray-900">{{ number_format($cart->price) }} đồng</span>
                                     </p>
-                                    <button type="button" data-product-id="{{ $id }}"
+                                    <button type="button" data-product-id="{{ $cart->product->id }}"
                                         class="remove-button bg-gray-100 hover:bg-gray-200 border-0 p-1 focus:ring-gray-100 focus:ring-2 focus:outline-none d-flex align-items-center justify-content-center">
                                         <svg class="w-5 h-5 text-gray-900" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -84,24 +83,18 @@
                         @php
                             $total = 0;
                             $discount = 0;
-                            foreach ($cart as $id => $cartItem) {
-                                $price = $cartItem['price'];
-                                if ($cartItem['predifined']) {
-                                    $discount += $cartItem['predifined'];
+                            foreach ($carts as $cart) {
+                                $price = $cart->price;
+                                if ($cart->predifined) {
+                                    $discount += $cart->predifined;
 
                                     $price -= ($price * $discount) / 100;
                                 }
-                                $total += $price * $cartItem['amount'];
+                                $total += $price * $cart->amount;
                             }
                         @endphp
                         <input type="hidden" value="{{ $total }}" name="price">
                         <p class="text-gray-700" id="total">{{ number_format($total) }} Đồng</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="text-gray-700">Tiền phí ship</p>
-                        @php $ship = 9000; @endphp
-                        <input type="hidden" value="{{ $ship }}" name="ship">
-                        <p class="text-gray-700">{{ number_format($ship) }} Đồng</p>
                     </div>
 
                     <div class="d-flex justify-content-between">
@@ -114,9 +107,9 @@
                     <div class="d-flex justify-content-between">
                         <p class="fs-5 fw-bold">Tổng tiền</p>
                         <div class="">
-                            <p class="mb-1 fs-6 fw-bold total-amount-display">{{ number_format($total + $ship) }} Đồng
+                            <p class="mb-1 fs-6 fw-bold total-amount-display">{{ number_format($total) }} Đồng
                             </p>
-                            <input type="hidden" value="{{ $total + $ship }}" name="total" id='total-amount'>
+                            <input type="hidden" value="{{ $total }}" name="total" id='total-amount'>
                             <p class="small text-gray-700">Đã bao gồm VAT</p>
                         </div>
                     </div>
@@ -148,7 +141,6 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
             }
         });
         document.getElementById("applyDiscountForm").addEventListener("submit", function(event) {
@@ -160,27 +152,43 @@
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Content-Type': 'application/json'
                 }
             });
             $.ajax({
                 url: url,
                 type: method,
                 data: JSON.stringify(Object.fromEntries(formData.entries())),
+                contentType: 'application/json',
                 cache: false,
                 processData: false,
                 success: function(result) {
-                    if (result.cart && result.cart.discount && result.cart.discount
-                        .discount) {
-                        var discountPercentage = result.cart.discount.discount;
-                        var discountCode = result.cart.discount.code;
+                    if (result.discount) {
+                        var discountPercentage = result.discount.discount;
+                        var discountCode = result.discount.code;
                         $('#discount').val(
                             discountPercentage);
                         $('.discount-display').text('-' + discountPercentage +
                             '%');
                         $('#discount-code').val(discountCode);
+
+                        updateTotal();
                     }
-                    updateTotal();
+
+                },
+                error: function(xhr) {
+                    const errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        for (const [key, value] of Object.entries(errors)) {
+                            console.log(key, value);
+                        }
+                        swal({
+                            title: 'Thất bại!',
+                            text: xhr.responseJSON.message,
+                            icon: 'error',
+                            button: 'OK',
+                            timer: 1000
+                        });
+                    }
                 }
             });
         });
@@ -192,9 +200,25 @@
                 url: '/cart/remove',
                 method: 'DELETE',
                 data: JSON.stringify(Object.fromEntries(removeForm.entries())),
+                contentType: 'application/json',
                 success: function(response) {
                     $('#product-' + id).remove();
                     updateTotal();
+                },
+                error: function(xhr) {
+                    const errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        for (const [key, value] of Object.entries(errors)) {
+                            console.log(key, value);
+                        }
+                        swal({
+                            title: 'Thất bại!',
+                            text: xhr.responseJSON.message,
+                            icon: 'error',
+                            button: 'OK',
+                            timer: 1000
+                        });
+                    }
                 }
             });
         });
@@ -209,7 +233,7 @@
                 url: '/cart/update',
                 method: 'PUT',
                 data: JSON.stringify(Object.fromEntries(updateForm.entries())),
-
+                contentType: 'application/json',
                 success: function(response) {
                     updateTotal();
                 },
@@ -220,20 +244,14 @@
                             console.log(key, value);
                         }
                         swal({
-                            title: 'Lỗi!',
-                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            title: 'Thất bại!',
+                            text: xhr.responseJSON.message,
                             icon: 'error',
                             button: 'OK',
                             timer: 1000
                         });
                     }
-                    swal({
-                        title: 'Thất bại!',
-                        text: xhr.responseJSON.message,
-                        icon: 'error',
-                        button: 'OK',
-                        timer: 1000
-                    });
+
                 }
             });
         });
@@ -290,8 +308,7 @@
                 }
             });
 
-            var ship = 9000;
-            var finalTotal = total + ship;
+            var finalTotal = total;
             $('.total-amount-display').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
             $('#total-amount').val(finalTotal);
             $('#total').text(total.toLocaleString('de-DE') + ' Đồng');
@@ -300,14 +317,15 @@
     document.getElementById("paymentForm").addEventListener("submit", function(event) {
         event.preventDefault();
         const paymentForm = event.target;
+        var discountCode = $('#discount-code').val();
         const formData = new FormData(paymentForm);
+        formData.append('code', discountCode);
         console.log(Object.fromEntries(formData.entries()));
         const url = 'order/checkout';
         const method = 'POST';
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
             }
         });
         $.ajax({
@@ -315,6 +333,7 @@
             type: method,
             data: JSON.stringify(Object.fromEntries(formData.entries())),
             cache: false,
+            contentType: 'application/json',
             processData: false,
             success: function(result) {
                 swal({
@@ -324,7 +343,8 @@
                     button: 'OK',
                     timer: 1000
                 });
-                window.location.href = 'order/checkout';
+                window.location.href =
+                    `${window.location.origin}/order/checkout/${result.order.id}`;
             },
             error: function(xhr) {
                 const errors = xhr.responseJSON.errors;

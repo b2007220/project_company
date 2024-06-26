@@ -108,17 +108,16 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
             }
         });
         $.ajax({
             url: url,
             type: method,
             data: JSON.stringify(Object.fromEntries(formData.entries())),
+            contentType: 'application/json',
             cache: false,
             processData: false,
             success: function(result) {
-                console.log(result);
                 $('#addDiscountModal').modal('hide');
                 var content = `
                 <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">

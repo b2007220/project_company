@@ -85,6 +85,7 @@ class AuthenticatedSessionController extends Controller
             $account = SocialAccount::whereProvider($provider)
                 ->whereProviderUserId($providerUser->id)
                 ->first();
+
             if (!$account) {
                 $account = new SocialAccount([
                     'provider_user_id' => $providerUser->id,

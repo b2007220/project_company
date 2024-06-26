@@ -176,7 +176,6 @@
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Content-Type': 'application/json'
                 }
             });
             $('#addToCart').submit(function(e) {
@@ -188,6 +187,7 @@
                     data: JSON.stringify(Object.fromEntries(formData.entries())),
                     cache: false,
                     processData: false,
+                    contentType: 'application/json',
                     success: function(result) {
                         swal({
                             title: 'Thành công!',

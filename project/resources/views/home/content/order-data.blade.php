@@ -4,6 +4,7 @@
 
             <th scope="col" class="fw-bold px-6 py-3">Ngày đặt</th>
             <th scope="col" class="fw-bold px-6 py-3">Ngày giao</th>
+            <th scope="col" class="fw-bold px-6 py-3">Ngày giao thực tế</th>
             <th scope="col" class="fw-bold px-6 py-3">
                 Trạng thái đơn hàng
             </th>
@@ -21,11 +22,11 @@
             <tr class="bg-white border bg-gray-50-hover" data-order-id="{{ $order->id }}">
                 <td class="fw-bolder px-6 py-4"> {{ date('d-m-Y', strtotime($order->created_at)) }}
                 </td>
-
                 <td class="fw-bolder px-6 py-4">
                     {{ date('d-m-Y', strtotime($order->delivery_date)) }}
                 </td>
-
+                <td class="fw-bolder px-6 py-4">
+                    {{ $order->deliverd_at ? date('d-m-Y', strtotime($order->deliverd_at)) : 'Chưa giao' }}
                 <td class="px-6 py-4" id="order-status-{{ $order->id }}">
                     @switch($order->status)
                         @case('DELIVERING')
@@ -55,7 +56,7 @@
 
                 </td>
 
-                <td class="fw-bolder px-6 py-4">{{ $order->total_price }} đồng</td>
+                <td class="fw-bolder px-6 py-4">{{ $order->grand_total }} đồng</td>
                 <td class="fw-bolder px-6 py-4 text-center">
                     {{ $order->payment_type === 'CASH' ? 'Tiền mặt' : 'Ngân hàng' }}
                 </td>

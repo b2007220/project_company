@@ -8,18 +8,34 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
 
+use App\Services\BannerService;
+use App\Services\ProductService;
+use App\Services\CartService;
+use App\Services\CategoryService;
+use App\Services\OrderService;
+
 class HomeController extends Controller
 {
+    protected $bannerService, $productService, $categoryService, $cartService, $orderService;
+    public function __construct(BannerService $bannerService, ProductService $productService, CategoryService $categoryService, CartService $cartService, OrderService $orderService)
+    {
+        $this->bannerService = $bannerService;
+        $this->productService = $productService;
+        $this->categoryService = $categoryService;
+        $this->cartService = $cartService;
+        $this->orderService = $orderService;
+    }
+
     public function profile()
     {
         return view('home.layout.profile');
     }
     public function home()
     {
-        $banners = Banner::where('status', true)->inRandomOrder()->limit(3)->get();;
-        $topProducts = Product::topProducts();
-        $salesProducts = Product::topDiscountedProducts();
-        $products = Product::paginate(3);
+        $banners = $this->bannerService->getRandomBanner();
+        $topProducts = $this->productService->getTopProducts();
+        $salesProducts = $this->productService->getTopDiscountedProducts();
+        $products = $this->productService->getAllProductsByChunk();
         return view('home.layout.index', ['topProducts' => $topProducts, 'salesProducts' => $salesProducts, 'products' => $products, 'banners' => $banners]);
     }
     public function about()
@@ -29,55 +45,27 @@ class HomeController extends Controller
 
     public function cart(Request $request)
     {
-
-        $cart = session()->get('cart', []);
+        $carts = $this->cartService->getCart();
         if ($request->ajax()) {
-            return view('home.layout.cart', ['cart' => $cart])->render();
+            return view('home.layout.cart', ['carts' => $carts])->render();
         }
-        return view('home.layout.cart', ['cart' => $cart]);
+        return view('home.layout.cart', ['carts' => $carts]);
     }
 
     public function category(Request $request)
     {
-        $categories = Category::all();
-        $productsQuery = Product::with(['discounts' => function ($query) {
-            $query->orderBy('is_active')->orderBy('is_predefined');
-        }, 'pictures']);
+        $data = [
+            'search' => $request->search,
+            'sort' => $request->sort,
+            'category' => $request->category
+        ];
+        $categories = $this->categoryService->getAllParentCategories();
+        $products = $this->productService->queryProducts($data);
 
         if ($request->ajax()) {
-            if ($request->search) {
-                $productsQuery->where('name', 'like', '%' . $request->search . '%');
-            }
-            if ($request->sort) {
-                switch ($request->sort) {
-                    case 'new':
-                        $productsQuery->orderBy('created_at', 'desc');
-                        break;
-                    case 'discount':
-                        $productsQuery->whereHas('discounts', function ($query) {
-                            $query->where('is_active', true);
-                        });
-                        break;
-                    case 'priceAsc':
-                        $productsQuery->orderBy('price', 'asc');
-                        break;
-                    case 'priceDesc':
-                        $productsQuery->orderBy('price', 'desc');
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if ($request->category) {
-                $productsQuery->whereHas('categories', function ($query) use ($request) {
-                    $query->where('category_id', $request->category);
-                });
-            }
-            $products = $productsQuery->paginate(12);
             return view('home.content.category-data', ['products' => $products, 'categories' => $categories])->render();
         }
 
-        $products = $productsQuery->paginate(12);
         return view('home.layout.category', ['products' => $products, 'categories' => $categories]);
     }
 
@@ -85,27 +73,21 @@ class HomeController extends Controller
     {
         if ($request->ajax()) {
             $page = $request->input('page', 1);
-            $products = Product::paginate(3, ['*'], 'page', $page);
+            $products = $this->productService->loadMoreProducts($page);
             return view('home.content.extraproduct-data', ['products' => $products])->render();
         }
     }
 
     public function show($id)
     {
-        $product = Product::with(['discounts' => function ($query) {
-            $query->where('is_active', 1)
-                ->wherePivot('is_predefined', 1);
-        }, 'pictures' => function ($query2) {
-            $query2->inRandomOrder()->limit(5);
-        }])->find($id);
-        $products = Product::sameCategories($product);
+        $product = $this->productService->getProductById($id);
+        $products = $this->productService->getSamgeCategoryProducts($product);
         return view('home.layout.product', ['product' => $product, 'products' => $products]);
     }
     public function order(Request $request)
+
     {
-        $orders = Order::with(['discounts', 'products' => function ($query) {
-            $query->with('pictures');
-        }])->orderBy('created_at', 'desc')->paginate(5);
+        $orders = $this->orderService->getAllOrderByUser();
         if ($request->ajax()) {
             return view('home.content.order-data', ['orders' => $orders]);
         }
