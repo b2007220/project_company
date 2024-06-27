@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 Schedule::command('discounts:update-expired')->daily();
 Schedule::command('orders:delete-wait-orders')->daily();
+Schedule::command('send:discount-codes')->daily();
