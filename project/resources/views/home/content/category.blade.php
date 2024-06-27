@@ -1,12 +1,12 @@
-<div class="container-fluid d-flex flex-column justify-content-center overflow-hidden py-3 bg-gray-100 w-100">
+<div class="container-fluid d-flex flex-column justify-content-center overflow-hidden py-3 bg-gray-100 w-100 ">
     <h2 class="fw-bold text-gray-900 d-flex justify-content-center text-uppercase">
         Sản phẩm
     </h2>
     <hr class="h-px my-3 bg-gray-200" />
     <div class="mx-auto container-fluid row gap-3 w-100">
-        <div class="col-md-2 p-0 overflow-auto">
-            <div class="w-100">
-                <ul class="list-group rounded border shadow-md w-100">
+        <div class="col-md-2 p-0 overflow-auto sticky-top">
+            <div class="w-100 ">
+                <ul class="list-group rounded border shadow-md w-100 ">
                     <li class="list-group-item border-0 border-bottom border-dark border-2 rounded-0 w-100">
                         <nav class="navbar navbar-dark w-100">
                             <div class="d-flex justify-content-between gap-3  align-items-center w-100">

@@ -46,7 +46,7 @@
                     class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
 
                     <div
-                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
+                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex  align-items-center">
                         {{ $product->description }}
                     </div>
                 </td>

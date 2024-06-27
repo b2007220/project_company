@@ -69,6 +69,9 @@ class OrderService
     {
         $order = Order::find($data['orderId']);
         $order->status = $data['status'];
+        if ($data['status'] === 'DELIVERED') {
+            $order->delivered_at = now();
+        }
         $order->save();
         return $order;
     }
