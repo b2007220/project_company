@@ -25,6 +25,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        setupPictureItemEvents();
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -57,6 +58,7 @@
                 .done(function(data) {
                     $("#item-lists").empty().html(data);
                     location.hash = page;
+                    setupPictureItemEvents();
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
                     swal({
@@ -324,16 +326,13 @@
                 }
             });
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            setupPictureItemEvents();
-            document.querySelectorAll('form[id^="deletePictureForm-"]').forEach(form => {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    const productId = this.getAttribute('data-select-product');
-                    const inputHidden = document.getElementById('selected_pictures');
-                    inputHidden.value = JSON.stringify(Array.from(selectedPictures));
-                    deleteImages(event, productId);
-                });
+        document.querySelectorAll('[id^=deletePictureForm-]').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const productId = this.getAttribute('data-select-product');
+                const inputHidden = this.querySelector('#selected_pictures');
+                inputHidden.value = JSON.stringify(Array.from(selectedPictures));
+                deleteImages(event, productId);
             });
         });
 
@@ -375,7 +374,6 @@
                         pictures.forEach(picture => {
                             picture.remove();
                         });
-                        setupPictureItemEvents();
                         swal("Dữ liệu đã được xóa!", {
                             icon: "success",
                             timer: 1000,
