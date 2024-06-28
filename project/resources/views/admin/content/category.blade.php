@@ -87,7 +87,7 @@
                     url: url,
                     type: 'DELETE',
                     contentType: 'application/json',
-                    cache: false
+                    cache: false,
                     success: function(result) {
                         const allCategories = result.allCategories;
                         const categoriesSelect = document.getElementById('categories');

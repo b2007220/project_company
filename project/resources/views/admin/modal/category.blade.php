@@ -139,7 +139,6 @@
                     }
                     categoriesSelect.appendChild(option);
                 });
-                console.log(result);
                 $('#addCategoryModal').modal('hide');
                 var content = `
                     <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm ">
