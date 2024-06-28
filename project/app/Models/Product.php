@@ -73,7 +73,6 @@ class Product extends Model
     public static function sameCategories($product)
     {
         if ($product === null) {
-
             return collect();
         }
         $categoryIds = $product->categories()->pluck('category_id');

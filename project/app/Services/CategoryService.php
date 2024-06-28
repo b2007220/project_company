@@ -21,7 +21,7 @@ class CategoryService
     {
         return Category::where('parent_id', null)->with('children')->get();
     }
-    
+
     public function createCategory($data)
     {
         $category = Category::create([

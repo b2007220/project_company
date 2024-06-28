@@ -159,7 +159,7 @@
             currentSort = $(this).attr('id').split('-')[1];
             fetchProducts({
                 sort: currentSort,
-                category: currentCategory
+                category: '',
             });
         });
         $(document).on('click', '.category-menu button', function(event) {
@@ -169,7 +169,7 @@
             }
             currentCategory = $(this).val();
             fetchProducts({
-                sort: currentSort,
+                sort: '',
                 category: currentCategory
             });
         });
@@ -220,15 +220,12 @@
                 });
         }
 
-        function fetchProducts() {
+        function fetchProducts(datas) {
             $.ajax({
                 url: "{{ route('category') }}",
                 type: "GET",
                 cache: false,
-                data: {
-                    sort: currentSort,
-                    category: currentCategory
-                },
+                data: datas,
                 success: function(data) {
                     $('#item-lists').html(data);
                 },
