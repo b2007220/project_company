@@ -324,23 +324,25 @@
                 }
             });
         });
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        setupPictureItemEvents();
-        document.querySelector('#deletePictureForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const productId = document.querySelector('#deletePictureForm').getAttribute(
-                'data-select-product');
-            const inputHidden = document.getElementById('selected_pictures');
-            inputHidden.value = JSON.stringify(Array.from(selectedPictures));
-            deleteImages(event, productId);
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPictureItemEvents();
+            document.querySelectorAll('form[id^="deletePictureForm-"]').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const productId = this.getAttribute('data-select-product');
+                    const inputHidden = document.getElementById('selected_pictures');
+                    inputHidden.value = JSON.stringify(Array.from(selectedPictures));
+                    deleteImages(event, productId);
+                });
+            });
         });
-    });
+
+    }
 
     function deleteImages(event, id) {
         event.preventDefault();
         const url = `product/${id}/pictures/delete`;
-        const form = document.getElementById('deletePictureForm');
+        const form = document.getElementById('deletePictureForm-' + id);
         const formData = new FormData(form);
         console.log(Object.fromEntries(formData.entries()));
 
@@ -373,6 +375,7 @@
                         pictures.forEach(picture => {
                             picture.remove();
                         });
+                        setupPictureItemEvents();
                         swal("Dữ liệu đã được xóa!", {
                             icon: "success",
                             timer: 1000,

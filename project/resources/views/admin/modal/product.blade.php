@@ -112,7 +112,6 @@
     document.getElementById("productForm").addEventListener("submit", function(event) {
         event.preventDefault();
         const formData = new FormData(this);
-
         const selectedCategories = [];
         const categories = document.getElementById("categories");
         const selectedOptions = [...categories.selectedOptions];
@@ -124,6 +123,7 @@
         for (let i = 0; i < images.length; i++) {
             formData.append('images[]', images[i]);
         }
+        console.log(productId.value);
         const url = this.action;
         var method = this.querySelector('input[name="_method"]') ? 'PUT' : 'POST';
         $.ajaxSetup({
@@ -256,8 +256,9 @@
                                     <div class = "d-flex justify-content-between align-items-center">
                                         <h5 class = "p-3"> Hình ảnh của sản phẩm </h5>
                                         <button type = "submit"
-                                            form = "deletePictureForm"
-                                            class ="p-2 m-3 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">Xóa ảnh
+                                            form = "deletePictureForm-${result.product.id}"
+                                            class ="p-2 m-3 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1"
+                                            >Xóa ảnh
                                             <svg class = "w-6 h-6  text-white"
                                             aria-hidden = "true"
                                             xmlns = "http://www.w3.org/2000/svg"
@@ -272,7 +273,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm" data-select-product="${result.product.id }">
+                                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm-${result.product.id}" data-select-product="${result.product.id}">
                                         <input type = "hidden"
                                         name = "selected_pictures"
                                         id = "selected_pictures">
@@ -332,7 +333,7 @@
                                 "px-6 py-3 text-xs fw-bolder  text-gray-500 text-uppercase border-top border-bottom border-gray-200 bg-gray-50 text-center">Thao tác
                                     </th>
 
-                                    </tr> <thead> <tbody>    ${result.discounts ? result.discounts.map(discount => `<tr data-pivot-id="${result.discount.pivot.id}">
+                                    </tr> <thead> <tbody>    ${result.discounts ? result.discounts.map(discount => `<tr data-pivot-id="${discount.pivot.id}">
                                         <td
                                             class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
                                             <div
@@ -389,10 +390,10 @@
                                         <td
                                             class="px-6 py-4 text-sm leading-5 text-gray-500  border-bottom border-gray-200 ">
                 <div class="d-flex justify-content-center align-items-center gap-2">
-                <form action="javascript:void(0)" enctype="multipart/form-data" id="removeDiscountForm-${result.pivot_id}m"
-                onsubmit="removeDiscount(event, ${productId},${discount.id},${result.pivot.id})>
+                <form action="javascript:void(0)" enctype="multipart/form-data" id="removeDiscountForm-${discount.pivot.id}"
+                onsubmit="removeDiscount(event,${productId.value},${discount.id},${discount.pivot.id})">
 
-                                                <button type="submit" form="removeDiscountForm-${result.pivot_id}"
+                                                <button type="submit" form="removeDiscountForm-${discount.pivot.id}"
                                                 class="text-decoration-none p-2 border rounded-pill fw-bolder bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                                                     Xóa
                                                     <svg class="w-6 h-6  text-white" aria-hidden="true"
@@ -404,9 +405,9 @@
                                                     </svg>
                                                 </button>
                                             </form>
-                                    <form action="javascript:void(0)" enctype="multipart/form-data" id="applyDiscountForm-${result.pivot_id}"
-                onsubmit="apply(event, ${productId},${discount.id},${result.pivot.id})>
-                                                <button type="submit"  form="applyDiscountForm-${result.pivot_id}"
+                                    <form action="javascript:void(0)" enctype="multipart/form-data" id="applyDiscountForm-${discount.pivot.id}"
+                onsubmit="apply(event,${productId.value},${discount.id},${discount.pivot.id})">
+                                                <button type="submit" form="applyDiscountForm-${discount.pivot.id}"
                                                 class=" p-2 border rounded-pill bg-green-300 text-white d-flex align-items-center justify-content-center gap-1">
                                                     Áp dụng
                                                     <svg class="w-6 h-6  text-white" aria-hidden="true"

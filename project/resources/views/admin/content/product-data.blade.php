@@ -45,8 +45,7 @@
                 <td
                     class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm text-sm leading-5 text-gray-500 ">
 
-                    <div
-                        class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex  align-items-center">
+                    <div class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex  align-items-center">
                         {{ $product->description }}
                     </div>
                 </td>
@@ -131,7 +130,7 @@
                 <td colspan="7" class="w-100">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="p-3">Hình ảnh của sản phẩm</h5>
-                        <button type="submit" form="deletePictureForm"
+                        <button type="submit" form="deletePictureForm-{{ $product->id }}"
                             class="p-2 m-3 border rounded-pill bg-red-400 text-white d-flex align-items-center justify-content-center gap-1">
                             Xóa ảnh
                             <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -142,8 +141,8 @@
                             </svg>
                         </button>
                     </div>
-                    <form action="javascript:void(0)" enctype="multipart/form-data" id="deletePictureForm"
-                        data-select-product="{{ $product->id }}">
+                    <form action="javascript:void(0)" enctype="multipart/form-data"
+                        id="deletePictureForm-{{ $product->id }}" data-select-product="{{ $product->id }}">
                         <input type="hidden" name="selected_pictures" id="selected_pictures">
                         <div class="d-flex align-items-center px-6 gap-6 flex-column-max-lg w-100"
                             id="pictures-container">
