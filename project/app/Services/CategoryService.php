@@ -30,7 +30,7 @@ class CategoryService
         $category->save();
         if ($data['categories']) {
             $children = explode(',', $data['categories']);
-            if ($data['is_parent']) {
+            if (isset($data['is_parent'])) {
                 foreach ($children as $child) {
                     $checkCategory = Category::where('id', $child)->first();
                     if ($checkCategory->children()->count() > 0) {
@@ -44,12 +44,15 @@ class CategoryService
                     $checkCategory->save();
                 }
             } else {
-                if ($children != null) {
-                    $category->parent_id = $children[0];
-                    $category->save();
-                    $newCategory = Category::findOrFail($children[0]);
-                    return $newCategory;
+                $newCategory = Category::findOrFail($children[0]);
+                if ($newCategory->parent_id != null) {
+                    $newCategory->parent_id = null;
+                    $newCategory->save();
                 }
+                $category->parent_id = $children[0];
+                $category->save();
+                $newCategory = Category::findOrFail($children[0]);
+                return $newCategory;
             }
         }
         return $category;
@@ -82,12 +85,15 @@ class CategoryService
                     $checkCategory->save();
                 }
             } else {
-                if ($children != null) {
-                    $category->parent_id = $children[0] ?? null;
-                    $category->save();
-                    $newCategory = Category::findOrFail($children[0]);
-                    return $newCategory;
+                $newCategory = Category::findOrFail($children[0]);
+                if ($newCategory->parent_id != null) {
+                    $newCategory->parent_id = null;
+                    $newCategory->save();
                 }
+                $category->parent_id = $children[0];
+                $category->save();
+                $newCategory = Category::findOrFail($children[0]);
+                return $newCategory;
             }
         }
         return $category;

@@ -15,9 +15,9 @@ class CartService
         $carts = $user->carts;
         return $carts;
     }
-    public function add($data)
+    public function add($id, $data)
     {
-        $product = Product::findOrFail($data['product_id']);
+        $product = Product::findOrFail($id);
         $amount = $data['amount'] ?? 1;
         $user = Auth::user();
         if ($product->amount < $amount) {
@@ -25,7 +25,7 @@ class CartService
         }
         $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
 
-        $cartProduct = Cart::where('user_id', $user->id)->where('product_id', $data['product_id'])->first();
+        $cartProduct = Cart::where('user_id', $user->id)->where('product_id', $id)->first();
         if (isset($cartProduct)) {
             if ($cartProduct->amount + $amount > $product->amount) {
                 throw new \Exception('Số lượng sản phẩm không đủ');
@@ -46,9 +46,9 @@ class CartService
         $carts = $user->carts;
         return $carts;
     }
-    public function remove($data)
+    public function remove($id)
     {
-        $productId = $data['id'];
+        $productId = $id;
         $user = Auth::user();
         $cartItem = Cart::where('user_id', $user->id)->where('product_id', $productId)->first();
         if ($cartItem) {
@@ -58,9 +58,9 @@ class CartService
         return $carts;
     }
 
-    public function update($data)
+    public function update($id, $data)
     {
-        $productId = $data['id'];
+        $productId = $id;
         $product = Product::findOrFail($productId);
         $amount =  $data['amount'];
         $user = Auth::user();
@@ -84,7 +84,7 @@ class CartService
 
     public function applyDiscount($data)
     {
-
+        
         $discount = Discount::where('code', $data['code'])->first();
         if ($discount->amount <= 0 || $discount->expired_at < now() || $discount->is_active === false || $discount->type === 'PRODUCT') {
             throw new \Exception('Mã giảm giá không hợp lệ');

@@ -8,14 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use App\Services\DiscountService;
-
+use App\Exceptions\FormValidationException;
+use App\Forms\DiscountForm;
 
 class DiscountController extends Controller
 {
     protected $discountService;
-    public function __construct(DiscountService $discountService)
+
+    protected $discountForm;
+    public function __construct(DiscountService $discountService, DiscountForm $discountForm)
     {
         $this->discountService = $discountService;
+        $this->discountForm = $discountForm;
     }
 
 
@@ -29,14 +33,8 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         try {
-
-            $data = $request->validate([
-                'name' => 'required|string',
-                'discount' => 'required|numeric',
-                'amount' => 'required|numeric',
-                'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])],
-                'expire' => 'nullable|date|after:today'
-            ]);
+            $this->discountForm->validate($request->all());
+            $data = $request->all();
             $data['code'] = strtoupper(uniqid());
             $discount = $this->discountService->createDiscount($data);
             if ($request->ajax()) {
@@ -47,9 +45,9 @@ class DiscountController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return redirect()->back()->with('error', 'Thêm mã giảm giá thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -58,13 +56,8 @@ class DiscountController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'name' => 'required|string',
-                'discount' => 'required|numeric',
-                'amount' => 'required|numeric',
-                'type' => ['required', Rule::in(['PRODUCT', 'ORDER'])],
-                'expire' => 'nullable|date|after:today',
-            ]);
+            $this->discountForm->validate($request->all());
+            $data = $request->all();
             if ($request->expire) {
                 unset($data['expire']);
                 $data['expired_at'] = $request->expire;
@@ -81,9 +74,9 @@ class DiscountController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Cập nhật mã giảm giá thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return redirect()->back()->with('error', 'Cập nhật mã giảm giá thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -94,9 +87,9 @@ class DiscountController extends Controller
             if ($request->ajax()) {
                 return response()->json(['success' => true, 'message' => 'Xóa mã giảm giá thành công']);
             }
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return redirect()->back()->with('error', 'Xóa mã giảm giá thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 }

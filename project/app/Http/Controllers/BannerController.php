@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Banner;
 use App\Services\BannerService;
+use App\Forms\BannerForm;
+use App\Exceptions\FormValidationException;
 
 class BannerController extends Controller
 {
-    protected $bannerService;
+    protected $bannerService, $bannerForm;
 
-    public function __construct(BannerService $bannerService)
+    public function __construct(BannerService $bannerService, BannerForm $bannerForm)
     {
         $this->bannerService = $bannerService;
+        $this->bannerForm = $bannerForm;
     }
+
 
     public function index(Request $request)
     {
@@ -23,7 +26,7 @@ class BannerController extends Controller
         }
         return view("admin.layout.banner", ["banners" => $banners]);
     }
-  
+
     public function active(Request $request, $id)
     {
         try {
@@ -35,9 +38,9 @@ class BannerController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Chỉnh sửa trạng thái banner thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException  $e) {
 
-            return redirect()->back()->with('error', 'Lỗi chỉnh sửa trạng thái banner');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function destroy(Request $request, $id)
@@ -51,19 +54,16 @@ class BannerController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Xóa banner thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException  $e) {
 
-            return redirect()->back()->with('error', 'Xóa banner thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function store(Request $request)
     {
         try {
-            $data = $request->validate([
-                'link' => 'nullable|string',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            $banner = $this->bannerService->createBanner($data);
+            $this->bannerForm->validate($request->all());
+            $banner = $this->bannerService->createBanner($request->all());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -72,19 +72,16 @@ class BannerController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Thêm banner thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException  $e) {
 
-            return redirect()->back()->with('error', 'Thêm banner thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function update(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'link' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            $banner = $this->bannerService->updateBanner($id, $data);
+            $this->bannerForm->validate($request->all());
+            $banner = $this->bannerService->updateBanner($id, $request->all());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -93,9 +90,9 @@ class BannerController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Cập nhật banner thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException  $e) {
 
-            return redirect()->back()->with('error', 'Cập nhật banner thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 }

@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-
+use App\Exceptions\FormValidationException;
 use App\Services\CategoryService;
+use App\Forms\CategoryForm;
 
 class CategoryController extends Controller
 {
     protected $categoryService;
 
-    public function __construct(CategoryService $categoryService)
+    protected $categoryForm;
+
+    public function __construct(CategoryService $categoryService, CategoryForm $categoryForm)
     {
         $this->categoryService = $categoryService;
+        $this->categoryForm = $categoryForm;
     }
+
     public function index(Request $request)
     {
         $categories = $this->categoryService->getAllCategories();
@@ -28,12 +33,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
-            $data = $request->validate([
-                'name' => 'required|string',
-                'is_parent' => 'nullable|boolean',
-                'categories' => 'nullable|string',
-            ]);
-            $category = $this->categoryService->createCategory($data);
+            $this->categoryForm->validate($request->all());
+            $category = $this->categoryService->createCategory($request->all());
             $allCategories = $this->categoryService->getAllCategoriesForSelect();
             if ($request->ajax()) {
                 return response()->json([
@@ -45,9 +46,8 @@ class CategoryController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Thêm loại sản phẩm thành công');
-        } catch (\Exception $e) {
-           
-            return redirect()->back()->with('error', 'Thêm loại sản phẩm thất bại');
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -56,12 +56,8 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'name' => 'required|string',
-                'is_parent' => 'nullable|boolean',
-                'categories' => 'nullable|string',
-            ]);
-            $category = $this->categoryService->updateCategory($id, $data);
+            $this->categoryForm->validate($request->all());
+            $category = $this->categoryService->updateCategory($id, $request->all());
             $allCategories = $this->categoryService->getAllCategoriesForSelect();
             if ($request->ajax()) {
                 return response()->json([
@@ -74,9 +70,9 @@ class CategoryController extends Controller
             }
 
             return redirect()->back()->with('success', 'Cập nhật loại sản phẩm thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return redirect()->back()->with('error', 'Cập nhật loại sản phẩm thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -94,9 +90,9 @@ class CategoryController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Xóa loại sản phẩm thành công');
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return redirect()->back()->with('error', 'Xóa loại sản phẩm thất bại');
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 }

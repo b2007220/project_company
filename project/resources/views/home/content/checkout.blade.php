@@ -5,7 +5,7 @@
     <hr class="h-px my-3 bg-gray-200" />
     <div class="row gap-3 mt-4">
         <div
-            class="col-md-4 order-2 rounded bg-white p-3 shadow-md t-0-md w-13-md h-100 border-gray-300 border sticky-top">
+            class="col-md-4 order-2 rounded bg-white p-3 shadow-md t-0-md w-13-md h-100 border-gray-300 border sticky-top z-1">
             <div class="mb-2 d-flex justify-content-between">
                 <p class="text-gray-700">Tiền sản phẩm</p>
                 <p class="text-gray-700" name="total" id="total">{{ $order->total }} đồng</p>
@@ -36,7 +36,7 @@
                 <p class="fs-5 fw-bold">Tổng tiền</p>
                 <div class="">
                     <p class="mb-1 fs-6 fw-bold" id="grand-total" name="grand-total">
-                        {{ ($order->total * $discountPercentage) / 100 }}</p>
+                        {{ $order->total - ($order->total * $discountPercentage) / 100 }}</p>
                     <p class="small text-gray-700">Đã bao gồm VAT</p>
                 </div>
             </div>
@@ -49,13 +49,13 @@
                 <input type="hidden" name="id" value="{{ $order->id }}">
                 <div class="mb-4">
                     <label for="name">Họ tên người nhận</label>
-                    <input type="text" class="form-control" aria-label="name" value="{{ Auth::user()->name ?? '' }}" required
-                        name="receiver_name" />
+                    <input type="text" class="form-control" aria-label="name" value="{{ Auth::user()->name ?? '' }}"
+                        required name="receiver_name" />
                 </div>
                 <div class="mb-4">
                     <label for="phone">Số điện thoại người nhận</label>
                     <input type="phone" class="form-control" aria-label="phone"
-                        value="{{ Auth::user()->phone ?? '' }}" name="phone" required/>
+                        value="{{ Auth::user()->phone ?? '' }}" name="phone" required />
                 </div>
                 <div class="mb-4">
                     <label for="email">Email tài khoản sử dụng</label>

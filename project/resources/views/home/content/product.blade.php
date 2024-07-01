@@ -182,7 +182,7 @@
                 e.preventDefault();
                 let formData = new FormData(this);
                 $.ajax({
-                    url: '/cart/add',
+                    url: '/cart/add/' + formData.get('product_id'),
                     type: 'POST',
                     data: JSON.stringify(Object.fromEntries(formData.entries())),
                     cache: false,

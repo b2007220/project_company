@@ -76,7 +76,6 @@
             </div>
             <div class="rounded border bg-white p-3 shadow-md t-0-md w-13-md h-100">
                 <form id="paymentForm">
-
                     <h4 class="fw-bold text-gray-900 mb-4 text-center text-uppercase">Thông tin đơn hàng</h4>
                     <div class="d-flex justify-content-between">
                         <p class="text-gray-700">Tiền sản phẩm</p>
@@ -194,12 +193,9 @@
         });
         $('.remove-button').click(function() {
             var id = $(this).data('product-id');
-            var removeForm = new FormData();
-            removeForm.append('id', id);
             $.ajax({
-                url: '/cart/remove',
+                url: '/cart/remove/' + id,
                 method: 'DELETE',
-                data: JSON.stringify(Object.fromEntries(removeForm.entries())),
                 contentType: 'application/json',
                 cache: false,
                 success: function(response) {
@@ -228,10 +224,9 @@
             var id = $(this).data('product-id');
             var amount = $(this).val();
             var updateForm = new FormData();
-            updateForm.append('id', id);
             updateForm.append('amount', amount);
             $.ajax({
-                url: '/cart/update',
+                url: '/cart/update/' + id,
                 method: 'PUT',
                 data: JSON.stringify(Object.fromEntries(updateForm.entries())),
                 contentType: 'application/json',
@@ -313,7 +308,6 @@
             var finalTotal = total;
             $('.total-amount-display').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
             $('#total-amount').val(finalTotal);
-            $('#total').text(total.toLocaleString('de-DE') + ' Đồng');
         }
     });
     document.getElementById("paymentForm").addEventListener("submit", function(event) {
@@ -345,6 +339,7 @@
                     button: 'OK',
                     timer: 1000
                 });
+
                 window.location.href =
                     `${window.location.origin}/order/checkout/${result.order.id}`;
             },

@@ -41,7 +41,7 @@ class OrderService
         $user = auth()->user();
         $order = Order::create([
             'user_id' =>  $user->id,
-            'total' => $data['total'],
+            'total' => $data['price'],
             'status' => 'WAIT',
         ]);
         $productsInCart = auth()->user()->productsInCart;
@@ -52,9 +52,10 @@ class OrderService
         }
 
         foreach ($productsInCart as $product) {
+            $cart_amount = Cart::where('product_id', $product['id'])->where('user_id', auth()->user()->id)->first()->amount;
             $discountProduct = $product->discounts()->where('is_predefined', true)->sum('discount');
             $order->products()->attach($product->id, [
-                'amount' => $product->amount,
+                'amount' =>  $cart_amount,
                 'price' => $product->price - $discountProduct * $product->price / 100,
             ]);
         }
@@ -65,9 +66,9 @@ class OrderService
         return Order::with(['user', 'products', 'discounts'])->find($id);
     }
 
-    public function updateType($data)
+    public function updateType($data, $id)
     {
-        $order = Order::find($data['orderId']);
+        $order = Order::find($id);
         $order->status = $data['status'];
         if ($data['status'] === 'DELIVERED') {
             $order->delivered_at = now();
@@ -102,12 +103,11 @@ class OrderService
         $ship = $locationService->getShipFee($data['location']);
         $order->ship = $ship;
         $discounts = $order->discounts;
-
         $totalDiscount = 0;
         foreach ($discounts as $discount) {
             $totalDiscount += $discount->discount;
         }
-        $order->grand_total = $order->total - $totalDiscount + $ship;
+        $order->grand_total = $order->total - $totalDiscount * $order->total + $ship;
         $order->bank_id = $bank->id;
         $order->status = 'PENDING';
         $order->save();
@@ -116,6 +116,7 @@ class OrderService
             $product->amount -= $product->pivot->amount;
             $product->save();
         }
+        dd($order);
         return $order;
     }
     public function cancleOrder($id)

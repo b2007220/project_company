@@ -19,7 +19,7 @@
                                     class="w-8 h-8 border rounded-circle" />
                             @endif
                         </button>
-                        <div class="dropdown-menu z-3 position-absolute text-base bg-white border rounded shadow"
+                        <div class="dropdown-menu z-3 position-absolute text-base bg-white border rounded shadow z-3"
                             aria-labelledby="userMenu">
                             <div class="border-bottom px-3 py-2">
                                 <span class="d-block small text-body">Tên khách hàng</span>

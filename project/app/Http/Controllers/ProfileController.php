@@ -10,14 +10,16 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use App\Services\AccountService;
+use App\Forms\ProfileForm;
 
 class ProfileController extends Controller
 {
-    protected $accountService;
+    protected $accountService, $profileForm;
 
-    public function __construct(AccountService $accountService)
+    public function __construct(AccountService $accountService, ProfileForm $profileForm)
     {
         $this->accountService = $accountService;
+        $this->profileForm = $profileForm;
     }
     /**
      * Display the user's profile form.
@@ -34,14 +36,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        $data = $request->validate([
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'name' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'gender' => 'nullable', Rule::in(['MAN', 'WOMAN', 'OTHER']),
-        ]);
-        $user = $this->accountService->updateAccount($request->user()->id, $data);
+        $this->profileForm->validate($request->all());
+        $user = $this->accountService->updateAccount($request->user()->id, $request->all());
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,

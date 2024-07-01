@@ -3,28 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
-use App\Models\User;
-use App\Models\Product;
-use App\Models\Discount;
-use App\Models\BankAccount;
 use App\Services\AccountService;
-use Faker\Core\Number;
 use App\Services\LocationService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\CartService;
+use App\Exceptions\FormValidationException;
+use App\Forms\StoreOrderForm;
+use App\Forms\UpdateTypeOrderForm;
+use App\Forms\ConfirmOrderForm;
 
 class OrderController extends Controller
 {
-    protected $orderService, $userService, $productService, $locationService, $cartService;
-    public function __construct(OrderService $orderService, AccountService $userService, ProductService $productService, LocationService $locationService, CartService $cartService)
+    protected $orderService, $userService, $productService, $locationService, $cartService, $storeOrderForm, $updateTypeOrderForm, $confirmOrderForm;
+    public function __construct(ConfirmOrderForm $confirmOrderForm, UpdateTypeOrderForm $updateTypeOrderForm, OrderService $orderService, AccountService $userService, ProductService $productService, LocationService $locationService, CartService $cartService, StoreOrderForm $storeOrderForm)
     {
         $this->orderService = $orderService;
         $this->userService = $userService;
         $this->productService = $productService;
         $this->locationService = $locationService;
         $this->cartService = $cartService;
+        $this->storeOrderForm = $storeOrderForm;
+        $this->updateTypeOrderForm = $updateTypeOrderForm;
+        $this->confirmOrderForm = $confirmOrderForm;
     }
 
 
@@ -48,23 +49,17 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            $data = $request->validate([
-                'total' => 'required|numeric',
-                'code' => 'nullable|exists:discounts,code',
-                'price' => 'required|numeric',
-            ]);
-
-            $order = $this->orderService->createOrder($data);
+            $this->storeOrderForm->validate($request->all());
+            $order = $this->orderService->createOrder($request->all());
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
-                    'price' => $data['price'],
                     'message' => 'Tạo đơn hàng thành công',
                 ]);
             }
             return redirect()->back();
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc tạo đơn hàng'], 400);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -77,14 +72,11 @@ class OrderController extends Controller
         $locations = $this->locationService->getAllLocationForSelect();
         return view('home.layout.checkout', ['order' => $order, 'locations' => $locations]);
     }
-    public function updateType(Request $request)
+    public function updateType(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'status' => 'required|in:PENDING,UNACCEPTED,DELIVERED,DELIVERING,CANCELLED',
-                'orderId' => 'required|exists:orders,id',
-            ]);
-            $order = $this->orderService->updateType($data);
+            $this->updateTypeOrderForm->validate($request->all());
+            $order = $this->orderService->updateType($request->all(), $id);
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
@@ -92,25 +84,16 @@ class OrderController extends Controller
                 ]);
             }
             return redirect()->back();
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc cập nhật trạng thái đơn hàng'], 400);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
     public function confirm(Request $request)
     {
         try {
-            $data = $request->validate([
-                'receiver_name' => 'required|string',
-                'address' => 'required|string',
-                'payment_type' => 'required|in:CASH,TRANSFER',
-                'bankName' => 'required_if:payment-type,TRANSFER',
-                'bankNumber' => 'required_if:payment-type,TRANSFER',
-                'id' => 'required|exists:orders,id',
-                'location' => 'required|exists:locations,id',
-                'phone' => 'required|string',
-            ]);
-            $order = $this->orderService->confirmOrder($data);
+            $this->confirmOrderForm->validate($request->all());
+            $order = $this->orderService->confirmOrder($request->all());
             $this->cartService->clearCart();
 
             if ($request->ajax()) {
@@ -120,8 +103,8 @@ class OrderController extends Controller
                 ]);
             }
             return redirect()->back();
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc đặt hàng'], 400);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function cancle(Request $request, $id)
@@ -135,8 +118,8 @@ class OrderController extends Controller
                 ]);
             }
             return redirect()->back();
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Lỗi trong việc hủy đơn hàng'], 400);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function reorder(Request $request, $id)
@@ -149,7 +132,7 @@ class OrderController extends Controller
                 ]);
             }
             return redirect()->back();
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
             return response()->json(['message' => 'Lỗi trong việc đặt hàng'], 400);
         }
     }

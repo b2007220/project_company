@@ -3,67 +3,65 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Discount;
 use App\Services\CartService;
+use App\Forms\CartForm;
+use App\Exceptions\FormValidationException;
+use App\Forms\CodeApplyForm;
 
 class CartController extends Controller
 {
 
     protected $cartService;
 
-    public function __construct(CartService $cartService)
+    protected $cartForm;
+
+    protected $codeApplyForm;
+
+    public function __construct(CartService $cartService, CartForm $cartForm, CodeApplyForm $codeApplyForm)
     {
         $this->cartService = $cartService;
+        $this->cartForm = $cartForm;
+        $this->codeApplyForm = $codeApplyForm;
     }
-    public function add(Request $request)
+
+    public function add(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'product_id' => 'required|exists:products,id',
-                'amount' => 'required|integer|min:1',
-            ]);
-            $carts = $this->cartService->add($data);
+            $this->cartForm->validate($request->all());
+            $carts = $this->cartService->add($id, $request->all());
             if ($request->ajax()) {
                 return response()->json(['carts' => $carts, 'message' => 'Thêm sản phẩm vào giỏ hàng thành công']);
             }
-        } catch (\Exception $e) {
-
-            return response()->json(['message' => $e->getMessage()], 400);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
-    public function remove(Request $request)
+    public function remove(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'id' => 'required|exists:products,id',
-            ]);
-            $carts = $this->cartService->remove($data);
+
+            $carts = $this->cartService->remove($id);
             if ($request->ajax()) {
                 return response()->json(['carts' => $carts, 'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công']);
             }
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return response()->json(['message' => 'Lỗi trong việc xóa sản phẩm khỏi giỏ hàng'], 400);
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'id' => 'required|exists:products,id',
-                'amount' => 'required|integer|min:1',
-            ]);
-
+            $this->cartForm->validate($request->all());
             if ($request->ajax()) {
-                $carts = $this->cartService->update($data);
+                $carts = $this->cartService->update($id, $request->all());
                 return response()->json(['carts' => $carts, 'message' => 'Cập nhật giỏ hàng thành công']);
             }
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return response()->json(['message' => $e->getMessage()], 400);
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function clear(Request $request)
@@ -73,25 +71,23 @@ class CartController extends Controller
             if ($request->ajax()) {
                 return response()->json(['message' => 'Xóa giỏ hàng thành công']);
             }
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return response()->json(['message' => $e->getMessage()], 400);
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function applyDiscount(Request $request)
     {
         try {
-            $data = $request->validate([
-                'code' => 'required|exists:discounts,code',
-            ]);
-            $discount = $this->cartService->applyDiscount($data);
+            $this->codeApplyForm->validate($request->all());
+            $discount = $this->cartService->applyDiscount($request->all());
 
             if ($request->ajax()) {
                 return response()->json(['discount' => $discount, 'message' => 'Áp dụng mã giảm giá thành công']);
             }
-        } catch (\Exception $e) {
+        } catch (FormValidationException $e) {
 
-            return response()->json(['message' => $e->getMessage()], 400);
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 }

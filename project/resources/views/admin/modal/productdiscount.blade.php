@@ -40,12 +40,11 @@
             const button = event.relatedTarget;
             const productDiscountForm = document.getElementById("productDiscountForm");
             const product = JSON.parse(button.getAttribute("data-product"))
-            console.log(product);
             const discountedProductId = document.getElementById("discountedProductId");
             discountedProductId.value = product.id;
             productDiscountForm.reset();
 
-            productDiscountForm.action = `product/add-discount`;
+            productDiscountForm.action = `product/add-discount` + `/${product.id}`;
 
         });
         document.getElementById("productDiscountForm").addEventListener("submit", function(event) {

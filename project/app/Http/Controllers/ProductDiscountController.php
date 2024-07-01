@@ -5,24 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Discount;
+use App\Services\ProductDiscountService;
+use App\Forms\ProductDiscountForm;
+use App\Exceptions\FormValidationException;
 
 class ProductDiscountController extends Controller
 {
+    protected $productDiscountService, $productDiscountForm;
+
+    public function __construct(ProductDiscountService $productDiscountService,  ProductDiscountForm $productDiscountForm)
+    {
+        $this->productDiscountService = $productDiscountService;
+        $this->$productDiscountForm = $productDiscountForm;
+    }
     public function getDiscountedPrice($productId)
     {
-        $product = Product::findOrFail($productId);
-        $total_discount = 0;
-
-        if ($product->discounts->count() > 0) {
-            foreach ($product->discounts as $discount) {
-                if ($discount->pivot->is_predefined) {
-                    $total_discount += $discount->discount;
-                }
-            }
-        }
-
-        $discounted_price = $product->price - ($product->price * $total_discount) / 100;
-
+        $discounted_price = $this->productDiscountService->getDiscountedPrice($productId);
         if (request()->ajax()) {
             return response()->json([
                 'discounted_price' => $discounted_price,
@@ -32,35 +30,11 @@ class ProductDiscountController extends Controller
         return redirect()->back();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'productId' => 'required|exists:products,id',
-                'discounts.*' => 'exists:discounts,id',
-            ]);
-            $discounts = explode(',', $request->discounts);
-            $product = Product::findOrFail($request->productId);
-            $newDiscountsApply = [];
-            if (!empty($discounts)) {
-                foreach ($discounts as $discountId) {
-                    $discount = Discount::findOrFail($discountId);
-                    if (!$product->discounts->contains($discount) && $discount->is_active) {
-                        $product->discounts()->attach($discount->id);
-                        $product->load('discounts');
-                        $attachedDiscount = $product->discounts->find($discount->id);
-                        if ($attachedDiscount) {
-                            $newDiscountsApply[] = [
-                                'discount' => $attachedDiscount,
-                                'pivot_id' => $attachedDiscount->pivot->id,
-                                'is_predefined' => $attachedDiscount->pivot->is_predefined,
-                            ];
-                        }
-                    } else {
-                        continue;
-                    }
-                }
-            }
+            $this->productDiscountForm->validate($request->all());
+            $newDiscountsApply = $this->productDiscountService->createNewProductDiscount($id, $request->all());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -69,19 +43,14 @@ class ProductDiscountController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Thêm mã giảm giá thất bại',
-                'error' => $e->getMessage(),
-            ]);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function removeDiscount($productId, $discountId)
     {
         try {
-            $product = Product::findOrFail($productId);
-            $product->discounts()->detach($discountId);
+            $this->productDiscountService->removeDiscount($productId, $discountId);
 
             if (request()->ajax()) {
                 return response()->json([
@@ -91,41 +60,27 @@ class ProductDiscountController extends Controller
             }
 
             return redirect()->back();
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Xóa mã giảm giá thất bại',
-                'error' => $e->getMessage(),
-            ]);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function updateIsPredefined(Request $request, $productId, $discountId)
     {
         try {
-            $product = Product::findOrFail($productId);
-            $discount = Discount::findOrFail($discountId);
-            $attachedDiscount = $product->discounts->find($discount->id);
-
-            $product->discounts()->updateExistingPivot($discountId, ['is_predefined' => !$attachedDiscount->pivot->is_predefined]);
-
-
+            $data = $this->productDiscountService->updateIsPredefined($productId, $discountId);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Cập nhật mã giảm giá thành công',
-                    'discount' => $discount,
-                    'pivot_id' => $attachedDiscount->pivot->id,
-                    'is_predefined' => !$attachedDiscount->pivot->is_predefined,
+                    'discount' => $data['discount'],
+                    'pivot_id' => $data['pivot_id'],
+                    'is_predefined' => $data['is_predefined'],
                 ]);
             }
 
             return redirect()->back();
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cập nhật mã giảm giá thất bại',
-                'error' => $e->getMessage(),
-            ]);
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 }

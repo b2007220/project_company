@@ -10,16 +10,19 @@ use App\Models\ProductPicture;
 use App\Services\ProductService;
 use App\Services\CategoryService;
 use App\Services\DiscountService;
+use App\Forms\ProductForm;
+use App\Exceptions\FormValidationException;
 
 class ProductController extends Controller
 {
-    protected $productService, $categoryService, $discountService;
+    protected $productService, $categoryService, $discountService, $productForm;
 
-    public function __construct(ProductService $productService, CategoryService $categoryService, DiscountService $discountService)
+    public function __construct(ProductForm $productForm, ProductService $productService, CategoryService $categoryService, DiscountService $discountService)
     {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
         $this->discountService = $discountService;
+        $this->productForm = $productForm;
     }
     public function index(Request $request)
     {
@@ -35,16 +38,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
-            $data = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'price' => 'required|numeric',
-                'amount' => 'required|numeric',
-                'categories' => 'nullable|string',
-                'images' => 'nullable|array',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
-            ]);
-            $product = $this->productService->createProduct($data);
+            $this->productForm->validate($request->all());
+            $product = $this->productService->createProduct($request->all());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -56,8 +51,8 @@ class ProductController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Thêm sản phẩm thành công');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Thêm sản phẩm thất bại');
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -66,16 +61,8 @@ class ProductController extends Controller
     {
 
         try {
-            $data = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'price' => 'required|numeric',
-                'amount' => 'required|numeric',
-                'categories' => 'string|nullable',
-                'images' => 'nullable|array',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
-            ]);
-            $product = $this->productService->updateProduct($id, $data);
+            $this->productForm->validate($request->all());
+            $product = $this->productService->updateProduct($id, $request->all());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -88,8 +75,8 @@ class ProductController extends Controller
             }
 
             return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Cập nhật sản phẩm thất bại');
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -111,8 +98,8 @@ class ProductController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Xóa sản phẩm thất bại');
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 
@@ -134,8 +121,8 @@ class ProductController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Xóa ảnh sản phẩm thành công');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Lỗi trong việc xóa ảnh sản phẩm');
+        } catch (FormValidationException $e) {
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
 }

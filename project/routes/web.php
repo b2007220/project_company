@@ -48,9 +48,9 @@ Route::middleware(
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('', [HomeController::class, 'cart'])->name('index');
         Route::post('apply-discount', [CartController::class, 'applyDiscount'])->name('apply-discount');
-        Route::post('add', [CartController::class, 'add'])->name('add');
-        Route::delete('remove', [CartController::class, 'remove'])->name('remove');
-        Route::put('update', [CartController::class, 'update'])->name('update');
+        Route::post('add/{id}', [CartController::class, 'add'])->name('add');
+        Route::delete('remove/{id}', [CartController::class, 'remove'])->name('remove');
+        Route::put('update/{id}', [CartController::class, 'update'])->name('update');
     });
 });
 
@@ -81,7 +81,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
 
             Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
-            Route::post('add-discount', [ProductDiscountController::class, 'store'])->name('discount-add');
+            Route::post('add-discount/{id}', [ProductDiscountController::class, 'store'])->name('discount-add');
             Route::delete('remove-discount/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'removeDiscount'])->name('discount-remove');
             Route::put('update-predefine/product/{productId}/discount/{discountId}', [ProductDiscountController::class, 'updateIsPredefined'])->name('update-predefine');
             Route::delete('/{productId}/pictures/delete', [ProductController::class, 'deleteImages'])->name('deleteImages');
@@ -91,7 +91,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::get('', [OrderController::class, 'index'])->name('index');
             Route::post('add', [OrderController::class, 'store'])->name('add');
             Route::post('update', [OrderController::class, 'update'])->name('update');
-            Route::post('update-type', [OrderController::class, 'updateType'])->name('update-type');
+            Route::post('update-type/{id}', [OrderController::class, 'updateType'])->name('update-type');
             Route::delete('delete/{order}', [OrderController::class, 'destroy'])->name('delete');
         });
 

@@ -67,7 +67,7 @@
         event.preventDefault();
         const updateOrderForm = event.target;
         const formData = new FormData(updateOrderForm);
-        const url = 'order/update-type';
+        const url = 'admin/order/update-type/' + formData.get('orderId');
         const method = 'POST';
         $.ajaxSetup({
             headers: {
@@ -102,12 +102,12 @@
                     }
                 }
                 swal({
-                        title: 'Thất bại!',
-                        text: xhr.responseJSON.message,
-                        icon: 'error',
-                        button: 'OK',
-                        timer: 1000
-                    });
+                    title: 'Thất bại!',
+                    text: xhr.responseJSON.message,
+                    icon: 'error',
+                    button: 'OK',
+                    timer: 1000
+                });
             }
         });
     });
