@@ -110,7 +110,6 @@ class OrderService
         }
 
         $order->grand_total = $order->total + $ship - $totalDiscount * $order->total / 100;
-        dd( $order->total);
         $order->bank_id = $bank->id;
         $order->status = 'PENDING';
         $order->save();
