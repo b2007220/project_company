@@ -120,7 +120,7 @@
             document.getElementById('discount').innerText =
                 `${Number(discountMoney).toLocaleString('de-DE')} đồng`;
             document.getElementById('total-price').innerText =
-                `${Number(order.total).toLocaleString('de-DE')} đồng`;
+                `${Number(order.grand_total).toLocaleString('de-DE')} đồng`;
             document.getElementById('delivery-address').innerText = order.address;
             const cancelOrderButton = document.getElementById('cancel-order-button');
             cancelOrderButton.onclick = function() {

@@ -27,6 +27,9 @@ class DiscountController extends Controller
     {
         $discounts = $this->discountService->getAllDiscounts();
 
+        if ($request->ajax()) {
+            return view("admin.content.discount-data", ['discounts' => $discounts])->render();
+        }
         return view("admin.layout.discount", ["discounts" => $discounts]);
     }
 
