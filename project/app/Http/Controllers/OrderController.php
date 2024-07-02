@@ -133,7 +133,7 @@ class OrderController extends Controller
             }
             return redirect()->back();
         } catch (FormValidationException $e) {
-            return response()->json(['message' => 'Lỗi trong việc đặt hàng'], 400);
+            return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
     }
     public function getShipFee(Request $request, $id)

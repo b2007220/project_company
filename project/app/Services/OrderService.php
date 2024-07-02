@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\BankAccount;
 use App\Services\LocationService;
 
+
 class OrderService
 {
     public function count()
@@ -125,10 +126,10 @@ class OrderService
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
-        if ($order->status == 'DELIVERED' || $order->status == 'DELIVERING') {
+        if ($order->status === 'DELIVERED' || $order->status === 'DELIVERING') {
             return response()->json(['message' => 'Không thể hủy đơn hàng đã giao hoặc đang giao'], 400);
         }
-        if ($order->status == 'CANCELLED') {
+        if ($order->status === 'CANCELLED') {
             return response()->json(['message' => 'Đơn hàng đã bị hủy'], 400);
         }
         $order->status = 'CANCELLED';
@@ -167,6 +168,7 @@ class OrderService
             }]
         )->where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
+            ->whereNotIn('status', ['WAIT'])
             ->paginate(5);
     }
 }
