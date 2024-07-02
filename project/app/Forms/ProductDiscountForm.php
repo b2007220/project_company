@@ -3,7 +3,7 @@
 namespace App\Forms;
 
 use App\Forms\BaseForm;
-use Illuminate\Validation\Rule;
+
 
 class ProductDiscountForm extends BaseForm
 {

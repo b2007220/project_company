@@ -11,12 +11,13 @@ use App\Exceptions\FormValidationException;
 
 class ProductDiscountController extends Controller
 {
-    protected $productDiscountService, $productDiscountForm;
+    protected $productDiscountService;
+    protected $productDiscountForm;
 
-    public function __construct(ProductDiscountService $productDiscountService,  ProductDiscountForm $productDiscountForm)
+    public function __construct(ProductDiscountService $productDiscountService, ProductDiscountForm $productDiscountForm)
     {
         $this->productDiscountService = $productDiscountService;
-        $this->$productDiscountForm = $productDiscountForm;
+        $this->productDiscountForm = $productDiscountForm;
     }
     public function getDiscountedPrice($productId)
     {

@@ -298,16 +298,17 @@
                 } else {
                     var itemTotal = price;
                 }
+                total += itemTotal * amount;
                 if (discount > 0) {
-                    total += itemTotal * amount * (1 - discount / 100);
+                    finalTotal = total - (total * discount / 100);
                 } else {
-                    total += itemTotal * amount;
+                    finalTotal = total;
                 }
             });
 
-            var finalTotal = total;
             $('.total-amount-display').text(finalTotal.toLocaleString('de-DE') + ' Đồng');
             $('#total-amount').val(finalTotal);
+            $('#total').text(total.toLocaleString('de-DE') + ' Đồng');
         }
     });
     document.getElementById("paymentForm").addEventListener("submit", function(event) {

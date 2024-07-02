@@ -8,14 +8,14 @@
             class="col-md-4 order-2 rounded bg-white p-3 shadow-md t-0-md w-13-md h-100 border-gray-300 border sticky-top z-1">
             <div class="mb-2 d-flex justify-content-between">
                 <p class="text-gray-700">Tiền sản phẩm</p>
-                <p class="text-gray-700" name="total" id="total">{{ $order->total }} đồng</p>
+                <p class="text-gray-700 text-end" name="total" id="total">{{ $order->total }} đồng</p>
             </div>
             <div class="d-flex justify-content-between">
                 <p class="text-gray-700">Tiền phí ship</p>
-                <p class="text-gray-700" name="ship" id="ship">0 đồng</p>
+                <p class="text-gray-700 text-end" name="ship" id="ship">0 đồng</p>
             </div>
             <div class="d-flex justify-content-between">
-                <p class="text-gray-700">Áp dụng phiếu giảm giá</p>
+                <p class="text-gray-700 ">Áp dụng phiếu giảm giá</p>
                 @php
                     $discountPercentage = 0;
                     if ($order->discounts) {
@@ -25,19 +25,19 @@
                     }
                 @endphp
                 @if ($discountPercentage)
-                    <p class="text-gray-700" name="discount" id="discount">
+                    <p class="text-gray-700 text-end" name="discount" id="discount">
                         {{ ($order->total * $discountPercentage) / 100 }} đồng</p>
                 @else
-                    <p class="text-gray-700" name= "discount" id="discount">0 đồng</p>
+                    <p class="text-gray-700 text-end" name= "discount" id="discount">0 đồng</p>
                 @endif
             </div>
             <hr class="my-4" />
             <div class="d-flex justify-content-between">
                 <p class="fs-5 fw-bold">Tổng tiền</p>
                 <div class="">
-                    <p class="mb-1 fs-6 fw-bold" id="grand-total" name="grand-total">
+                    <p class="mb-1 fs-6 fw-bold text-end" id="grand-total" name="grand-total">
                         {{ $order->total - ($order->total * $discountPercentage) / 100 }}</p>
-                    <p class="small text-gray-700">Đã bao gồm VAT</p>
+                    <p class="small text-gray-700 text-end">Đã bao gồm VAT</p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="col"><label for="address">Địa chỉ nhận hàng</label>
                         <select class="form-select max-w-100 overflow-auto" name="location" id="location" required>
-                            <option value="" disabled selected>Chọn loại sản phẩm</option>
+                            <option value="" disabled selected>Chọn tỉnh thành</option>
                             @foreach ($locations as $location)
                                 @if ($location->parent_id === null)
                                     <option value="{{ $location->id }}">{{ $location->name }}</option>

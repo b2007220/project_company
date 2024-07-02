@@ -108,7 +108,9 @@ class OrderService
         foreach ($discounts as $discount) {
             $totalDiscount += $discount->discount;
         }
-        $order->grand_total = $order->total - $totalDiscount * $order->total + $ship;
+
+        $order->grand_total = $order->total + $ship - $totalDiscount * $order->total / 100;
+        dd( $order->total);
         $order->bank_id = $bank->id;
         $order->status = 'PENDING';
         $order->save();
@@ -117,7 +119,6 @@ class OrderService
             $product->amount -= $product->pivot->amount;
             $product->save();
         }
-        dd($order);
         return $order;
     }
     public function cancleOrder($id)
