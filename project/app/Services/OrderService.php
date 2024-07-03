@@ -147,7 +147,7 @@ class OrderService
                 $cartItem = new Cart();
                 $cartItem->user_id = auth()->user()->id;
                 $cartItem->product_id = $product->id;
-                $cartItem->amount =  $product->pivot->amount;
+                $cartItem->amount = 1;
                 $cartItem->price = $product->price;
                 $cartItem->predifined = $total_discount;
                 $cartItem->link = $product->pictures()->first()->link ?? 'temp.jpg';
