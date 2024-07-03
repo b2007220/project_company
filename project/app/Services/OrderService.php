@@ -3,13 +3,13 @@
 namespace App\Services;
 
 use App\Models\Order;
-use App\Models\User;
-use App\Models\Product;
+
 use App\Models\Discount;
 use App\Models\Cart;
-use App\Models\BankAccount;
+
 use App\Services\LocationService;
 
+use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
@@ -71,7 +71,7 @@ class OrderService
     {
         $order = Order::find($id);
         $order->status = $data['status'];
-        if ($data['status'] === 'DELIVERED' ) {
+        if ($data['status'] === 'DELIVERED') {
             $order->delivered_at = now();
         }
         $order->save();
@@ -139,14 +139,11 @@ class OrderService
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
+        $user = Auth::user();
         foreach ($order->products as $product) {
             $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
-            if (isset(auth()->user()->productsInCart[$product->id])) {
-                if (auth()->user()->productsInCart[$product->id]['amount'] += $product->pivot->amount) {
-                    throw new \Exception('Số lượng sản phẩm trong kho không đủ');
-                }
-                auth()->user()->productsInCart[$product->id]['amount'] += $product->pivot->amount;
-            } else {
+            $cartProduct = Cart::where('user_id', $user->id)->where('product_id', $product->id)->first();
+            if (!isset($cartProduct)) {
                 $cartItem = new Cart();
                 $cartItem->user_id = auth()->user()->id;
                 $cartItem->product_id = $product->id;
