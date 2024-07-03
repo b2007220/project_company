@@ -10,6 +10,7 @@ use App\Exceptions\FormValidationException;
 use App\Forms\AccountForm;
 use App\Forms\UpdateRoleForm;
 
+
 class AccountController extends Controller
 {
     protected $accountService;
@@ -43,8 +44,8 @@ class AccountController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Chỉnh sửa trạng thái tài khoản thành công');
-        } catch (FormValidationException  $e) {
-            return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function store(Request $request)
@@ -52,10 +53,7 @@ class AccountController extends Controller
         try {
             if ($request->password !== $request->password_confirmation) {
                 if ($request->ajax()) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Mật khẩu không khớp'
-                    ], 422);
+                    throw new \Exception('Mật khẩu không khớp');
                 }
                 return redirect()->back()->with('error', 'Mật khẩu không khớp');
             }
@@ -70,6 +68,8 @@ class AccountController extends Controller
             return redirect()->back()->with('success', 'Tạo tài khoản thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
     public function updateRole(Request $request)
@@ -86,6 +86,8 @@ class AccountController extends Controller
             return redirect()->back()->with('success', 'Cập nhật vai trò tài khoản thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

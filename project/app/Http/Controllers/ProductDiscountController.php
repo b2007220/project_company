@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Discount;
+
 use App\Services\ProductDiscountService;
 use App\Forms\ProductDiscountForm;
 use App\Exceptions\FormValidationException;
@@ -19,7 +18,7 @@ class ProductDiscountController extends Controller
         $this->productDiscountService = $productDiscountService;
         $this->productDiscountForm = $productDiscountForm;
     }
-    public function getDiscountedPrice($productId)
+    public function getDiscountedPrice(Request $request, $productId)
     {
         $discounted_price = $this->productDiscountService->getDiscountedPrice($productId);
         if (request()->ajax()) {
@@ -46,9 +45,11 @@ class ProductDiscountController extends Controller
             return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function removeDiscount($productId, $discountId)
+    public function removeDiscount(Request $request, $productId, $discountId)
     {
         try {
             $this->productDiscountService->removeDiscount($productId, $discountId);
@@ -63,6 +64,8 @@ class ProductDiscountController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function updateIsPredefined(Request $request, $productId, $discountId)
@@ -82,6 +85,8 @@ class ProductDiscountController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

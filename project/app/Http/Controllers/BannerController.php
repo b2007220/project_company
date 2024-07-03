@@ -38,9 +38,8 @@ class BannerController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Chỉnh sửa trạng thái banner thành công');
-        } catch (FormValidationException  $e) {
-
-            return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function destroy(Request $request, $id)
@@ -54,9 +53,8 @@ class BannerController extends Controller
                 ]);
             }
             return redirect()->back()->with('success', 'Xóa banner thành công');
-        } catch (FormValidationException  $e) {
-
-            return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function store(Request $request)
@@ -73,8 +71,9 @@ class BannerController extends Controller
             }
             return redirect()->back()->with('success', 'Thêm banner thành công');
         } catch (FormValidationException  $e) {
-
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function update(Request $request, $id)
@@ -91,8 +90,9 @@ class BannerController extends Controller
             }
             return redirect()->back()->with('success', 'Cập nhật banner thành công');
         } catch (FormValidationException  $e) {
-
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

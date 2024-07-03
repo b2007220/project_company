@@ -103,7 +103,7 @@
                 <td class="px-6 py-4  border-bottom border-gray-200 overflow-auto max-w-sm">
                     <div
                         class="ml-4 text-sm leading-5 text-gray-900 font-medium d-flex justify-content-center align-items-center">
-                        {{ number_format($order->total_price, 0, ',', '.') }} đ
+                        {{ number_format($order->grand_total, 0, ',', '.') }} đ
                     </div>
                 </td>
 

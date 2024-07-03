@@ -7,7 +7,6 @@ use App\Services\CartService;
 use App\Forms\CartForm;
 use App\Exceptions\FormValidationException;
 use App\Forms\CodeApplyForm;
-
 class CartController extends Controller
 {
 
@@ -35,6 +34,9 @@ class CartController extends Controller
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
         }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function remove(Request $request, $id)
@@ -48,7 +50,10 @@ class CartController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
+
     }
 
     public function update(Request $request, $id)
@@ -62,6 +67,8 @@ class CartController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function clear(Request $request)
@@ -74,6 +81,8 @@ class CartController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function applyDiscount(Request $request)
@@ -88,6 +97,8 @@ class CartController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

@@ -71,7 +71,7 @@ class OrderService
     {
         $order = Order::find($id);
         $order->status = $data['status'];
-        if ($data['status'] === 'DELIVERED') {
+        if ($data['status'] === 'DELIVERED' ) {
             $order->delivered_at = now();
         }
         $order->save();
@@ -123,14 +123,11 @@ class OrderService
     public function cancleOrder($id)
     {
         $order = Order::findOrFail($id);
-        if (!$order) {
-            return response()->json(['message' => 'Order not found'], 404);
-        }
         if ($order->status === 'DELIVERED' || $order->status === 'DELIVERING') {
-            return response()->json(['message' => 'Không thể hủy đơn hàng đã giao hoặc đang giao'], 400);
+            throw new \Exception('Đơn hàng đã và đang được giao tới');
         }
         if ($order->status === 'CANCELLED') {
-            return response()->json(['message' => 'Đơn hàng đã bị hủy'], 400);
+            throw new \Exception('Đơn hàng đã bị hủy trước đó');
         }
         $order->status = 'CANCELLED';
         $order->save();
@@ -146,7 +143,7 @@ class OrderService
             $total_discount = $product->discounts()->where('is_predefined', true)->sum('discount');
             if (isset(auth()->user()->productsInCart[$product->id])) {
                 if (auth()->user()->productsInCart[$product->id]['amount'] += $product->pivot->amount) {
-                    return response()->json(['message' => 'The amount of product is not enough'], 400);
+                    throw new \Exception('Số lượng sản phẩm trong kho không đủ');
                 }
                 auth()->user()->productsInCart[$product->id]['amount'] += $product->pivot->amount;
             } else {

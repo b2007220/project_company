@@ -53,6 +53,8 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Thêm sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -77,6 +79,8 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -100,6 +104,8 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -123,6 +129,8 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Xóa ảnh sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

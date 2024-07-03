@@ -48,6 +48,8 @@ class CategoryController extends Controller
             return redirect()->back()->with('success', 'Thêm loại sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -73,6 +75,8 @@ class CategoryController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -93,6 +97,8 @@ class CategoryController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

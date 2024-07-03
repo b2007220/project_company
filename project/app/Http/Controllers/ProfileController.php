@@ -7,7 +7,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use App\Services\AccountService;
 use App\Forms\ProfileForm;

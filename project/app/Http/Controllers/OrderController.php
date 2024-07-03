@@ -86,6 +86,8 @@ class OrderController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -105,6 +107,8 @@ class OrderController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function cancle(Request $request, $id)
@@ -120,6 +124,8 @@ class OrderController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function reorder(Request $request, $id)
@@ -134,13 +140,19 @@ class OrderController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     public function getShipFee(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $shipFee = $this->locationService->getShipFee($id);
+        try {
+            if ($request->ajax()) {
+                $shipFee = $this->locationService->getShipFee($id);
+            }
+            return response()->json(['shipFee' => $shipFee]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return response()->json(['shipFee' => $shipFee]);
     }
 }
