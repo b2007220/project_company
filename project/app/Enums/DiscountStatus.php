@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum DiscountStatus
+enum DiscountStatus: string
 {
     case ORDER = 'ORDER';
     case PRODUCT = 'PRODUCT';
