@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\DiscountStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+
 
 class Discount extends Model
 {
@@ -19,6 +21,7 @@ class Discount extends Model
         'code',
         'type',
     ];
+
 
 
     public function products()

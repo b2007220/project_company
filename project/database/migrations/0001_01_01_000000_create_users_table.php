@@ -22,8 +22,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->enum('gender', ['MAN', 'WOMAN', 'OTHER'])->default('OTHER');
-            $table->enum('role', ['USER', 'ADMIN'])->default('USER');
+            $table->string('gender')->default('OTHER');
+            $table->string('role')->default('USER');
             $table->string('avatar')->nullable();
         });
 

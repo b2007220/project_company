@@ -75,8 +75,8 @@ class AccountController extends Controller
     public function updateRole(Request $request)
     {
         try {
-            $this->updateRoleForm->validate($request->all());
-            $user = $this->accountService->updateRole($request->all());
+            $userData = $this->updateRoleForm->validate($request->all());
+            $user = $this->accountService->updateRole($userData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,

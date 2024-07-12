@@ -9,7 +9,7 @@ class CodeApplyForm extends BaseForm
     protected function rules()
     {
         return [
-            'code' => 'required|string|exists:discounts,code',
+            'code' => ['required','string','exists:discounts,code'],
         ];
     }
 }

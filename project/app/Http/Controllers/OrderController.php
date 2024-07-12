@@ -49,8 +49,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->storeOrderForm->validate($request->all());
-            $order = $this->orderService->createOrder($request->all());
+            $orderData = $this->storeOrderForm->validate($request->all());
+            $order = $this->orderService->createOrder($orderData);
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
@@ -75,8 +75,8 @@ class OrderController extends Controller
     public function updateType(Request $request, $id)
     {
         try {
-            $this->updateTypeOrderForm->validate($request->all());
-            $order = $this->orderService->updateType($request->all(), $id);
+            $orderData = $this->updateTypeOrderForm->validate($request->all());
+            $order = $this->orderService->updateType($orderData, $id);
             if ($request->ajax()) {
                 return response()->json([
                     'order' => $order,
@@ -94,8 +94,8 @@ class OrderController extends Controller
     public function confirm(Request $request)
     {
         try {
-            $this->confirmOrderForm->validate($request->all());
-            $order = $this->orderService->confirmOrder($request->all());
+            $orderData = $this->confirmOrderForm->validate($request->all());
+            $order = $this->orderService->confirmOrder($orderData);
             $this->cartService->clearCart();
 
             if ($request->ajax()) {

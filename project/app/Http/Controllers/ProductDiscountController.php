@@ -33,8 +33,8 @@ class ProductDiscountController extends Controller
     public function store(Request $request, $id)
     {
         try {
-            $this->productDiscountForm->validate($request->all());
-            $newDiscountsApply = $this->productDiscountService->createNewProductDiscount($id, $request->all());
+            $productDiscountData = $this->productDiscountForm->validate($request->all());
+            $newDiscountsApply = $this->productDiscountService->createNewProductDiscount($id, $productDiscountData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -45,7 +45,7 @@ class ProductDiscountController extends Controller
             return redirect()->back()->with('success', 'Thêm mã giảm giá thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -64,7 +64,7 @@ class ProductDiscountController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -85,7 +85,7 @@ class ProductDiscountController extends Controller
             return redirect()->back();
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

@@ -10,9 +10,9 @@ class StoreOrderForm extends BaseForm
     protected function rules()
     {
         return [
-            'total' => 'required|numeric',
-            'code' => 'nullable|exists:discounts,code',
-            'price' => 'required|numeric',
+            'total' => ['required','numeric'],
+            'code' => ['nullable','exists:discounts,code'],
+            'price' => ['required','numeric'],
         ];
     }
 }

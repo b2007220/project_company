@@ -35,8 +35,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        $this->profileForm->validate($request->all());
-        $user = $this->accountService->updateAccount($request->user()->id, $request->all());
+        $userData = $this->profileForm->validate($request->all());
+        $user = $this->accountService->updateAccount($request->user()->id, $userData);
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Enums\RoleStatus;
 
 class AdminMiddleware
 {
@@ -15,7 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->role !== 'ADMIN') {
+        if ($request->user()->role !== RoleStatus::ADMIN->value) {
             return redirect('/');
         }
 

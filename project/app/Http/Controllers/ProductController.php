@@ -38,8 +38,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->productForm->validate($request->all());
-            $product = $this->productService->createProduct($request->all());
+            $productData = $this->productForm->validate($request->all());
+            $product = $this->productService->createProduct($productData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -53,7 +53,7 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Thêm sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -63,8 +63,8 @@ class ProductController extends Controller
     {
 
         try {
-            $this->productForm->validate($request->all());
-            $product = $this->productService->updateProduct($id, $request->all());
+            $productData = $this->productForm->validate($request->all());
+            $product = $this->productService->updateProduct($id, $productData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -79,7 +79,7 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -104,7 +104,7 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -129,7 +129,7 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Xóa ảnh sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

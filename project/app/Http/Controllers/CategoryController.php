@@ -33,8 +33,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->categoryForm->validate($request->all());
-            $category = $this->categoryService->createCategory($request->all());
+            $categoryData = $this->categoryForm->validate($request->all());
+            $category = $this->categoryService->createCategory($categoryData);
             $allCategories = $this->categoryService->getAllCategoriesForSelect();
             if ($request->ajax()) {
                 return response()->json([
@@ -48,7 +48,7 @@ class CategoryController extends Controller
             return redirect()->back()->with('success', 'Thêm loại sản phẩm thành công');
         } catch (FormValidationException $e) {
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -58,8 +58,8 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $this->categoryForm->validate($request->all());
-            $category = $this->categoryService->updateCategory($id, $request->all());
+            $categoryData = $this->categoryForm->validate($request->all());
+            $category = $this->categoryService->updateCategory($id, $categoryData);
             $allCategories = $this->categoryService->getAllCategoriesForSelect();
             if ($request->ajax()) {
                 return response()->json([
@@ -75,7 +75,7 @@ class CategoryController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -97,7 +97,7 @@ class CategoryController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

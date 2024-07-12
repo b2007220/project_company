@@ -60,7 +60,8 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->bannerForm->validate($request->all());
+            $bannerData = $this->bannerForm->validate($request->all());
+
             $banner = $this->bannerService->createBanner($request->all());
             if ($request->ajax()) {
                 return response()->json([
@@ -79,8 +80,8 @@ class BannerController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $this->bannerForm->validate($request->all());
-            $banner = $this->bannerService->updateBanner($id, $request->all());
+            $bannerData = $this->bannerForm->validate($request->all());
+            $banner = $this->bannerService->updateBanner($id, $bannerData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,

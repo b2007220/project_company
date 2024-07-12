@@ -17,8 +17,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->enum('payment_type', ['CASH', 'TRANSFER'])->default('CASH');
-            $table->enum('status', ['WAIT', 'PENDING', 'DELIVERING', 'DELIVERED', 'CANCELLED', 'UNACCEPTED'])->default('WAIT');
+            $table->string('payment_type')->default('CASH');
+            $table->string('status')->default('WAIT');
             $table->string('address')->nullable();
             $table->integer('total');
             $table->timestamp('delivery_date')->default(now()->addWeek());

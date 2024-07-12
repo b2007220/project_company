@@ -6,6 +6,8 @@ use App\Forms\BaseForm;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use App\Enums\GenderStatus;
+use App\Enums\RoleStatus;
 
 class AccountForm extends BaseForm
 {
@@ -17,9 +19,9 @@ class AccountForm extends BaseForm
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
-            'gender' => ['nullable', Rule::in(['MAN', 'WOMAN', 'OTHER'])],
+            'gender' => ['nullable', Rule::enum(GenderStatus::class)],
             'avatar' => ['nullable', 'image'],
-            'role' => ['required', Rule::in(['USER', 'ADMIN'])]
+            'role' => ['required', Rule::enum(RoleStatus::class)],
         ];
     }
 }

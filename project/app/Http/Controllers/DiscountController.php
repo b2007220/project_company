@@ -34,10 +34,10 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->discountForm->validate($request->all());
-            $data = $request->all();
-            $data['code'] = strtoupper(uniqid());
-            $discount = $this->discountService->createDiscount($data);
+            $discountData = $this->discountForm->validate($request->all());
+
+            $discountData['code'] = strtoupper(uniqid());
+            $discount = $this->discountService->createDiscount($discountData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -49,7 +49,7 @@ class DiscountController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -59,16 +59,16 @@ class DiscountController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $this->discountForm->validate($request->all());
-            $data = $request->all();
+            $discountData = $this->discountForm->validate($request->all());
+
             if ($request->expire) {
-                unset($data['expire']);
-                $data['expired_at'] = $request->expire;
+                unset($discountData['expire']);
+                $discountData['expired_at'] = $request->expire;
             } else {
-                $data['expired_at'] =  Carbon::now()->addWeeks(2);
+                $discountData['expired_at'] =  Carbon::now()->addWeeks(2);
             }
 
-            $discount = $this->discountService->updateDiscount($id, $data);
+            $discount = $this->discountService->updateDiscount($id, $discountData);
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -80,7 +80,7 @@ class DiscountController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -95,7 +95,7 @@ class DiscountController extends Controller
         } catch (FormValidationException $e) {
 
             return redirect()->back()->withErrors($e->getErrors())->withInput();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

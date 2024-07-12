@@ -18,13 +18,15 @@ abstract class BaseForm
 
     public function validate(array $formData)
     {
-        $this->validation = $this->validator->make($formData, $this->rules());
+        $filteredData = array_intersect_key($formData, array_flip(array_keys($this->rules())));
+
+        $this->validation = $this->validator->make($filteredData, $this->rules());
 
         if ($this->validation->fails()) {
             throw new FormValidationException('Validation Failed', $this->getValidationErrors());
         }
 
-        return true;
+        return $filteredData;
     }
 
     protected function getValidationErrors()
