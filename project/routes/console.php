@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 Schedule::command('discounts:update-expired')->daily();
 Schedule::command('orders:delete-wait-orders')->daily();
 Schedule::command('send:discount-codes')->daily();
+Schedule::command('emails:send-purchase-history')->yearly();

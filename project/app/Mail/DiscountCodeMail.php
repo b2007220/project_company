@@ -11,6 +11,7 @@ class DiscountCodeMail extends Mailable
     use Queueable, SerializesModels;
 
     public $discount;
+    
 
     /**
      * Create a new message instance.
